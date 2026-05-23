@@ -37,10 +37,10 @@
 
         /* Header */
         .dash-header {
-            padding: 50px 0 30px;
+            padding: 50px 0 25px;
             text-align: center;
             border-bottom: 1px solid rgba(108,92,231,0.08);
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
         .dash-header .welcome-badge {
             display: inline-block;
@@ -81,6 +81,33 @@
             color: #fff;
             font-weight: 700;
         }
+
+        /* Featured Video */
+        .video-wrapper {
+            max-width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(108,92,231,0.12);
+            background: #000;
+            box-shadow: 0 4px 30px rgba(108,92,231,0.08);
+        }
+        .video-player {
+            width: 100%;
+            display: block;
+            border-radius: 13px;
+        }
+        .video-desc {
+            text-align: center;
+            color: #606080;
+            font-size: 0.82em;
+            margin-top: 14px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+        .video-desc a { color: #a78bfa; text-decoration: none; }
+        .video-desc a:hover { color: #00cec9; }
 
         /* Module List */
         .module-list { margin-bottom: 40px; }
@@ -185,43 +212,6 @@
             padding: 20px 0 40px;
         }
 
-        /* Featured Video Section */
-        .featured-video {
-            border-top: 1px solid rgba(108,92,231,0.08);
-            padding: 40px 0 20px;
-            margin-bottom: 10px;
-        }
-        .featured-video h3 {
-            text-align: center;
-            color: #c0c0d0;
-            font-size: 1em;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .video-wrapper {
-            max-width: 100%;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(108,92,231,0.12);
-            background: #000;
-            box-shadow: 0 4px 30px rgba(108,92,231,0.08);
-        }
-        .video-player {
-            width: 100%;
-            display: block;
-            border-radius: 13px;
-        }
-        .video-desc {
-            text-align: center;
-            color: #606080;
-            font-size: 0.82em;
-            margin-top: 14px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.5;
-        }
-
         @media (max-width: 600px) {
             .dash-header h1 { font-size: 1.5em; }
             .module-card { padding: 16px 18px; gap: 14px; }
@@ -247,8 +237,20 @@
         </div>
     </div>
 
+    <!-- Featured Video - Top of dashboard -->
+    <div class="video-wrapper" style="margin-bottom:12px;">
+        <video controls preload="metadata" class="video-player">
+            <source src="videos/featured-install-tutorial.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <p class="video-desc" style="margin-bottom:28px;">
+        Full walkthrough from the Venice Hermes Agent tutorial — install, setup wizard, provider config, model selection, and computer management setup.
+        <a href="#resources">Quick links ↓</a>
+    </p>
+
     <div class="module-list">
-        <a href="module-01-intro" class="module-card">
+        <a href="/course/module-01-intro" class="module-card">
             <div class="num">1</div>
             <div class="info">
                 <h3>What is Hermes Agent &amp; Why It Matters</h3>
@@ -257,7 +259,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-02-installation" class="module-card">
+        <a href="/course/module-02-installation" class="module-card">
             <div class="num">2</div>
             <div class="info">
                 <h3>Installation &amp; First Run</h3>
@@ -266,7 +268,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-03-configuration" class="module-card">
+        <a href="/course/module-03-configuration" class="module-card">
             <div class="num">3</div>
             <div class="info">
                 <h3>Configuration Deep Dive</h3>
@@ -275,7 +277,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-04-usage" class="module-card">
+        <a href="/course/module-04-usage" class="module-card">
             <div class="num">4</div>
             <div class="info">
                 <h3>Daily Usage &amp; Power Features</h3>
@@ -284,7 +286,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-05-skills" class="module-card">
+        <a href="/course/module-05-skills" class="module-card">
             <div class="num">5</div>
             <div class="info">
                 <h3>Skills System — The Killer Feature</h3>
@@ -293,7 +295,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-06-training" class="module-card">
+        <a href="/course/module-06-training" class="module-card">
             <div class="num">6</div>
             <div class="info">
                 <h3>Training Your Agent</h3>
@@ -302,7 +304,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-07-gateway" class="module-card">
+        <a href="/course/module-07-gateway" class="module-card">
             <div class="num">7</div>
             <div class="info">
                 <h3>Multi-Platform Gateway</h3>
@@ -311,7 +313,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-08-vps" class="module-card">
+        <a href="/course/module-08-vps" class="module-card">
             <div class="num">8</div>
             <div class="info">
                 <h3>VPS Deployment</h3>
@@ -320,7 +322,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-09-monetization" class="module-card">
+        <a href="/course/module-09-monetization" class="module-card">
             <div class="num">9</div>
             <div class="info">
                 <h3>Monetization Strategies</h3>
@@ -329,7 +331,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="module-10-advanced" class="module-card">
+        <a href="/course/module-10-advanced" class="module-card">
             <div class="num">10</div>
             <div class="info">
                 <h3>Advanced Use Cases</h3>
@@ -339,21 +341,17 @@
         </a>
     </div>
 
-    <!-- Featured Video -->
-    <div class="featured-video">
-        <h3>🎬 Featured: Installation &amp; Computer Setup</h3>
-        <div class="video-wrapper">
-            <video controls poster="" preload="metadata" class="video-player">
-                <source src="videos/featured-install-tutorial.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <p class="video-desc">Full walkthrough from the Venice Hermes Agent tutorial — install, setup wizard, provider config, model selection, and computer management setup.</p>
-    </div>
-
-    <div class="resources">
+    <div class="resources" id="resources">
         <h3>📚 Resources</h3>
         <div class="resources-grid">
+            <a href="https://venice.ai/chat?ref=HrYcEc" class="resource-item" target="_blank">
+                <span class="r-icon">🔑</span>
+                <h4>Venice.ai API</h4>
+            </a>
+            <a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_2&period=12&referral_type=cart_link&REFERRALCODE=M0ODIGIMI9VI&referral_id=019e56ec-027c-732f-956c-94d0fbcc6402" class="resource-item" target="_blank">
+                <span class="r-icon">🖥️</span>
+                <h4>Hostinger VPS Deal</h4>
+            </a>
             <a href="https://hermes-agent.nousresearch.com" class="resource-item" target="_blank">
                 <span class="r-icon">📄</span>
                 <h4>Hermes Docs</h4>
@@ -362,7 +360,7 @@
                 <span class="r-icon">💻</span>
                 <h4>GitHub Repo</h4>
             </a>
-            <a href="https://www.hermesagents.pro/" class="resource-item" target="_blank">
+            <a href="https://www.hermesagents.pro/" class="resource-item">
                 <span class="r-icon">🏠</span>
                 <h4>Course Home</h4>
             </a>
