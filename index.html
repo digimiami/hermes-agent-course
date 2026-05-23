@@ -806,24 +806,22 @@
 
 <!-- ============ SCRIPTS ============ -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Stripe Checkout
-        window.handleBuy = function(event) {
-            event.preventDefault();
-            const STRIPE_PUB_KEY = 'pk_live_51RYRp4GaNMCjVFzmIbTSrzDGgDzohTnkZ0YMieEBuwXXgCF1OsShoenZOm3o4QI8DXmv0mGFGYx0nSG3AUoGySyr00RQsCEk1a';
-            const PRICE_ID = 'price_1TaFEsGaNMCjVFzmW23o8E3Y';
-            const SUCCESS_URL = 'https://hermes-agent-course.vercel.app/thank-you';
-            const CANCEL_URL = 'https://hermes-agent-course.vercel.app/';
-            if (typeof Stripe === 'undefined') { alert('Stripe loading... try again in a moment.'); return; }
-            const stripe = Stripe(STRIPE_PUB_KEY);
-            stripe.redirectToCheckout({
-                lineItems: [{ price: PRICE_ID, quantity: 1 }],
-                mode: 'payment',
-                successUrl: SUCCESS_URL,
-                cancelUrl: CANCEL_URL,
-            }).then(function(r) { if (r.error) alert('Payment failed: ' + r.error.message); });
-        };
-    });
+    // Stripe Checkout — defined globally for onclick handlers
+    function handleBuy(event) {
+        event.preventDefault();
+        var STRIPE_PUB_KEY = 'pk_live_51RYRp4GaNMCjVFzmIbTSrzDGgDzohTnkZ0YMieEBuwXXgCF1OsShoenZOm3o4QI8DXmv0mGFGYx0nSG3AUoGySyr00RQsCEk1a';
+        var PRICE_ID = 'price_1TaFEsGaNMCjVFzmW23o8E3Y';
+        var SUCCESS_URL = 'https://hermes-agent-course.vercel.app/thank-you';
+        var CANCEL_URL = 'https://hermes-agent-course.vercel.app/';
+        if (typeof Stripe === 'undefined') { alert('Stripe loading... please wait a moment and try again.'); return; }
+        var stripe = Stripe(STRIPE_PUB_KEY);
+        stripe.redirectToCheckout({
+            lineItems: [{ price: PRICE_ID, quantity: 1 }],
+            mode: 'payment',
+            successUrl: SUCCESS_URL,
+            cancelUrl: CANCEL_URL,
+        }).then(function(r) { if (r.error) alert('Payment failed: ' + r.error.message); });
+    }
 
     // FAQ Toggle
     function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
