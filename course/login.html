@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Login — AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; top: -20%; left: -10%;
+            width: 120%; height: 120%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.06) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        .card {
+            position: relative; z-index: 1;
+            background: rgba(18,18,34,0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(108,92,231,0.15);
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #6c5ce7, #00cec9, transparent);
+        }
+        .lock-icon { font-size: 3em; margin-bottom: 12px; display: block; }
+        h1 {
+            font-size: 1.5em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+        p { color: #808098; font-size: 0.88em; margin-bottom: 24px; line-height: 1.6; }
+        input {
+            width: 100%; padding: 14px 18px; border-radius: 10px;
+            border: 1px solid rgba(108,92,231,0.2);
+            background: rgba(10,10,20,0.6);
+            color: #fff; font-size: 1.1em; outline: none;
+            text-align: center; letter-spacing: 3px;
+            transition: border-color 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        input:focus { border-color: #6c5ce7; }
+        input::placeholder { letter-spacing: 1px; font-family: 'Inter', sans-serif; }
+        .btn {
+            width: 100%; margin-top: 16px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: #fff; padding: 14px; border-radius: 10px;
+            font-size: 1em; font-weight: 700; border: none; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.3); }
+        .error { color: #ff6b6b; font-size: 0.82em; margin-top: 12px; display: none; }
+        .hint { color: #505068; font-size: 0.78em; margin-top: 20px; }
+        .hint a { color: #6c5ce7; text-decoration: none; }
+        .hint a:hover { color: #00cec9; }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<div class="card">
+    <span class="lock-icon">🔐</span>
+    <h1>Course Access Required</h1>
+    <p>Enter the password you received after purchase to unlock your course materials.</p>
+    <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="off">
+    <button class="btn" onclick="verifyPassword()"><span>🔓 Unlock Course</span></button>
+    <div class="error" id="errorMsg">❌ Incorrect password. Check your email or purchase confirmation page.</div>
+    <div class="hint">
+        <p>Purchased the course? <a href="mailto:hermes-course@agentmail.to">Email us</a> for help.</p>
+        <p style="margin-top:8px;">Password was sent to your email after purchase.</p>
+    </div>
+</div>
+
+<script>
+    // Focus input on load
+    document.getElementById('passwordInput').focus();
+
+    // Enter key triggers login
+    document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') verifyPassword();
+    });
+
+    function verifyPassword() {
+        var input = document.getElementById('passwordInput');
+        var error = document.getElementById('errorMsg');
+        var password = "HERMES-XK7M-PQ92";  // Must match course/config.js
+
+        if (input.value.trim() === password) {
+            localStorage.setItem('hermes_course_auth', password);
+            // Redirect to where they were going, or dashboard
+            var params = new URLSearchParams(window.location.search);
+            var redirect = params.get('redirect') || 'index.html';
+            window.location.href = redirect;
+        } else {
+            error.style.display = 'block';
+            input.value = '';
+            input.focus();
+        }
+    }
+</script>
+</body>
+</html>

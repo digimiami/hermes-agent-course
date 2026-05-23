@@ -26,6 +26,7 @@ HEADER_TEMPLATE = """<!DOCTYPE html>
     <title>{title} - AI Agents: Master Hermes Agent</title>
     <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <script src="auth-check.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>

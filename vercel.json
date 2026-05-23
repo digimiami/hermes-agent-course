@@ -3,7 +3,9 @@
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/course", "destination": "/course/index.html" },
     { "source": "/course/", "destination": "/course/index.html" },
-    { "source": "/course/:module", "destination": "/course/:module.html" }
+    { "source": "/course/:module", "destination": "/course/:module.html" },
+    { "source": "/course/login", "destination": "/course/login.html" },
+    { "source": "/course/login/", "destination": "/course/login.html" }
   ],
   "cleanUrls": true
 }
