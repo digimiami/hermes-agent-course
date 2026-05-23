@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Configuration Deep Dive</h1>
+        <p class="meta">Module 3 of 10</p>
+        <div class="nav-links">
+            <a href="module-02-installation.html" class="nav-prev">Installation & First Run</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-04-usage.html" class="nav-next">Next: Daily Usage & Power Featu</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Duration:** ~45 minutes reading  </blockquote>
+<blockquote>**Prerequisites:** Module 1 (Installation) & Module 2 (Quickstart)  </blockquote>
+<blockquote>**Goal:** Master every configuration mechanism in Hermes Agent — from API keys to credential pools to security profiles.</blockquote>
+<hr>
+<h2>3.1 Where Config Lives</h2>
+<p>Hermes Agent keeps all configuration in two files under `~/.hermes/` (or wherever `$HERMES_HOME` points):</p>
+<table><thead><tr>
+<th>File</th>
+<th>Purpose</th>
+<th>Security Level</th>
+</tr></thead><tbody>
+<tr>
+<td>`~/.hermes/config.yaml`</td>
+<td>Behavioral settings, model preferences, tool config, display options</td>
+<td>Safe to share; no secrets</td>
+</tr>
+<tr>
+<td>`~/.hermes/.env`</td>
+<td>API keys and sensitive credentials</td>
+<td>**Never share** — treat like SSH keys</td>
+</tr>
+</tbody></table>
+<p>This split means you can version-control your `config.yaml` or share it between machines without accidentally leaking API keys.</p>
+<h3>The Config Hierarchy</h3>
+<p>Hermes loads settings in this order (last wins):</p>
+<p>1. **Hardcoded defaults** — built into the CLI</p>
+<p>2. **`~/.hermes/config.yaml`** — your personal overrides</p>
+<p>3. **`./cli-config.yaml`** — project-level config, useful for team repos</p>
+<p>4. **Environment variables** — override everything at runtime (e.g., `HERMES_YOLO_MODE=1`)</p>
+<p>Environment variables are documented at [hermes-agent.nousresearch.com/docs/reference/environment-variables](https://hermes-agent.nousresearch.com/docs/reference/environment-variables).</p>
+<h3>Editing Your Config</h3>
+<p>You have two options:</p>
+<pre><code>
+# Quick method — opens in your $EDITOR
+hermes config edit
+
+# Programmatic method — set individual values
+hermes config set model.default "openrouter/anthropic/claude-sonnet-4-20250514"
+hermes config set agent.max_turns 120
+
+# View current config (merged from all sources)
+hermes config
+</code></pre>
+<p>Manual YAML editing (`vim ~/.hermes/config.yaml`) gives you the most control and is perfectly safe — the parser is lenient and validates on load.</p>
+<hr>
+<h2>3.2 Model Provider Setup</h2>
+<p>Hermes supports every major LLM provider through a unified plugin system. Each provider is a separate plugin under `plugins/model-providers/`.</p>
+<h3>Provider Comparison Table</h3>
+<table><thead><tr>
+<th>Provider</th>
+<th>Plugin Name</th>
+<th>Auth Method</th>
+<th>Env Var(s)</th>
+<th>API Docs</th>
+</tr></thead><tbody>
+<tr>
+<td>**OpenRouter**</td>
+<td>`openrouter`</td>
+<td>API key</td>
+<td>`OPENROUTER_API_KEY`</td>
+<td>[openrouter.ai/keys](https://openrouter.ai/keys)</td>
+</tr>
+<tr>
+<td>**Anthropic**</td>
+<td>`anthropic`</td>
+<td>API key, OAuth</td>
+<td>`ANTHROPIC_API_KEY`, `ANTHROPIC_TOKEN`</td>
+<td>[console.anthropic.com](https://console.anthropic.com)</td>
+</tr>
+<tr>
+<td>**OpenAI (Chat)**</td>
+<td>(built-in)</td>
+<td>API key</td>
+<td>`OPENAI_API_KEY`</td>
+<td>[platform.openai.com/api-keys](https://platform.openai.com/api-keys)</td>
+</tr>
+<tr>
+<td>**OpenAI Codex**</td>
+<td>`openai-codex`</td>
+<td>OAuth (Plus/Pro)</td>
+<td>(none — OAuth flow)</td>
+<td>Requires ChatGPT Plus/Pro</td>
+</tr>
+<tr>
+<td>**DeepSeek**</td>
+<td>`deepseek`</td>
+<td>API key</td>
+<td>`DEEPSEEK_API_KEY`</td>
+<td>[platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)</td>
+</tr>
+<tr>
+<td>**Google Gemini**</td>
+<td>`gemini`</td>
+<td>API key (AI Studio)</td>
+<td>`GOOGLE_API_KEY`, `GEMINI_API_KEY`</td>
+<td>[aistudio.google.com/apikey](https://aistudio.google.com/apikey)</td>
+</tr>
+<tr>
+<td>**Nous (Portal)**</td>
+<td>`nous`</td>
+<td>OAuth or API key</td>
+<td>`NOUS_API_KEY`</td>
+<td>[portal.nousresearch.com](https://portal.nousresearch.com)</td>
+</tr>
+<tr>
+<td>**xAI**</td>
+<td>`xai`</td>
+<td>API key</td>
+<td>`XAI_API_KEY`</td>
+<td>[console.x.ai](https://console.x.ai)</td>
+</tr>
+<tr>
+<td>**Z.AI (GLM)**</td>
+<td>`zai`</td>
+<td>API key</td>
+<td>`ZHIPUAI_API_KEY`</td>
+<td>[open.bigmodel.cn](https://open.bigmodel.cn)</td>
+</tr>
+<tr>
+<td>**AWS Bedrock**</td>
+<td>`bedrock`</td>
+<td>IAM credentials</td>
+<td>`AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`</td>
+<td>[aws.amazon.com/bedrock](https://aws.amazon.com/bedrock)</td>
+</tr>
+<tr>
+<td>**Hugging Face**</td>
+<td>`huggingface`</td>
+<td>API key</td>
+<td>`HUGGINGFACE_API_KEY`</td>
+<td>[huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)</td>
+</tr>
+<tr>
+<td>**NovitaAI**</td>
+<td>`novita`</td>
+<td>API key</td>
+<td>`NOVITA_API_KEY`</td>
+<td>[novita.ai](https://novita.ai)</td>
+</tr>
+<tr>
+<td>**NVIDIA NIM**</td>
+<td>`nvidia`</td>
+<td>API key</td>
+<td>`NVIDIA_API_KEY`</td>
+<td>[build.nvidia.com](https://build.nvidia.com)</td>
+</tr>
+<tr>
+<td>**Ollama (Cloud)**</td>
+<td>`ollama-cloud`</td>
+<td>API key</td>
+<td>`OLLAMA_API_KEY`</td>
+<td>[ollama.cloud](https://ollama.cloud)</td>
+</tr>
+<tr>
+<td>**Alibaba**</td>
+<td>`alibaba`</td>
+<td>API key</td>
+<td>`ALIBABA_API_KEY`</td>
+<td>[bailian.console.aliyun.com](https://bailian.console.aliyun.com)</td>
+</tr>
+<tr>
+<td>**Kimi/Moonshot**</td>
+<td>`kimi-coding`</td>
+<td>API key</td>
+<td>`MOONSHOT_API_KEY`</td>
+<td>[platform.moonshot.cn](https://platform.moonshot.cn)</td>
+</tr>
+<tr>
+<td>**MiniMax**</td>
+<td>`minimax`</td>
+<td>API key</td>
+<td>`MINIMAX_API_KEY`</td>
+<td>[platform.minimaxi.com](https://platform.minimaxi.com)</td>
+</tr>
+<tr>
+<td>**Xiaomi MiMo**</td>
+<td>`xiaomi`</td>
+<td>API key</td>
+<td>`MIMO_API_KEY`</td>
+<td>[platform.xiaomimimo.com](https://platform.xiaomimimo.com)</td>
+</tr>
+<tr>
+<td>**Stepfun**</td>
+<td>`stepfun`</td>
+<td>API key</td>
+<td>`STEPFUN_API_KEY`</td>
+<td>[stepfun.com](https://stepfun.com)</td>
+</tr>
+<tr>
+<td>**Arcee**</td>
+<td>`arcee`</td>
+<td>API key</td>
+<td>`ARCEE_API_KEY`</td>
+<td>[arcee.ai](https://arcee.ai)</td>
+</tr>
+<tr>
+<td>**Vercel AI Gateway**</td>
+<td>`ai-gateway`</td>
+<td>API key</td>
+<td>`AI_GATEWAY_API_KEY`</td>
+<td>[vercel.com/ai-gateway](https://vercel.com/ai-gateway)</td>
+</tr>
+<tr>
+<td>**Custom (any)**</td>
+<td>`custom`</td>
+<td>API key</td>
+<td>`OPENAI_API_KEY` + set `base_url`</td>
+<td>Your own endpoint</td>
+</tr>
+</tbody></table>
+<h3>Quick Setup: OpenRouter (Recommended Starting Point)</h3>
+<p>OpenRouter is the easiest way to start — 200+ models with a single API key.</p>
+<p>1. Go to [openrouter.ai/keys](https://openrouter.ai/keys) and create a key</p>
+<p>2. Add it to `~/.hermes/.env`:</p>
+<p>   ```bash</p>
+<p>   OPENROUTER_API_KEY=sk-or-v1-your-key-here</p>
+<p>   ```</p>
+<p>3. Run `hermes model` and select OpenRouter → any model you like</p>
+<h3>Setting Up Other Providers</h3>
+<p>**Anthropic / Claude:**</p>
+<pre><code>
+# In ~/.hermes/.env:
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+</code></pre>
+<p>Then `hermes model` → pick Claude Sonnet 4 or Haiku 3.5.</p>
+<p>**OpenAI:**</p>
+<pre><code>
+# In ~/.hermes/.env:
+OPENAI_API_KEY=sk-proj-your-key-here
+</code></pre>
+<p>Then `hermes model` → pick GPT-4o or o3-mini.</p>
+<p>**DeepSeek:**</p>
+<pre><code>
+# In ~/.hermes/.env:
+DEEPSEEK_API_KEY=sk-your-key-here
+</code></pre>
+<p>Then `hermes model` → pick `deepseek/deepseek-chat-v3-0324`.</p>
+<p>**Google Gemini:**</p>
+<pre><code>
+# In ~/.hermes/.env:
+GOOGLE_API_KEY=AIza-your-key-here
+</code></pre>
+<p>Then `hermes model` → pick `gemini/gemini-3-flash-preview`.</p>
+<p>**Local Models (via Custom Provider):**</p>
+<pre><code>
+# In ~/.hermes/.env (if auth needed):
+OPENAI_API_KEY=lm-studio
+# Or set OPENAI_API_KEY=not-needed for unauthenticated endpoints
+
+# In ~/.hermes/config.yaml:
+model:
+  default: "local-model-name"
+  provider: "custom"
+  base_url: "http://localhost:1234/v1"  # LM Studio, Ollama, vLLM, etc.
+</code></pre>
+<h3>The `hermes model` Command</h3>
+<p>The fastest way to configure a provider is the interactive model picker:</p>
+<pre><code>
+hermes model
+</code></pre>
+<p>This presents a paginated, searchable list of all models from all configured providers. It detects which API keys you have set and only shows providers with valid credentials.</p>
+<p>You can also set the model programmatically:</p>
+<pre><code>
+hermes model "openrouter/anthropic/claude-sonnet-4-20250514"
+hermes model "gpt-4o" --provider openai
+</code></pre>
+<hr>
+<h2>3.3 Credential Pools</h2>
+<p>A credential pool lets you register **multiple API keys for the same provider** for automatic failover or load balancing. This is essential for production use where rate limits or quota exhaustion can interrupt work.</p>
+<h3>Pool Strategies</h3>
+<table><thead><tr>
+<th>Strategy</th>
+<th>Behavior</th>
+<th>Best For</th>
+</tr></thead><tbody>
+<tr>
+<td>`fill_first`</td>
+<td>Use first key until exhausted, then rotate</td>
+<td>Simple redundancy</td>
+</tr>
+<tr>
+<td>`round_robin`</td>
+<td>Cycle through keys evenly</td>
+<td>Load balancing multiple keys</td>
+</tr>
+<tr>
+<td>`random`</td>
+<td>Pick a random key each time</td>
+<td>Spreading usage across plans</td>
+</tr>
+<tr>
+<td>`least_used`</td>
+<td>Track API call counts per key, use the least-loaded</td>
+<td>Maximizing remaining quota</td>
+</tr>
+</tbody></table>
+<h3>Managing Credential Pools</h3>
+<pre><code>
+# Interactive pool management
+hermes auth
+
+# Add a second OpenRouter key
+hermes auth pool add openrouter --key "sk-or-v1-backup-key"
+hermes auth pool strategy openrouter round_robin
+
+# List all credentials
+hermes auth pool list
+
+# Remove a pool entry
+hermes auth pool remove openrouter --index 1
+</code></pre>
+<p>The credential pool is persisted in the encrypted auth store (`~/.hermes/auth.json`), not in plaintext `.env` files. When a request to a provider fails with a 401, 429, or 402 status, Hermes automatically marks that credential as exhausted and rotates to the next one in the pool.</p>
+<hr>
+<h2>3.4 Toolsets: What They Are and How to Configure</h2>
+<p>A **toolset** is a named group of tools that you can enable or disable as a unit. Hermes ships with ~40+ tools organized into ~30 named toolsets.</p>
+<h3>Core Toolsets</h3>
+<table><thead><tr>
+<th>Toolset</th>
+<th>Description</th>
+<th>Default?</th>
+</tr></thead><tbody>
+<tr>
+<td>`web`</td>
+<td>Web search (`web_search`, `web_extract`)</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`terminal`</td>
+<td>Shell command execution (`terminal`, `process`)</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`file`</td>
+<td>File read/write/patch/search</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`browser`</td>
+<td>Full web browser automation</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`vision`</td>
+<td>Image analysis</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`image_gen`</td>
+<td>Image generation</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`code_execution`</td>
+<td>Run Python scripts that call tools via RPC</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`skills`</td>
+<td>Create, view, and manage skills</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`memory`</td>
+<td>Persistent cross-session memory</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`session_search`</td>
+<td>Search past conversations</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`delegation`</td>
+<td>Spawn subagents for parallel work</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`cronjob`</td>
+<td>Schedule recurring tasks</td>
+<td>⬜ Off by default (CLI only)</td>
+</tr>
+<tr>
+<td>`clarify`</td>
+<td>Ask you clarifying questions</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`todo`</td>
+<td>Task planning and tracking</td>
+<td>✅ Always</td>
+</tr>
+<tr>
+<td>`tts`</td>
+<td>Text-to-speech output</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`moa`</td>
+<td>Mixture of Agents (advanced reasoning)</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`homeassistant`</td>
+<td>Smart home control</td>
+<td>⬜ Requires HASS_TOKEN</td>
+</tr>
+<tr>
+<td>`kanban`</td>
+<td>Multi-agent coordination board</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`search`</td>
+<td>Web search only (no scraping)</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`messaging`</td>
+<td>Cross-platform message sending</td>
+<td>✅ Always (gated on gateway)</td>
+</tr>
+<tr>
+<td>`computer_use`</td>
+<td>macOS desktop control</td>
+<td>⬜ Requires cua-driver</td>
+</tr>
+<tr>
+<td>`video`</td>
+<td>Video analysis</td>
+<td>⬜ Off by default</td>
+</tr>
+<tr>
+<td>`video_gen`</td>
+<td>Video generation</td>
+<td>⬜ Off by default</td>
+</tr>
+</tbody></table>
+<h3>Enabling and Disabling Toolsets</h3>
+<pre><code>
+# Interactive tool management (recommended)
+hermes tools
+
+# Or via CLI commands
+hermes tools enable browser
+hermes tools disable code_execution
+
+# List all toolsets and their status
+hermes tools list
+</code></pre>
+<p>The `hermes tools` command opens an interactive TUI where you can toggle each toolset on or off, see which tools belong to each set, and preview which models support all your active tools.</p>
+<h3>How Toolsets Affect Conversation</h3>
+<p>Each toolset adds its tools to the LLM's function-calling schema. More tools = larger prompt = more tokens consumed. Best practice:</p>
+<p>- **Start conservative** — use the defaults</p>
+<p>- **Enable toolsets reactively** — when you need browser automation, enable `browser`</p>
+<p>- **Disable what you don't need** — `hermes tools disable moa` saves ~300 tokens/turn</p>
+<p>- **Create composite toolsets** — toolsets can include other toolsets (e.g., `debugging` includes `web`, `file`, and `terminal`)</p>
+<h3>Platform-Specific Toolsets</h3>
+<p>Each platform has its own toolset that inherits from the core tools:</p>
+<p>- `hermes-cli` — full interactive CLI</p>
+<p>- `hermes-telegram` — Telegram bot (terminal has safety checks)</p>
+<p>- `hermes-discord` — Discord bot (+ Discord-specific tools)</p>
+<p>- `hermes-slack` — Slack bot</p>
+<p>- `hermes-whatsapp` — WhatsApp bot</p>
+<p>- `hermes-cron` — Cron scheduler agent</p>
+<p>You configure each independently. Browser automation might be fine in the CLI but disabled on Telegram.</p>
+<h3>Custom Toolsets</h3>
+<p>You can define custom toolset compositions in `config.yaml`:</p>
+<pre><code>
+toolsets:
+  custom:
+    my-workflow:
+      description: "Tools I need for daily dev work"
+      tools:
+        - web_search
+        - terminal
+        - read_file
+        - write_file
+      includes:
+        - vision
+</code></pre>
+<hr>
+<h2>3.5 Profiles</h2>
+<p>Profiles let you run **multiple independent Hermes instances** on the same machine, each with its own config, API keys, memory, skills, sessions, and gateway.</p>
+<h3>When to Use Profiles</h3>
+<p>- **Work/Personal separation** — different models, different API keys, different skills</p>
+<p>- **Multi-tenant servers** — each user gets their own profile</p>
+<p>- **Kanban workers** — specialized profiles for different task categories</p>
+<p>- **Testing** — a "default" profile for daily use, an "experimental" profile for new models</p>
+<h3>Profile Architecture</h3>
+<p>Profiles live under `~/.hermes/profiles/<name>/`. Each profile is a complete `HERMES_HOME`:</p>
+<pre><code>
+~/.hermes/profiles/coder/
+├── config.yaml          # Independent config
+├── .env                 # Independent API keys
+├── sessions/            # Separate conversation history
+├── skills/              # Different skills
+├── memories/            # Separate memory
+├── logs/                # Separate logs
+├── cron/                # Separate scheduled jobs
+└── home/                # Isolated subprocess HOME (git config, ssh, etc.)
+</code></pre>
+<h3>Profile Commands</h3>
+<pre><code>
+# Create a new profile
+hermes profile create coder
+# Creates ~/.hermes/profiles/coder/ with bundled skills seeded
+
+# Create with cloned config from the default profile
+hermes profile create work --clone --clone-all
+
+# List all profiles
+hermes profile list
+
+# Switch to a profile
+hermes profile use coder
+# This writes "coder" to ~/.hermes/active_profile
+# All future `hermes` commands use the coder profile
+
+# Use a profile for a single command
+hermes -p coder chat -q "What's my schedule?"
+
+# Profiles also get shell aliases:
+# After `hermes profile create coder`, you can run:
+coder chat
+
+# Delete a profile (irreversible — removes all data!)
+hermes profile delete coder
+</code></pre>
+<h3>Profile Isolation</h3>
+<p>- **Gateway** — each profile can run its own gateway on different ports</p>
+<p>- **Sessions** — completely separate — `hermes sessions list` only shows the active profile's sessions</p>
+<p>- **Memory** — curated memory is per-profile</p>
+<p>- **Subprocesses** — the `home/` directory isolates git, ssh, and npm configs per profile</p>
+<hr>
+<h2>3.6 Memory Backends</h2>
+<p>Hermes has three memory backends with different tradeoffs.</p>
+<h3>Built-in Memory (Default)</h3>
+<p>- **Storage:** `~/.hermes/memories/MEMORY.md` + `USER.md`</p>
+<p>- **Mechanism:** The agent periodically writes curated knowledge to Markdown files. On session start, these files are loaded as system context.</p>
+<p>- **Pros:** Zero setup, works offline, fully transparent (readable Markdown)</p>
+<p>- **Cons:** Simple key-value, no semantic search or deduplication</p>
+<p>**Config:**</p>
+<pre><code>
+memory:
+  provider: "default"
+  auto_save: true          # Auto-persist after conversations
+  auto_save_threshold: 5   # Turns before prompting for memory
+</code></pre>
+<h3>Honcho (Dialectic Memory)</h3>
+<p>- **Storage:** Honcho server (local or cloud)</p>
+<p>- **Mechanism:** Maintains a dialectic user model — the agent updates its understanding of you with each conversation</p>
+<p>- **Pros:** Sophisticated user modeling, web dashboard, good for chatbot use cases</p>
+<p>- **Cons:** Requires Honcho server running</p>
+<p>**Setup:** `hermes honcho start` or configure Honcho cloud. Config in `config.yaml`:</p>
+<pre><code>
+memory:
+  provider: "honcho"
+  honcho:
+    base_url: "http://localhost:8000"
+    token: "your-honcho-token"
+</code></pre>
+<h3>Mem0</h3>
+<p>- **Storage:** Mem0 Platform API</p>
+<p>- **Mechanism:** Automatic semantic deduplication and relevance scoring</p>
+<p>- **Pros:** Smart deduplication, good recall for large knowledge bases</p>
+<p>- **Cons:** Paid API, internet connection required</p>
+<p>**Setup:**</p>
+<pre><code>
+# In ~/.hermes/.env:
+MEM0_API_KEY=m0-your-key
+</code></pre>
+<p>Or via `~/.hermes/mem0.json`:</p>
+<pre><code>
+{
+  "api_key": "m0-your-key",
+  "api_type": "platform",
+  "user_id": "my-user"
+}
+</code></pre>
+<hr>
+<h2>3.7 TTS & STT Setup for Voice Mode</h2>
+<p>Voice mode lets you speak to Hermes and hear spoken responses.</p>
+<h3>Text-to-Speech (TTS) — Hermes Talks</h3>
+<table><thead><tr>
+<th>Provider</th>
+<th>Quality</th>
+<th>Cost</th>
+<th>Config Key</th>
+</tr></thead><tbody>
+<tr>
+<td>**Edge TTS**</td>
+<td>Good (free)</td>
+<td>Free</td>
+<td>`edge` (default)</td>
+</tr>
+<tr>
+<td>**OpenAI TTS**</td>
+<td>Excellent</td>
+<td>Paid (per char)</td>
+<td>`openai`</td>
+</tr>
+<tr>
+<td>**ElevenLabs**</td>
+<td>Excellent</td>
+<td>Paid (per char)</td>
+<td>`elevenlabs`</td>
+</tr>
+<tr>
+<td>**xAI TTS**</td>
+<td>Good</td>
+<td>Paid</td>
+<td>`xai`</td>
+</tr>
+<tr>
+<td>**Gemini TTS**</td>
+<td>Good</td>
+<td>Free tier</td>
+<td>`gemini`</td>
+</tr>
+<tr>
+<td>**Piper TTS**</td>
+<td>Decent</td>
+<td>Free (local)</td>
+<td>`piper`</td>
+</tr>
+<tr>
+<td>**KittenTTS**</td>
+<td>Good</td>
+<td>Free (local)</td>
+<td>`kittentts`</td>
+</tr>
+</tbody></table>
+<pre><code>
+# In config.yaml:
+tts:
+  provider: edge           # Default: free, no API key needed
+  voice: en-US-JennyNeural # Voice name (provider-specific)
+</code></pre>
+<p>For OpenAI TTS, set `OPENAI_API_KEY` or `VOICE_TOOLS_OPENAI_KEY` in `.env`.</p>
+<h3>Speech-to-Text (STT) — Hermes Listens</h3>
+<table><thead><tr>
+<th>Provider</th>
+<th>Quality</th>
+<th>Cost</th>
+<th>Setup</th>
+</tr></thead><tbody>
+<tr>
+<td>**Faster-Whisper**</td>
+<td>Good</td>
+<td>Free (local)</td>
+<td>`pip install faster-whisper`</td>
+</tr>
+<tr>
+<td>**Groq Whisper**</td>
+<td>Excellent</td>
+<td>Free tier</td>
+<td>Set `GROQ_API_KEY`</td>
+</tr>
+<tr>
+<td>**OpenAI Whisper**</td>
+<td>Excellent</td>
+<td>Paid</td>
+<td>Set `OPENAI_API_KEY`</td>
+</tr>
+</tbody></table>
+<pre><code>
+# In config.yaml:
+stt:
+  provider: faster-whisper  # Or: groq, openai
+  model: base.en            # Model size (faster-whisper only)
+  language: en              # Language hint
+</code></pre>
+<p>**Activating voice mode:**</p>
+<pre><code>
+# Inside a chat session
+/voice on
+
+# Or start with voice
+hermes --voice
+</code></pre>
+<hr>
+<h2>3.8 Security & Approval Modes</h2>
+<p>Hermes has a layered security system to prevent accidental dangerous operations.</p>
+<h3>Approval Modes</h3>
+<p>Controls whether the agent must ask for permission before running dangerous commands.</p>
+<pre><code>
+# In config.yaml:
+security:
+  approval_mode: smart     # Default: "smart" — let the LLM decide
+</code></pre>
+<table><thead><tr>
+<th>Mode</th>
+<th>Behavior</th>
+<th>When to Use</th>
+</tr></thead><tbody>
+<tr>
+<td>`manual`</td>
+<td>Always prompt for dangerous commands</td>
+<td>Maximum safety, shared systems</td>
+</tr>
+<tr>
+<td>`smart`</td>
+<td>Auxiliary LLM auto-approves low-risk commands; prompts for risky ones</td>
+<td>Best balance (default)</td>
+</tr>
+<tr>
+<td>`off`</td>
+<td>Never prompt for approval</td>
+<td>Trusted environments, automation</td>
+</tr>
+</tbody></table>
+<h3>What Counts as "Dangerous"</h3>
+<p>The approval system checks `terminal` tool commands against a pattern database. Examples that trigger approval:</p>
+<p>- `rm -rf`, `dd`, `mkfs`, `fdisk` — destructive filesystem operations</p>
+<p>- `curl ... | bash` — remote code execution</p>
+<p>- `sudo`, `su`, `chmod 777` — privilege escalation</p>
+<p>- `kill -9`, `pkill` — process termination</p>
+<p>- `pip install`, `npm install` — package installation (can be configured per-package)</p>
+<h3>YOLO Mode</h3>
+<p>Sometimes you want zero friction. YOLO mode bypasses **all** approval prompts:</p>
+<pre><code>
+# Inside a session
+/yolo    # Toggle ON
+/yolo    # Toggle OFF
+
+# Via env var
+HERMES_YOLO_MODE=1 hermes chat
+</code></pre>
+<p>When YOLO is active, the status bar shows a red ⚠ YOLO indicator.</p>
+<h3>Allowlisting Commands</h3>
+<p>You can permanently allow specific commands in `config.yaml`:</p>
+<pre><code>
+security:
+  approval_allowlist:
+    - "apt update"
+    - "pip install requests"
+    - "git status"
+  # Or via pattern
+  approval_allowlist_patterns:
+    - "curl https://.*"
+</code></pre>
+<h3>Secret Redaction</h3>
+<p>API keys and sensitive values in `.env` are automatically redacted from logs and conversation history. The `_secret_redact` utility strips patterns matching known API key formats from all agent outputs.</p>
+<h3>Subagent Auto-Approval</h3>
+<p>For automated workflows (cron jobs, batch runs), subagents can be configured to auto-approve dangerous commands:</p>
+<pre><code>
+delegation:
+  auto_approve: true       # Subagents bypass approval prompts
+</code></pre>
+<hr>
+<h2>3.9 Full Config Reference</h2>
+<h3>Top-Level Keys</h3>
+<table><thead><tr>
+<th>Key</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead><tbody>
+<tr>
+<td>`model`</td>
+<td>dict/string</td>
+<td>`""`</td>
+<td>Model configuration (see below)</td>
+</tr>
+<tr>
+<td>`provider`</td>
+<td>string</td>
+<td>`"auto"`</td>
+<td>Legacy root-level provider fallback</td>
+</tr>
+<tr>
+<td>`base_url`</td>
+<td>string</td>
+<td>`""`</td>
+<td>Legacy root-level base URL fallback</td>
+</tr>
+<tr>
+<td>`agent`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Agent behavior</td>
+</tr>
+<tr>
+<td>`display`</td>
+<td>dict</td>
+<td>See below</td>
+<td>CLI/UI display preferences</td>
+</tr>
+<tr>
+<td>`terminal`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Terminal backend configuration</td>
+</tr>
+<tr>
+<td>`browser`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Browser automation</td>
+</tr>
+<tr>
+<td>`compression`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Context compression</td>
+</tr>
+<tr>
+<td>`delegation`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Subagent settings</td>
+</tr>
+<tr>
+<td>`code_execution`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Sandboxed code execution</td>
+</tr>
+<tr>
+<td>`auxiliary`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Auxiliary model routing</td>
+</tr>
+<tr>
+<td>`clarify`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Clarifying questions</td>
+</tr>
+<tr>
+<td>`security`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Approval & security</td>
+</tr>
+<tr>
+<td>`memory`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Memory backend</td>
+</tr>
+<tr>
+<td>`tts`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Text-to-speech</td>
+</tr>
+<tr>
+<td>`stt`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Speech-to-text</td>
+</tr>
+<tr>
+<td>`voice`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Voice mode settings</td>
+</tr>
+<tr>
+<td>`toolsets`</td>
+<td>dict</td>
+<td>`{}`</td>
+<td>Custom toolsets</td>
+</tr>
+<tr>
+<td>`credential_pool_strategies`</td>
+<td>dict</td>
+<td>`{}`</td>
+<td>Per-provider pool strategy</td>
+</tr>
+<tr>
+<td>`network`</td>
+<td>dict</td>
+<td>See below</td>
+<td>Network preferences</td>
+</tr>
+<tr>
+<td>`onboarding`</td>
+<td>dict</td>
+<td>`{}`</td>
+<td>First-run hints</td>
+</tr>
+</tbody></table>
+<h3>`model` Section</h3>
+<pre><code>
+model:
+  default: "openrouter/anthropic/claude-sonnet-4-20250514"
+  provider: "openrouter"           # Provider plugin name
+  base_url: ""                     # Custom endpoint override
+</code></pre>
+<h3>`agent` Section</h3>
+<pre><code>
+agent:
+  max_turns: 90                    # Max tool-calling iterations
+  verbose: false                   # Show all tool I/O
+  system_prompt: ""                # Custom system prompt override
+  prefill_messages_file: ""        # File with initial messages
+  reasoning_effort: ""             # none/minimal/low/medium/high/xhigh
+  service_tier: ""                 # OpenAI Priority tier
+  personalities:                   # Built-in personalities
+    helpful: "You are a helpful, friendly AI assistant."
+    concise: "You are a concise assistant..."
+    # ... (10+ built-in personalities)
+</code></pre>
+<h3>`display` Section</h3>
+<pre><code>
+display:
+  compact: false                   # Minimal output mode
+  resume_display: full             # Show full or compact on session resume
+  show_reasoning: false            # Display &lt;thinking&gt; blocks
+  streaming: true                  # Stream tokens in real-time
+  busy_input_mode: interrupt       # interrupt/queue/steer
+  persistent_output: true          # Persist output after new input
+  persistent_output_max_lines: 200
+  skin: default                    # Theming skin
+</code></pre>
+<h3>`terminal` Section</h3>
+<pre><code>
+terminal:
+  env_type: local                  # local/docker/ssh/modal/daytona/singularity
+  cwd: "."                         # Working directory
+  timeout: 60                      # Per-command timeout (seconds)
+  lifetime_seconds: 300            # Session max lifetime
+  docker_image: "nikolaik/python-nodejs:python3.11-nodejs20"
+  docker_volumes: []               # host:container mounts
+  docker_mount_cwd_to_workspace: false
+</code></pre>
+<h3>`security` Section</h3>
+<pre><code>
+security:
+  approval_mode: smart             # manual/smart/off
+  approval_allowlist: []
+  approval_allowlist_patterns: []
+</code></pre>
+<h3>`compression` Section</h3>
+<pre><code>
+compression:
+  enabled: true                    # Auto-compress near context limit
+  threshold: 0.50                  # Compress at 50% of context capacity
+</code></pre>
+<h3>`network` Section</h3>
+<pre><code>
+network:
+  force_ipv4: false                # Prefer IPv4 (fixes IPv6 timeout issues)
+</code></pre>
+<hr>
+<h2>3.10 Recommended Config for Beginners</h2>
+<p>Here's a complete, safe starting config that works immediately after installation:</p>
+<pre><code>
+# ~/.hermes/config.yaml — Recommended Beginner Config
+
+model:
+  # Start with OpenRouter — one key for 200+ models
+  default: "openrouter/anthropic/claude-sonnet-4-20250514"
+  provider: "openrouter"
+
+agent:
+  max_turns: 90
+  verbose: false
+  reasoning_effort: ""  # Let the model decide
+
+terminal:
+  env_type: local
+  cwd: "."             # Your current directory
+  timeout: 120          # 2 minutes per command
+
+security:
+  approval_mode: smart  # Safe default — LLM decides when to ask
+  # Add safe commands to the allowlist:
+  approval_allowlist:
+    - "ls"
+    - "cat"
+    - "pwd"
+    - "pip install"
+    - "npm install"
+    - "git status"
+    - "git diff"
+
+display:
+  streaming: true
+  show_reasoning: false
+  skin: default
+
+compression:
+  enabled: true
+  threshold: 0.50
+
+memory:
+  provider: "default"   # Built-in — no setup needed
+
+tts:
+  provider: edge        # Free, no API key needed
+
+# Don't forget to add your API keys to ~/.hermes/.env:
+# OPENROUTER_API_KEY=sk-or-v1-...
+</code></pre>
+<p>**Setup checklist:**</p>
+<p>1. ✅ Copy this config to `~/.hermes/config.yaml`</p>
+<p>2. ✅ Add API key to `~/.hermes/.env`</p>
+<p>3. ✅ Run `hermes model` to verify your provider</p>
+<p>4. ✅ Run `hermes tools` and disable any toolsets you don't need</p>
+<p>5. ✅ Run `hermes` and start chatting!</p>
+<hr>
+<h2>Key Takeaways</h2>
+<p>- **Two config files:** `config.yaml` for settings, `.env` for secrets</p>
+<p>- **25+ providers** supported through a unified plugin architecture</p>
+<p>- **Credential pools** provide automatic failover between multiple API keys for the same provider</p>
+<p>- **Toolsets** group tools logically — enable only what you need to save tokens</p>
+<p>- **Profiles** run completely isolated Hermes instances from one machine</p>
+<p>- **Memory backends** range from simple Markdown files to semantic Mem0</p>
+<p>- **Security modes** let you balance friction vs. safety — from `manual` to `yolo`</p>
+<p>- **Config hierarchy** means environment variables always win for emergency overrides</p>
+<blockquote>**Next:** Module 4 — Daily Usage & Power Features. Learn the slash commands, session management, cron jobs, delegation, checkpoints, and more.</blockquote>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-02-installation.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 2</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-04-usage.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 4</a>
+    </div>
+</div>
+</body>
+</html>

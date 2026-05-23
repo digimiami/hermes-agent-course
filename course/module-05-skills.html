@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Skills System - The Killer Feature</h1>
+        <p class="meta">Module 5 of 10</p>
+        <div class="nav-links">
+            <a href="module-04-usage.html" class="nav-prev">Daily Usage & Power Featu</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-06-training.html" class="nav-next">Next: Training Your Agent</a>
+        </div>
+    </div>
+<div class="content">
+<p>**Duration:** ~45 minutes  </p>
+<p>**Prerequisites:** Module 4 (Tools & Capabilities)  </p>
+<p>**Skill Level:** Intermediate</p>
+<hr>
+<h2>5.1 Introduction</h2>
+<p>Most AI assistants are amnesiacs. You teach them something one day, and the next day they've forgotten it entirely. You show them exactly how to deploy your app, and tomorrow you have to explain it all over again. This is the fundamental limitation of the "chatbot" paradigm — every conversation starts from zero.</p>
+<p>Hermes Agent breaks this cycle with **Skills**.</p>
+<p>Skills are the single most important feature of Hermes Agent. They transform the agent from a transactional assistant (ask → answer → forget) into a **compound-learning system** that gets provably better over time. Every time you teach Hermes something, that knowledge persists, compounds, and makes future interactions faster, more accurate, and more autonomous.</p>
+<p>By the end of this module, you'll understand:</p>
+<p>- What skills are and why they're revolutionary</p>
+<p>- The anatomy of a skill file (frontmatter + body)</p>
+<p>- How to create, load, and manage skills</p>
+<p>- The skill lifecycle (creation → curation → archival)</p>
+<p>- The Skills Hub ecosystem (browse, install, publish)</p>
+<p>- Best practices and anti-patterns</p>
+<p>- How 50+ skills make you a super-agent user</p>
+<hr>
+<h2>5.2 What Are Skills?</h2>
+<p>A **skill** is a reusable, versioned procedure stored as a Markdown file with YAML frontmatter. Think of it as a "recipe" the agent can follow to accomplish a specific task.</p>
+<pre><code>
+---
+name: deploy-to-nginx
+description: Deploy a static site to an Nginx server on this machine
+version: 1.2.0
+tags: [deployment, nginx, devops, web]
+author: ops-team
+---
+
+# Deploy to Nginx
+
+1. Verify the site source directory exists at `/var/www/{site_name}`
+2. Check that Nginx is running: `systemctl status nginx`
+3. Copy the site configuration:
+   ```
+   cp /etc/nginx/sites-available/{site_name} /etc/nginx/sites-enabled/
+   ```
+4. Test the configuration: `nginx -t`
+5. Reload Nginx: `systemctl reload nginx`
+6. Verify the site responds: `curl -s -o /dev/null -w "%{http_code}" http://localhost/{site_name}`
+
+## Pitfalls
+- If `nginx -t` fails, check for syntax errors in the config file
+- Don't use `restart` — use `reload` to avoid downtime
+- Ensure the document root directory exists before reloading
+
+## Verification
+- Site returns HTTP 200
+- Nginx status shows "active (running)"
+- New config appears in `nginx -T` output
+</code></pre>
+<p>That's it. A skill is just a Markdown file — simple enough to edit by hand, structured enough for the agent to parse and execute reliably.</p>
+<h3>What Makes Skills Different from Prompts?</h3>
+<table><thead><tr>
+<th>Aspect</th>
+<th>Regular Prompt</th>
+<th>Skill</th>
+</tr></thead><tbody>
+<tr>
+<td>**Persistence**</td>
+<td>Ephemeral (one conversation)</td>
+<td>Permanent (saved to disk)</td>
+</tr>
+<tr>
+<td>**Versioning**</td>
+<td>None</td>
+<td>Explicit version field</td>
+</tr>
+<tr>
+<td>**Structure**</td>
+<td>Freeform text</td>
+<td>Numbered steps + frontmatter</td>
+</tr>
+<tr>
+<td>**Reusability**</td>
+<td>Must re-explain</td>
+<td>Load by name</td>
+</tr>
+<tr>
+<td>**Curation**</td>
+<td>None</td>
+<td>Auto-archived when stale</td>
+</tr>
+<tr>
+<td>**Sharing**</td>
+<td>Not possible</td>
+<td>Skills Hub registry</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5.3 Why Skills Matter</h2>
+<p>Skills solve three fundamental problems in AI-human interaction:</p>
+<h3>Problem 1: The Repetition Tax</h3>
+<p>Every time you ask the agent to do something non-trivial, you pay a "repetition tax" — explaining context, specifying commands, correcting mistakes. With skills, you pay that tax once. The next time, the agent already knows.</p>
+<p>**Without skills:** "No, use `systemctl reload` not `restart`... remember Nginx has a test flag... check the config syntax first..."</p>
+<p>**With skills:** "Deploy the site." The agent loads the skill and executes it perfectly.</p>
+<h3>Problem 2: Tribal Knowledge Loss</h3>
+<p>When you have workflows that only you know — deployment procedures, database backup commands, CI/CD conventions — that knowledge lives in your head (or scattered across docs). Skills make it explicit, versioned, and transferable. New team members get instant access to your operational knowledge.</p>
+<h3>Problem 3: Inconsistent Execution</h3>
+<p>Humans and AI alike make mistakes on complex multi-step procedures. A skill ensures the same steps execute in the same order every time, with the same verification checks.</p>
+<h3>The Compound Effect</h3>
+<p>Here's the key insight: **skills compound.** Each skill you create makes the agent more capable. After 10 skills, you have a capable assistant. After 50 skills, you have an agent that knows your entire stack — deployment, testing, debugging, monitoring, database management, code review, everything. You stop explaining and start **delegating**.</p>
+<hr>
+<h2>5.4 Skill Anatomy</h2>
+<p>Every skill file has two parts: **frontmatter** and **body**.</p>
+<h3>Frontmatter (YAML)</h3>
+<p>The frontmatter is a YAML block between `---` delimiters at the very top of the file. It contains metadata that helps the agent find, load, and manage the skill.</p>
+<pre><code>
+---
+name: deploy-to-nginx          # Unique identifier, lowercase with hyphens
+description: &gt;                 # Description used for matching queries to skills
+  Deploy a static site to an Nginx server on this machine.
+  Handles config validation, reload, and verification.
+version: 1.2.0                 # Semantic versioning: major.minor.patch
+tags:                          # Tags for discoverability and grouping
+  - deployment
+  - nginx
+  - devops
+  - web
+author: ops-team               # Optional: who created/maintains this
+depends_on: []                 # Optional: other skills this one requires
+os: [linux]                    # Optional: OS constraints
+---
+</code></pre>
+<p>**Required fields:** `name`, `description`, `version`</p>
+<p>**Strongly recommended:** `tags`</p>
+<p>**Key rules:**</p>
+<p>- `name` must be unique across all your skills</p>
+<p>- `version` follows semver — bump `patch` for fixes, `minor` for new features, `major` for breaking changes</p>
+<p>- `description` should be detailed; the agent uses semantic matching to find the right skill</p>
+<h3>Body (Markdown Instructions)</h3>
+<p>The body is a Markdown document with numbered steps, commands, pitfalls, and verification steps.</p>
+<p>**Structure conventions:**</p>
+<pre><code>
+# {Skill Name}
+
+{Context paragraph — what this skill does and when to use it}
+
+1. {Step 1 — what to do}
+   ```
+   {exact command or code}
+   ```
+2. {Step 2 — what to do next}
+3. ...
+
+## Pitfalls
+- {Common mistake and how to avoid it}
+- {Another pitfall}
+- {Edge case to watch for}
+
+## Verification
+- {How to confirm the skill executed successfully}
+- {Another verification check}
+</code></pre>
+<h4>Numbered Steps</h4>
+<p>Steps should be:</p>
+<p>- **Actionable:** "Copy the configuration file" not "Understand the configuration"</p>
+<p>- **Deterministic:** The same inputs should produce the same outputs</p>
+<p>- **Verifiable:** Each step should produce output you can check</p>
+<p>- **Exact:** Include exact commands in code blocks</p>
+<h4>Pitfalls Section</h4>
+<p>This is where you capture **experience** — the mistakes you've made and the edge cases you've encountered. A skill without pitfalls is a recipe that only works in the happy path.</p>
+<p>Good pitfalls:</p>
+<p>- Warnings about common errors</p>
+<p>- Environment-specific gotchas</p>
+<p>- Ordering dependencies ("do X before Y")</p>
+<p>- Failure modes and recovery steps</p>
+<h4>Verification Section</h4>
+<p>Every skill should end with verification steps that answer "how do I know this worked?" These are explicit checks the agent can run to confirm success.</p>
+<p>Good verification steps:</p>
+<p>- HTTP status checks (`curl -s -o /dev/null -w "%{http_code}"`)</p>
+<p>- Service status checks (`systemctl is-active`)</p>
+<p>- File existence checks (`test -f /path/to/file`)</p>
+<p>- Output consistency checks (`diff expected.txt actual.txt`)</p>
+<hr>
+<h2>5.5 Creating a Skill</h2>
+<p>Skills are created using the `skill_manage` tool.</p>
+<h3>The `skill_manage` Tool</h3>
+<pre><code>
+skill_manage(action="create", name="skill-name", path="/path/to/skill.md")
+</code></pre>
+<p>You can also create skills by asking the agent directly:</p>
+<blockquote>"Save this as a skill called 'deploy-to-nginx': first, check the source directory exists..."</blockquote>
+<p>The agent will:</p>
+<p>1. Generate the skill file with proper frontmatter</p>
+<p>2. Save it to the skills directory</p>
+<p>3. Register it in the skill index</p>
+<p>4. Confirm creation</p>
+<h3>Updating Skills</h3>
+<pre><code>
+skill_manage(action="update", name="skill-name", path="/path/to/updated-skill.md")
+</code></pre>
+<p>Or just ask:</p>
+<blockquote>"Update the deploy-to-nginx skill — add a step to check disk space first."</blockquote>
+<h3>Deleting Skills</h3>
+<pre><code>
+skill_manage(action="remove", name="skill-name")
+</code></pre>
+<hr>
+<h2>5.6 Loading a Skill</h2>
+<p>Skills are loaded on demand, either explicitly or implicitly.</p>
+<h3>Explicit Loading</h3>
+<p>**In Hermes Chat (Telegram):**</p>
+<pre><code>
+/skill deploy-to-nginx
+/skill deploy-to-nginx site_name=myapp
+</code></pre>
+<p>The `/skill` command loads the skill and executes it. You can pass variables as `key=value` pairs.</p>
+<p>**From the CLI:**</p>
+<pre><code>
+hermes -s deploy-to-nginx
+</code></pre>
+<h3>Implicit Loading (Auto-Matching)</h3>
+<p>The agent automatically matches your query to relevant skills. If you say "deploy the site," the agent finds the `deploy-to-nginx` skill and asks if you'd like to use it.</p>
+<blockquote>**User:** "Deploy the new landing page to production."</blockquote>
+<p>></p>
+<blockquote>**Agent:** "I have a skill for that: `deploy-to-nginx`. Shall I use it? (I'll deploy from `/var/www/landing-page`)"</blockquote>
+<h3>Skill Variables</h3>
+<p>Skills can have variable placeholders using `{variable_name}` syntax. The agent fills these in from context or prompts you for missing values.</p>
+<pre><code>
+1. Check that the database {db_name} is running
+2. Run migration: `migrate -d {db_name}`
+</code></pre>
+<p>When loading: `/skill run-db-migration db_name=production`</p>
+<hr>
+<h2>5.7 Complete Example Skill</h2>
+<p>Here's a complete, real-world skill you can create and use immediately:</p>
+<pre><code>
+---
+name: diagnose-disk-space
+description: &gt;
+  Diagnose disk space issues on a Linux server.
+  Checks overall usage, largest directories, and
+  identifies old log files that can be rotated.
+version: 1.0.0
+tags:
+  - system
+  - disk
+  - diagnostics
+  - linux
+author: hermes-agent
+os: [linux]
+---
+
+# Diagnose Disk Space
+
+Use this when the system reports low disk space or when
+deployments fail due to insufficient storage.
+
+## Prerequisites
+- Root or sudo access
+
+## Steps
+
+1. Check overall disk usage:
+   ```
+   df -h
+   ```
+   Look for partitions above 80% usage.
+
+2. Find the largest directories in `/`:
+   ```
+   du -sh /* | sort -hr | head -20
+   ```
+
+3. For the most-used partition (from step 1), drill into
+   specific directories:
+   ```
+   du -sh /var/log/* | sort -hr | head -10
+   du -sh /var/lib/* | sort -hr | head -10
+   ```
+
+4. Check for old log files (&gt;30 days):
+   ```
+   find /var/log -name "*.log" -type f -mtime +30 -exec ls -lh {} \; | head -20
+   ```
+
+5. Suggest cleanup actions:
+   - Rotate logs: `logrotate -f /etc/logrotate.conf`
+   - Clear apt cache: `apt-get clean`
+   - Remove old kernels: `apt-get autoremove --purge`
+   - Truncate specific large files (if safe)
+   - Add disk usage alerting if this is recurring
+
+## Pitfalls
+- Don't delete files without confirming with the user first
+- `/tmp` may be mounted as `tmpfs` (RAM) — freeing space there
+  won't help with disk usage
+- Be careful with `find -delete` — always preview first
+- Some systems use LVM — check with `lvdisplay` if `df` is confusing
+- Docker containers can consume `overlay2` storage in `/var/lib/docker`
+
+## Verification
+- At least 10% free space on critical partitions
+- No partitions above 90% after cleanup
+- System reports OK for `systemctl status`
+- `df -h` shows improvement from initial state
+</code></pre>
+<hr>
+<h2>5.8 The Skill Lifecycle</h2>
+<p>Skills aren't static — they evolve through a lifecycle managed by the Hermes Agent curation system.</p>
+<h3>Phase 1: Creation</h3>
+<p>You create a skill (or the agent creates one on your behalf). The skill is saved to the active skills directory and indexed.</p>
+<h3>Phase 2: Active Use</h3>
+<p>The skill is available for immediate loading. The agent tracks:</p>
+<p>- **Usage frequency:** How often each skill is loaded</p>
+<p>- **Success rate:** Whether verification steps pass</p>
+<p>- **Error rate:** How often the skill produces errors</p>
+<p>- **Last used:** When the skill was last invoked</p>
+<h3>Phase 3: Staleness Detection</h3>
+<p>The **Curator** (a built-in agent subsystem) periodically reviews all skills. A skill is flagged as "stale" if:</p>
+<p>- It hasn't been used in 30+ days</p>
+<p>- Its verification steps consistently fail</p>
+<p>- Its commands reference tools or paths that no longer exist</p>
+<p>- A newer version of the same workflow exists</p>
+<h3>Phase 4: Archival</h3>
+<p>Stale skills are auto-archived — moved to an archive directory and removed from the active index. They're not deleted; you can restore them if needed.</p>
+<pre><code>
+skills/
+├── active/
+│   ├── deploy-to-nginx.md
+│   └── diagnose-disk-space.md
+└── archived/
+    ├── 2025-11-01_deploy-to-apache.md
+    └── 2025-10-15_old-backup-script.md
+</code></pre>
+<h3>Phase 5: Restoration</h3>
+<p>If you need an archived skill:</p>
+<pre><code>
+skill_manage(action="restore", name="deploy-to-apache")
+</code></pre>
+<p>Or ask the agent: "Restore the old Apache deploy skill."</p>
+<hr>
+<h2>5.9 The Skills Hub</h2>
+<p>The **Skills Hub** is a central registry where you can browse, install, and publish skills.</p>
+<h3>Browsing</h3>
+<p>Check what's available:</p>
+<pre><code>
+/skillhub browse
+/skillhub search "database backup"
+/skillhub search --tag devops
+</code></pre>
+<h3>Installing from the Registry</h3>
+<pre><code>
+hermes skill install deploy-to-nginx
+hermes skill install --from https://skills.example.com/my-skills.json
+</code></pre>
+<h3>Publishing Your Skills</h3>
+<p>Share your skills with the community:</p>
+<pre><code>
+hermes skill publish diagnose-disk-space
+</code></pre>
+<p>Published skills are:</p>
+<p>- Reviewed for quality and safety</p>
+<p>- Indexed by tags for discoverability</p>
+<p>- Version-tracked so users get updates</p>
+<p>- Rated by the community</p>
+<h3>Private Registries</h3>
+<p>Organizations can run their own Skills Hub registries for internal workflows:</p>
+<pre><code>
+hermes skill registry add internal https://skills.internal.company.com
+hermes skill install db-backup --registry internal
+</code></pre>
+<hr>
+<h2>5.10 Best Practices</h2>
+<h3>DO: Write Good Triggers</h3>
+<p>The `description` field is your skill's "trigger" — it's what the agent uses to match queries. Write descriptions that capture the words someone would naturally use.</p>
+<p>❌ Bad: "Handles deployment procedures"  </p>
+<p>✅ Good: "Deploy a static site or web application to an Nginx server on Ubuntu/Debian"</p>
+<h3>DO: Use Numbered Steps</h3>
+<p>Numbered steps are deterministic. The agent executes them in order. Bullet lists are for context, not execution.</p>
+<h3>DO: Include Exact Commands</h3>
+<p>Don't describe what to do — show the exact command:</p>
+<p>❌ Bad: "Check the Nginx configuration"  </p>
+<p>✅ Good: "Run `nginx -t`"</p>
+<h3>DO: Write a Useful Pitfalls Section</h3>
+<p>This is where the skill earns its keep. Every mistake you've made while running this procedure should be a pitfall.</p>
+<h3>DO: Always Verify</h3>
+<p>Every skill should end with verification steps that prove success. "It worked because I checked" is the skill's warranty.</p>
+<h3>DO: Version Your Skills</h3>
+<p>Bump versions when you make changes. This lets you (and the curator) track evolution.</p>
+<h3>DO: Tag Thoughtfully</h3>
+<p>Tags make skills discoverable. Use a consistent tagging convention.</p>
+<h3>DON'T: Make a Skill for One-Off Tasks</h3>
+<p>If you'll never do this again, don't make a skill. Skills are for procedures you repeat.</p>
+<h3>DON'T: Make Skills for Trivial Things</h3>
+<p>"Open the browser" is not a skill. Use your judgment — if it takes longer to create the skill than to do the task once, skip it (unless you'll do it many times).</p>
+<h3>DON'T: Hardcode Secrets</h3>
+<p>Never put passwords, API keys, or tokens in a skill file. Use environment variables or the agent's secret store instead.</p>
+<pre><code>
+# DO THIS
+1. Connect: `psql -h {db_host} -U {db_user} -d {db_name}`
+   The agent will prompt for connection details.
+
+# NOT THIS
+1. Connect: `psql -h localhost -U admin -d myapp`
+   Password: s3cret!
+</code></pre>
+<hr>
+<h2>5.11 When NOT to Make a Skill</h2>
+<p>Skills are powerful, but they're not the answer to everything. Here's when you should **not** create a skill:</p>
+<table><thead><tr>
+<th>Scenario</th>
+<th>Why Not</th>
+<th>What Instead</th>
+</tr></thead><tbody>
+<tr>
+<td>One-time migration</td>
+<td>You'll never do it again</td>
+<td>Just ask the agent</td>
+</tr>
+<tr>
+<td>"Hello World" example</td>
+<td>Trivial, no repetition</td>
+<td>Skip it</td>
+</tr>
+<tr>
+<td>Dangerous operation</td>
+<td>No safe verification</td>
+<td>Document as a runbook, not a skill</td>
+</tr>
+<tr>
+<td>Deeply contextual</td>
+<td>Depends on too many variables</td>
+<td>Break into smaller skills</td>
+</tr>
+<tr>
+<td>Rapidly changing</td>
+<td>Outdated in a week</td>
+<td>Wait for stability</td>
+</tr>
+<tr>
+<td>Personal preference</td>
+<td>"I like tabs not spaces"</td>
+<td>Save as a user profile preference</td>
+</tr>
+</tbody></table>
+<p>**The litmus test:** Ask yourself "Will I need to do this again in the next 30 days?" If no, probably don't skill it. If yes, invest the 5 minutes.</p>
+<hr>
+<h2>5.12 Skills as Your Competitive Advantage</h2>
+<p>Here's the truth: **Hermes Agent is only as good as your library of skills.**</p>
+<p>A new user with zero skills has a chatbot. A user with 10 skills has a capable assistant. A user with 50+ skills has a super-agent.</p>
+<h3>The 50-Skill Milestone</h3>
+<p>At 50 skills, something changes. The agent starts to:</p>
+<p>- **Predict what you need** — before you ask</p>
+<p>- **Chain skills together** — one task triggers a sequence of related skills</p>
+<p>- **Offer proactive improvements** — "I notice you deploy frequently; I could set up automatic verification"</p>
+<p>- **Become autonomous** — you say "handle the deployment" and it manages everything</p>
+<h3>What 50 Skills Looks Like</h3>
+<table><thead><tr>
+<th>Category</th>
+<th>Skills</th>
+</tr></thead><tbody>
+<tr>
+<td>**DevOps (10)**</td>
+<td>Deploy to Nginx, deploy to Docker, deploy to K8s, rollback, DB backup, log analysis, monitor health, scale services, SSL renewal, CI/CD setup</td>
+</tr>
+<tr>
+<td>**Development (10)**</td>
+<td>Code review checklist, run tests, lint code, create PR, review PR, debug crash, profile performance, optimize query, generate types, stub API</td>
+</tr>
+<tr>
+<td>**System Admin (8)**</td>
+<td>Diagnose disk, check memory, find process, configure firewall, set up user, audit security, update system, manage cron</td>
+</tr>
+<tr>
+<td>**Data (6)**</td>
+<td>ETL pipeline, backup DB, restore DB, analyze logs, generate report, data validation</td>
+</tr>
+<tr>
+<td>**Writing (5)**</td>
+<td>Draft changelog, write release notes, create RFC, review docs, format markdown</td>
+</tr>
+<tr>
+<td>**Research (4)**</td>
+<td>Search docs, find packages, compare solutions, summarize findings</td>
+</tr>
+<tr>
+<td>**Quality (4)**</td>
+<td>Run linter, check coverage, validate schema, audit dependencies</td>
+</tr>
+<tr>
+<td>**Automation (3)**</td>
+<td>Schedule task, watch directory, auto-cleanup</td>
+</tr>
+</tbody></table>
+<h3>The Winning Strategy</h3>
+<p>1. **Start small** — skill your most painful repeated task today</p>
+<p>2. **Skill by correction** — whenever you correct the agent, ask: "Should this be a skill?"</p>
+<p>3. **Review monthly** — look at archived skills, update stale ones, delete useless ones</p>
+<p>4. **Publish and consume** — share skills internally, install from the hub</p>
+<p>5. **Aim for 50** — it's the tipping point where the agent becomes truly autonomous</p>
+<hr>
+<h2>5.13 Summary</h2>
+<p>Skills are Hermes Agent's killer feature. They transform the agent from a stateless chat interface into a persistent, learning system that gets better every time you use it.</p>
+<p>**Key takeaways:**</p>
+<p>- Skills are Markdown files with YAML frontmatter (name, description, version, tags)</p>
+<p>- They contain numbered steps, exact commands, pitfalls, and verification checks</p>
+<p>- Create with `skill_manage(action="create")`, load with `/skill` or `hermes -s`</p>
+<p>- The Curator auto-archives stale skills; the Skills Hub lets you share them</p>
+<p>- Best skills are repeatable, verifiable, and versioned</p>
+<p>- 50+ skills = a super-agent that knows your entire stack</p>
+<p>**In the next module,** we'll cover how to train your agent — memory management, corrections, user profiles, and the powerful correction-to-skills pipeline.</p>
+<hr>
+<h2>5.14 Exercises</h2>
+<p>1. **Create your first skill:** Pick a task you do weekly and write a skill for it. Create it with the `skill_manage` tool.</p>
+<p>2. **Load a skill:** Use `/skill` to execute your new skill.</p>
+<p>3. **Review a skill:** Open an existing skill file, check its frontmatter is complete, ensure it has a pitfalls and verification section.</p>
+<p>4. **Publish (optional):** If your skill is general-purpose, publish it to the Skills Hub.</p>
+<hr>
+<h2>5.15 Further Reading</h2>
+<p>- [Hermes Agent Skills Documentation](https://hermes-agent.nousresearch.com/docs/skills)</p>
+<p>- [Skill Creation Best Practices Guide](https://hermes-agent.nousresearch.com/docs/skills/best-practices)</p>
+<p>- [Skills Hub API Reference](https://hermes-agent.nousresearch.com/docs/skills/hub)</p>
+<p>- [Curator Configuration](https://hermes-agent.nousresearch.com/docs/skills/curator)</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-04-usage.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 4</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-06-training.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 6</a>
+    </div>
+</div>
+</body>
+</html>

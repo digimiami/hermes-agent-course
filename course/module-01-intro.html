@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>What is Hermes Agent & Why It Matters</h1>
+        <p class="meta">Module 1 of 10</p>
+        <div class="nav-links">
+            <span></span>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-02-installation.html" class="nav-next">Next: Installation & First Run</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Course:** Hermes Agent — From Zero to Autonomous Agent</blockquote>
+<blockquote>**Module:** 1 of 8</blockquote>
+<blockquote>**Reading time:** ~15 minutes</blockquote>
+<blockquote>**Difficulty:** Beginner — no prior AI agent experience needed</blockquote>
+<hr>
+<h2>TL;DR</h2>
+<table><thead><tr>
+<th>**What it is**</th>
+<th>An **open-source AI agent framework by Nous Research** that runs in your terminal, connects to 20+ LLM providers, and gets smarter over time through a built-in learning loop.</th>
+</tr></thead><tbody>
+<tr>
+<td>**Not a chatbot**</td>
+<td>Unlike ChatGPT or Claude, Hermes has **persistent memory**, a **skills system** that self-improves, **tool calling** (file system, terminal, web, APIs), and can run **autonomously on a schedule** from a $5 VPS.</td>
+</tr>
+<tr>
+<td>**Key superpowers**</td>
+<td>Provider-agnostic, self-improving skills, persistent memory, multi-platform (Telegram, Discord, Slack, Signal + 15+ more), cron jobs, subagent delegation, MCP server support.</td>
+</tr>
+<tr>
+<td>**Who it's for**</td>
+<td>Developers, sysadmins, power users, researchers, home automators — anyone who wants an AI that does work, not just answers questions.</td>
+</tr>
+<tr>
+<td>**License**</td>
+<td>MIT — free forever, self-hosted, no data leaves your infra unless you choose.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>The Problem: Chatbots Answer Questions. Hermes Gets Things Done.</h2>
+<p>Let's be honest — you've used ChatGPT, Claude, or Gemini. You've been impressed. You've asked it to write code, explain concepts, draft emails. And then… you copy-paste the output into some other tool, run the command yourself, save the file manually, switch to Slack to share it.</p>
+<p>That's the **chatbot pattern**: LLM in a browser tab, disconnected from your actual workflow.</p>
+<p>Hermes Agent breaks that pattern completely. Instead of a web chat window, it lives inside your **terminal** — connected to your file system, your shell, your browser, your APIs, your messaging apps. It doesn't just *tell you* the command to run — it **runs it**. It doesn't just *write* a script — it **executes it**, **tests it**, and **fixes it** if it fails.</p>
+<p>And then it remembers what it learned for next time.</p>
+<hr>
+<h2>What Hermes Agent Actually Is</h2>
+<p>Hermes Agent is an **open-source, autonomous AI agent framework** built by [Nous Research](https://nousresearch.com) — the same lab that trained the Hermes, Nomos, and Psyche language models. It's not a product you subscribe to; it's software you **self-host** on your own machine (or a $5 VPS, or a GPU cluster, or serverless infrastructure).</p>
+<p>Here's what makes it fundamentally different from a web chatbot:</p>
+<h3>1. It Runs in Your Terminal</h3>
+<table><thead><tr>
+<th></th>
+<th>ChatGPT / Claude</th>
+<th>Hermes Agent</th>
+</tr></thead><tbody>
+<tr>
+<td>**Interface**</td>
+<td>Web browser / mobile app</td>
+<td>Terminal CLI, TUI, or messaging apps</td>
+</tr>
+<tr>
+<td>**Execution**</td>
+<td>Tells you what to do</td>
+<td>Does it for you</td>
+</tr>
+<tr>
+<td>**Your data**</td>
+<td>On their servers</td>
+<td>On your machine</td>
+</tr>
+<tr>
+<td>**Tools**</td>
+<td>Browsing (limited)</td>
+<td>70+ built-in tools: shell, files, web, browser, git, APIs</td>
+</tr>
+<tr>
+<td>**Memory**</td>
+<td>Session-only (or thin persistent)</td>
+<td>Persistent, curated, cross-session</td>
+</tr>
+<tr>
+<td>**Autonomy**</td>
+<td>Responds when prompted</td>
+<td>Runs on cron, spawns subagents, acts proactively</td>
+</tr>
+</tbody></table>
+<p>When you launch Hermes, you get a `$` prompt in your terminal — just like a shell. But instead of running commands directly, you're talking to an AI that **has access** to your shell, file system, and a growing toolkit. Type a request, and Hermes:</p>
+<p>1. **Thinks** about what needs to happen</p>
+<p>2. **Calls tools** — writes files, runs terminal commands, searches the web, reads your codebase</p>
+<p>3. **Iterates** — if the command fails, it reads the error and fixes it</p>
+<p>4. **Delivers** the result</p>
+<h3>2. Provider-Agnostic: No Lock-In</h3>
+<p>This is one of the most liberating features. Hermes works with **20+ LLM providers** out of the box, and you can switch between them with a single command:</p>
+<pre><code>
+hermes model          # Interactive provider/model selector
+hermes model openrouter:anthropic/claude-opus-4    # Or do it in one line
+</code></pre>
+<p>Supported providers include:</p>
+<p>- **OpenRouter** — 200+ models, one API key (best starting point)</p>
+<p>- **Nous Portal** — Nous Research's own inference endpoint</p>
+<p>- **OpenAI** — GPT-4o, o3, o4-mini</p>
+<p>- **Anthropic** — Claude Opus 4, Sonnet 4</p>
+<p>- **xAI** — Grok</p>
+<p>- **Google Gemini** — Gemini 2.5 Pro</p>
+<p>- **Hugging Face** — open models</p>
+<p>- **NovitaAI**, **NVIDIA NIM**, **MiniMax**, **Kimi/Moonshot**, **z.ai/GLM**, **Xiaomi MiMo**</p>
+<p>- **Local endpoints** — Ollama, vLLM, LM Studio, or any OpenAI-compatible API</p>
+<p>Switch models mid-conversation with `/model`. Use different models for different tasks. Set up fallback chains so if one provider goes down, another takes over automatically. **No lock-in, no vendor risk.**</p>
+<h3>3. The Skills System: It Learns and Improves</h3>
+<p>This is Hermes' secret weapon. Skills are **on-demand knowledge documents** that the agent loads when needed — like procedural memory for an AI.</p>
+<p>**How it works:**</p>
+<p>- Hermes has a library of skills in `~/.hermes/skills/`</p>
+<p>- Each skill is a markdown file with instructions for a specific task</p>
+<p>- Skills use **progressive disclosure** — the agent only loads skill content when it needs it, saving tokens</p>
+<p>- Built-in skills cover software development, research, creative work, system admin, and more</p>
+<p>- **Hermes can create new skills autonomously** after completing complex tasks</p>
+<p>- **Skills self-improve** — Hermes refines them during use</p>
+<p>Real-world examples of built-in skills:</p>
+<table><thead><tr>
+<th>Skill</th>
+<th>What it does</th>
+</tr></thead><tbody>
+<tr>
+<td>`plan`</td>
+<td>Creates implementation plans before coding</td>
+</tr>
+<tr>
+<td>`github-pr-workflow`</td>
+<td>Manages the entire PR lifecycle</td>
+</tr>
+<tr>
+<td>`research-paper-writing`</td>
+<td>Writes academic papers with templates</td>
+</tr>
+<tr>
+<td>`p5js`</td>
+<td>Creates generative art</td>
+</tr>
+<tr>
+<td>`manim-video`</td>
+<td>Produces animated explainer videos</td>
+</tr>
+<tr>
+<td>`gif-search`</td>
+<td>Searches and sends GIFs</td>
+</tr>
+<tr>
+<td>`axolotl`</td>
+<td>Fine-tunes LLMs with Axolotl</td>
+</tr>
+<tr>
+<td>`blog-watcher`</td>
+<td>Monitors RSS feeds and summarizes</td>
+</tr>
+</tbody></table>
+<p>Skills are compatible with the [agentskills.io](https://agentskills.io) open standard, meaning the community can share, modify, and port skills across compatible agent frameworks.</p>
+<h3>4. Persistent Memory That Actually Works</h3>
+<p>Most chatbots forget everything the moment you close the tab. Hermes has a **bounded, curated memory system** that persists across sessions:</p>
+<p>- **MEMORY.md** — General knowledge about your preferences, environment, and recurring patterns</p>
+<p>- **USER.md** — A deepening model of who you are: your projects, your style, your goals</p>
+<p>- **Session search** — FTS5 full-text search across all past conversations, with LLM summarization</p>
+<p>- **Memory nudges** — Hermes periodically prompts itself to persist important information</p>
+<p>- **External providers** — Plug in Honcho, Mem0, Supermemory, or other backends for advanced memory</p>
+<p>After a few sessions, Hermes knows your project structure, your preferred tools, your coding style, and your communication preferences — without you having to re-explain everything every time.</p>
+<h3>5. Multi-Platform Gateway: Talk to It From Anywhere</h3>
+<p>Hermes isn't tied to your terminal. A single gateway process connects it to **20+ platforms** simultaneously:</p>
+<p>- **Telegram** — Chat with Hermes from your phone</p>
+<p>- **Discord** — AI agent in your server</p>
+<p>- **Slack** — Workspace assistant</p>
+<p>- **WhatsApp** — Personal AI on your phone</p>
+<p>- **Signal** — Encrypted messaging</p>
+<p>- **Matrix** — Decentralized chat</p>
+<p>- **Mattermost** — Self-hosted team chat</p>
+<p>- **Email / SMS** — Old school, still supported</p>
+<p>- **DingTalk, Feishu, WeCom, Weixin, QQ Bot, Yuanbao, BlueBubbles**</p>
+<p>- **Home Assistant** — Control your smart home</p>
+<p>- **Microsoft Teams, Google Chat**</p>
+<p>Start a task from Telegram, check progress on Discord, get results delivered to Slack. The gateway handles **cross-platform continuity** — Hermes knows who you are regardless of which app you're using.</p>
+<h3>6. Scheduled Automation (Cron)</h3>
+<p>Tell Hermes to do something on a schedule, and it will — even when you're not online:</p>
+<pre><code>
+# In chat:
+/cron add "every 6h" "Check server health and alert if anything's wrong"
+/cron add "daily at 9am" "Summarize new items from my RSS feeds" --skill blogwatcher
+
+# From CLI:
+hermes cron create "every 1h" "Back up project files" --skill backup
+</code></pre>
+<p>Cron jobs can:</p>
+<p>- Run one-shot or recurring</p>
+<p>- Attach zero, one, or multiple skills</p>
+<p>- Deliver results to any configured platform</p>
+<p>- Run in **no-agent mode** (pure script execution, zero LLM cost)</p>
+<h3>7. Subagent Delegation: Parallel Work</h3>
+<p>Need to research three topics simultaneously? Hermes can **spawn isolated child agents** that work in parallel:</p>
+<pre><code>
+delegate_task(tasks=[
+    {"goal": "Research Python async patterns", "toolsets": ["web"]},
+    {"goal": "Find the best CI/CD tools for 2026", "toolsets": ["web"]},
+    {"goal": "Draft a database migration plan", "toolsets": ["terminal", "file"]}
+])
+</code></pre>
+<p>Each subagent gets a fresh context, restricted tools, and its own terminal. Only the summary enters the parent's context — saving tokens while maximizing throughput. Up to 3 concurrent subagents by default (configurable with no hard ceiling).</p>
+<h3>8. MCP Server Support</h3>
+<p>Hermes connects to **Model Context Protocol (MCP) servers** — the emerging standard for AI tool integration. This means you can plug in:</p>
+<p>- **GitHub MCP** — Manage repos, issues, PRs</p>
+<p>- **Database MCP** — Query Postgres, SQLite, MySQL</p>
+<p>- **Filesystem MCP** — More granular file access</p>
+<p>- **Any custom MCP server** you build</p>
+<p>Per-server tool filtering lets you control exactly what Hermes can access.</p>
+<hr>
+<h2>Use Cases: What People Actually Build With Hermes</h2>
+<h3>🖥️ Software Development</h3>
+<p>The most common use case. Hermes becomes your **AI pair programmer in the terminal**:</p>
+<p>- **Code generation** — "Create a FastAPI service with auth, database models, and tests"</p>
+<p>- **Debugging** — "The CI is failing on this test, figure out why" → runs it, reads logs, fixes it</p>
+<p>- **Code review** — "Review this PR branch for security issues and performance problems"</p>
+<p>- **Refactoring** — "Rename all instances of `old_api` to `new_api` across the codebase"</p>
+<p>- **DevOps** — "Deploy the staging environment and run the smoke tests"</p>
+<h3>🔬 Research</h3>
+<p>- "Research the latest papers on multi-agent RL and give me a summary with citations"</p>
+<p>- "Compare the architecture of llama.cpp vs vLLM"</p>
+<p>- "Track this open-source project's issues and PR activity over the past week"</p>
+<h3>🛠️ System Administration</h3>
+<p>- "Check disk usage across all servers, find anything over 80%, and suggest cleanup"</p>
+<p>- "Rotate my SSL certificates"</p>
+<p>- "Monitor the logs for error rates and alert me on Telegram if they spike"</p>
+<h3>✍️ Content Creation</h3>
+<p>- With the `manim-video` skill: "Create an animated explainer video explaining how transformers work"</p>
+<p>- With the `p5js` skill: "Generate a procedural art piece with flowing color gradients"</p>
+<p>- With the `research-paper-writing` skill: "Draft an ACL-style paper on our findings"</p>
+<h3>🏠 Home Automation</h3>
+<p>Through the Home Assistant integration:</p>
+<p>- "Turn off all lights when nobody's home"</p>
+<p>- "What's the energy usage this month compared to last?"</p>
+<p>- "If the temperature drops below 60°F, turn on the heating"</p>
+<h3>📈 Trading Bots</h3>
+<p>- "Run this trading strategy on a schedule and notify me on Telegram if it triggers"</p>
+<p>- "Analyze these market conditions and write a report"</p>
+<hr>
+<h2>Real Examples From the Community</h2>
+<blockquote>**"I have Hermes running on a $5 DigitalOcean droplet. It monitors my production servers, auto-deploys via GitHub Actions when tests pass, and sends me daily summaries on Telegram. I haven't SSH'd into that box in months."** — Senior DevOps Engineer</blockquote>
+<blockquote>**"I built a full-stack Next.js app in an afternoon. Hermes scaffolded it, set up the database, wrote the API routes, and deployed it. I just reviewed the code and merged."** — Indie Hacker</blockquote>
+<blockquote>**"My Hermes instance manages a Kanban board across my team. It auto-assigns tasks, checks progress daily, and escalates blocked items. It's basically a free project manager that never sleeps."** — Startup Founder</blockquote>
+<blockquote>**"I use Hermes as a personal research assistant. It scours ArXiv, reads papers, cross-references citations, and writes literature reviews. What used to take me two weeks now takes two hours."** — PhD Researcher</blockquote>
+<hr>
+<h2>Why Open Source Matters</h2>
+<p>Hermes is **MIT-licensed open source**. This isn't just a checkbox — it has real implications:</p>
+<p>1. **Your data stays yours** — No data ever leaves your infrastructure unless you explicitly connect a third-party API. Everything runs locally.</p>
+<p>2. **No rate limits, no tiers** — There's no "Pro" plan that unlocks tool calling or memory. Every feature is available to every user.</p>
+<p>3. **You can inspect every line** — The entire codebase is on GitHub. You can audit security, understand behavior, and contribute fixes.</p>
+<p>4. **No vendor lock-in** — If Nous Research disappears tomorrow, your Hermes keeps running. It's your software.</p>
+<p>5. **Community-driven improvement** — 17,000+ tests, hundreds of contributors, active Discord community. The pace of development is staggering — new features ship weekly.</p>
+<p>6. **The skills ecosystem** — Anyone can create, share, and install skills. The [Skills Hub](https://agentskills.io) is a growing marketplace of community-contributed capabilities.</p>
+<hr>
+<h2>The Hermes Ecosystem</h2>
+<table><thead><tr>
+<th>Resource</th>
+<th>URL</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr>
+<td>**GitHub**</td>
+<td>[github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)</td>
+<td>Source code, issues, releases</td>
+</tr>
+<tr>
+<td>**Documentation**</td>
+<td>[hermes-agent.nousresearch.com/docs](https://hermes-agent.nousresearch.com/docs)</td>
+<td>Full docs, guides, references</td>
+</tr>
+<tr>
+<td>**Discord**</td>
+<td>[discord.gg/NousResearch](https://discord.gg/NousResearch)</td>
+<td>Community, support, show-and-tell</td>
+</tr>
+<tr>
+<td>**Skills Hub**</td>
+<td>[agentskills.io](https://agentskills.io)</td>
+<td>Browse and share community skills</td>
+</tr>
+<tr>
+<td>**LLMs.txt**</td>
+<td>[docs/llms.txt](https://hermes-agent.nousresearch.com/docs/llms.txt)</td>
+<td>Machine-readable doc index for AI coding tools</td>
+</tr>
+</tbody></table>
+<p>The community on Discord is exceptionally active — developers share setups, troubleshoot issues, contribute skills, and showcase what they've built. It's the best place to see what Hermes can really do.</p>
+<hr>
+<h2>Key Takeaways</h2>
+<p>- **Hermes Agent is an autonomous AI agent** that lives in your terminal, not a web browser. It can execute commands, write files, search the web, and interact with APIs — not just answer questions.</p>
+<p>- **It's provider-agnostic** — works with 20+ LLM providers including OpenRouter, OpenAI, Anthropic, and local models. No lock-in.</p>
+<p>- **The skills system is a closed learning loop** — Hermes creates, improves, and reuses skills autonomously, getting smarter the more you use it.</p>
+<p>- **Persistent memory** means it remembers you across sessions — your preferences, projects, and past conversations.</p>
+<p>- **Multi-platform gateway** lets you talk to Hermes from Telegram, Discord, Slack, WhatsApp, Signal, and 15+ other platforms — all from a single process.</p>
+<p>- **Cron jobs, subagent delegation, and MCP support** make it a true automation platform, not just a chat interface.</p>
+<p>- **It's open source (MIT)** — self-hosted, no data leaves your machine, no vendor lock-in, no paid tiers.</p>
+<p>- **A vibrant ecosystem** surrounds it: GitHub, Discord community, Skills Hub, and comprehensive documentation.</p>
+<hr>
+<h2>Quiz Questions</h2>
+<p>Test your understanding:</p>
+<p>1. **What makes Hermes Agent fundamentally different from ChatGPT or Claude?**</p>
+<p>   - a) It has a better web interface</p>
+<p>   - b) It's a terminal-native agent with tool calling, persistent memory, and autonomous execution</p>
+<p>   - c) It only works with Nous Research models</p>
+<p>   - d) It requires a GPU to run</p>
+<p>2. **What does "provider-agnostic" mean in the context of Hermes Agent?**</p>
+<p>   - a) It only uses one provider</p>
+<p>   - b) It can switch between 20+ LLM providers with no code changes</p>
+<p>   - c) It doesn't need any API keys</p>
+<p>   - d) It only works with open-source models</p>
+<p>3. **How does the skills system keep Hermes from getting too expensive in token usage?**</p>
+<p>   - a) It caps the number of skills at 5</p>
+<p>   - b) It uses progressive disclosure — only loads skill content when needed</p>
+<p>   - c) It requires a subscription</p>
+<p>   - d) Skills are always loaded at startup</p>
+<p>4. **Which of these is NOT a supported integration for the multi-platform gateway?**</p>
+<p>   - a) Telegram</p>
+<p>   - b) Discord</p>
+<p>   - c) Snapchat</p>
+<p>   - d) Home Assistant</p>
+<p>5. **What license is Hermes Agent released under?**</p>
+<p>   - a) GPLv3</p>
+<p>   - b) Apache 2.0</p>
+<p>   - c) MIT</p>
+<p>   - d) Proprietary</p>
+<p>**Answers:** 1-b, 2-b, 3-b, 4-c, 5-c</p>
+<hr>
+<p>*Next Module: [Module 2: Installation & First Run](./module-02-installation.md)*</p>
+</div>
+    <div class="module-nav-bottom">
+        <span></span>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-02-installation.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 2</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Installation & First Run</h1>
+        <p class="meta">Module 2 of 10</p>
+        <div class="nav-links">
+            <a href="module-01-intro.html" class="nav-prev">What is Hermes Agent & Wh</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-03-configuration.html" class="nav-next">Next: Configuration Deep Dive</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Course:** Hermes Agent — From Zero to Autonomous Agent</blockquote>
+<blockquote>**Module:** 2 of 8</blockquote>
+<blockquote>**Reading time:** ~20 minutes</blockquote>
+<blockquote>**Difficulty:** Beginner — no prior Hermes experience needed, basic terminal familiarity helpful</blockquote>
+<hr>
+<h2>TL;DR</h2>
+<table><thead><tr>
+<th>**One-liner install**</th>
+<th>`curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh \</th>
+<th>bash`</th>
+</tr></thead><tbody>
+<tr>
+<td>**Prerequisites**</td>
+<td>Git + a Linux/macOS/WSL2 system. The installer handles Python, Node.js, ripgrep, and ffmpeg automatically.</td>
+</tr>
+<tr>
+<td>**After install**</td>
+<td>`source ~/.bashrc && hermes`</td>
+</tr>
+<tr>
+<td>**First run**</td>
+<td>Setup wizard walks you through choosing a provider and getting API keys</td>
+</tr>
+<tr>
+<td>**Time to first chat**</td>
+<td>Under 2 minutes</td>
+</tr>
+<tr>
+<td>**Docker alternative**</td>
+<td>`docker run -it ghcr.io/nousresearch/hermes-agent`</td>
+</tr>
+<tr>
+<td>**Got stuck?**</td>
+<td>`hermes doctor` diagnoses everything</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Before You Start</h2>
+<h3>Supported Platforms</h3>
+<table><thead><tr>
+<th>Platform</th>
+<th>Status</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>**Linux** (x86_64, arm64)</td>
+<td>✅ Production-ready</td>
+<td>Ubuntu, Debian, Fedora, Arch, openSUSE all tested</td>
+</tr>
+<tr>
+<td>**macOS** (Intel, Apple Silicon)</td>
+<td>✅ Production-ready</td>
+<td>Intel and M-series both supported</td>
+</tr>
+<tr>
+<td>**WSL2** (Windows)</td>
+<td>✅ Production-ready</td>
+<td>Use Ubuntu from Microsoft Store, then install as Linux</td>
+</tr>
+<tr>
+<td>**Windows Native** (PowerShell)</td>
+<td>⚠️ Early Beta</td>
+<td>Works but fewer battle-tested paths</td>
+</tr>
+<tr>
+<td>**Termux** (Android)</td>
+<td>✅ Supported</td>
+<td>Auto-detected by installer</td>
+</tr>
+<tr>
+<td>**NixOS**</td>
+<td>✅ Supported</td>
+<td>Dedicated flake and NixOS module</td>
+</tr>
+</tbody></table>
+<h3>Prerequisites</h3>
+<p>**Absolute minimum:**</p>
+<p>- **Git** — run `git --version` to check. If missing:</p>
+<p>  - **Ubuntu/Debian:** `sudo apt install git`</p>
+<p>  - **macOS:** `xcode-select --install` or `brew install git`</p>
+<p>  - **Fedora:** `sudo dnf install git`</p>
+<p>  - **Windows WSL:** `sudo apt install git` (inside WSL)</p>
+<p>**The installer handles everything else automatically** — you don't need to pre-install Python, Node.js, ripgrep, or ffmpeg. It detects what's missing and provisions it.</p>
+<p>**Optional but nice to have:**</p>
+<p>- A terminal emulator that supports true color (kitty, iTerm2, Windows Terminal, GNOME Terminal)</p>
+<p>- `curl` (most systems have it; install with `sudo apt install curl` if missing)</p>
+<h3>Getting an API Key (Do This Now)</h3>
+<p>You'll need an API key from an LLM provider. For beginners, **OpenRouter** is the best starting point — one API key gives access to 200+ models including GPT-4o, Claude, Gemini, and open-source models.</p>
+<p>1. Go to [openrouter.ai/keys](https://openrouter.ai/keys)</p>
+<p>2. Sign up (free tier available with initial credits)</p>
+<p>3. Create an API key</p>
+<p>4. Copy it somewhere safe — you'll paste it into the setup wizard</p>
+<blockquote>**Pro tip:** OpenRouter's free tier gives you enough credits to explore for weeks. If you run out, top up with as little as $5 to access everything.</blockquote>
+<hr>
+<h2>Method 1: One-Line Installer (Recommended)</h2>
+<p>This is the fastest and most battle-tested path. Works on **Linux, macOS, WSL2, and Termux**.</p>
+<p>Open your terminal and run:</p>
+<pre><code>
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+</code></pre>
+<p>**What you'll see:**</p>
+<pre><code>
+⚕ Hermes Agent Setup
+
+→ Checking for uv...
+✓ uv found (0.6.x)
+→ Creating virtual environment...
+→ Installing hermes-agent and dependencies...
+→ Installing Node.js 22...
+→ Installing system tools (ripgrep, ffmpeg)...
+→ Installing Playwright browsers for web automation...
+→ Symlinking hermes command to ~/.local/bin/hermes...
+
+✓ Installation complete!
+
+Run 'source ~/.bashrc' then 'hermes' to start chatting!
+</code></pre>
+<p>**Time estimate:** 30-90 seconds on a decent internet connection.</p>
+<h3>What the Installer Actually Does</h3>
+<p>Let's demystify that one-liner. The install script:</p>
+<p>1. **Detects your platform** — Linux, macOS, Termux, or other POSIX</p>
+<p>2. **Installs `uv`** — a lightning-fast Python package manager (replaces pip)</p>
+<p>3. **Clones the repo** to `~/.hermes/hermes-agent/`</p>
+<p>4. **Creates a Python virtual environment** inside the repo (Python 3.11)</p>
+<p>5. **Installs all dependencies** — Hermes core, browser automation, voice tools</p>
+<p>6. **Installs Node.js v22** — needed for browser automation and the WhatsApp bridge</p>
+<p>7. **Installs system tools** — `ripgrep` (fast file search) and `ffmpeg` (audio format conversion)</p>
+<p>8. **Installs Playwright browsers** — headless Chromium for web automation</p>
+<p>9. **Symlinks the `hermes` command** to `~/.local/bin/hermes`</p>
+<p>10. **Updates your shell config** — adds `~/.local/bin` to PATH in `.bashrc` or `.zshrc`</p>
+<p>**Install layout after completion:**</p>
+<table><thead><tr>
+<th>What</th>
+<th>Where</th>
+</tr></thead><tbody>
+<tr>
+<td>Hermes code</td>
+<td>`~/.hermes/hermes-agent/`</td>
+</tr>
+<tr>
+<td>Virtual environment</td>
+<td>`~/.hermes/hermes-agent/venv/`</td>
+</tr>
+<tr>
+<td>`hermes` command</td>
+<td>`~/.local/bin/hermes` (symlink to venv)</td>
+</tr>
+<tr>
+<td>Your config & data</td>
+<td>`~/.hermes/`</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>`~/.hermes/skills/`</td>
+</tr>
+<tr>
+<td>Session history</td>
+<td>`~/.hermes/sessions/`</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>`~/.hermes/logs/`</td>
+</tr>
+</tbody></table>
+<h3>After Installation</h3>
+<p>Reload your shell so the `hermes` command is found:</p>
+<pre><code>
+source ~/.bashrc    # if you use bash
+# OR
+source ~/.zshrc     # if you use zsh
+</code></pre>
+<p>Verify the installation:</p>
+<pre><code>
+hermes --version
+# Expected output (version number will differ):
+# Hermes Agent 0.x.x
+</code></pre>
+<hr>
+<h2>Method 2: Docker Install</h2>
+<p>Prefer containers? Hermes has an official Docker image. Good for isolated environments, CI/CD pipelines, or if you don't want the installer touching your system.</p>
+<pre><code>
+# Pull and run
+docker run -it --rm \
+  -v ~/.hermes:/root/.hermes \
+  -e OPENROUTER_API_KEY=your_key_here \
+  ghcr.io/nousresearch/hermes-agent
+</code></pre>
+<p>**Breaking this down:**</p>
+<p>- `-it` — interactive terminal mode</p>
+<p>- `--rm` — remove container when done</p>
+<p>- `-v ~/.hermes:/root/.hermes` — persist your config and sessions on the host</p>
+<p>- `-e OPENROUTER_API_KEY=...` — pass your API key as an environment variable</p>
+<p>For a persistent setup (recommended), create a data directory first:</p>
+<pre><code>
+mkdir -p ~/.hermes-docker
+docker run -it --rm \
+  -v ~/.hermes-docker:/root/.hermes \
+  -e OPENROUTER_API_KEY=your_key_here \
+  ghcr.io/nousresearch/hermes-agent
+</code></pre>
+<blockquote>**Note:** The Docker image is built from the `main` branch. For a pinned version, use a specific tag like `ghcr.io/nousresearch/hermes-agent:v0.x.x`.</blockquote>
+<hr>
+<h2>Method 3: Manual Git Clone Install</h2>
+<p>For developers, contributors, or anyone who wants full control:</p>
+<pre><code>
+# 1. Clone the repo
+git clone https://github.com/NousResearch/hermes-agent.git
+cd hermes-agent
+
+# 2. Run the setup script
+./setup-hermes.sh
+</code></pre>
+<p>The `setup-hermes.sh` script does the same work as the one-liner installer — installs `uv`, creates a venv, installs dependencies, and symlinks the `hermes` command. The difference is you have the repo on disk, so you can:</p>
+<p>- Switch branches (`git checkout develop`)</p>
+<p>- Make local changes</p>
+<p>- Run the test suite (`scripts/run_tests.sh`)</p>
+<p>- Stay on a specific version</p>
+<hr>
+<h2>Windows-Specific Setup</h2>
+<h3>Option A: WSL2 (Easiest, Most Stable)</h3>
+<p>1. **Install WSL2** — Open PowerShell as Administrator and run:</p>
+<p>   ```powershell</p>
+<p>   wsl --install</p>
+<p>   ```</p>
+<p>   This installs Ubuntu by default. Restart when prompted.</p>
+<p>2. **Launch Ubuntu** from the Start Menu. On first boot, set up a Linux username and password.</p>
+<p>3. **Update packages:**</p>
+<p>   ```bash</p>
+<p>   sudo apt update && sudo apt upgrade -y</p>
+<p>   ```</p>
+<p>4. **Install Git:**</p>
+<p>   ```bash</p>
+<p>   sudo apt install git curl -y</p>
+<p>   ```</p>
+<p>5. **Run the one-liner installer:**</p>
+<p>   ```bash</p>
+<p>   curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</p>
+<p>   ```</p>
+<p>6. **Reload and launch:**</p>
+<p>   ```bash</p>
+<p>   source ~/.bashrc</p>
+<p>   hermes</p>
+<p>   ```</p>
+<h3>Option B: Native Windows (Early Beta)</h3>
+<p>Open **PowerShell** (not CMD) and run:</p>
+<pre><code>
+iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)
+</code></pre>
+<p>**What the PowerShell installer does:**</p>
+<p>1. Installs `uv` for Python package management</p>
+<p>2. Clones the repo to `%LOCALAPPDATA%\hermes\hermes-agent`</p>
+<p>3. Creates a virtual environment</p>
+<p>4. Installs a **portable Git Bash** (PortableGit) — no admin rights needed, completely isolated from any system Git install</p>
+<p>5. Installs Node.js 22, ripgrep, ffmpeg</p>
+<p>6. Adds `hermes` to your User PATH</p>
+<p>**After install:** Open a **new PowerShell window** (PATH updates need a fresh session) and run `hermes`.</p>
+<blockquote>**Heads up:** The browser-based dashboard chat pane requires WSL2 on Windows. Everything else — CLI, gateway, cron, browser tool, MCP servers — runs natively.</blockquote>
+<hr>
+<h2>First Launch: The Setup Wizard</h2>
+<p>This is where the magic happens. Run:</p>
+<pre><code>
+hermes
+</code></pre>
+<p>The first time you launch, you'll be greeted by an interactive **setup wizard**. It looks something like this:</p>
+<pre><code>
+╭──────────────────────────────────────────────╮
+│          ⚕ Hermes Agent Setup Wizard          │
+│              Let's get you started!           │
+╰──────────────────────────────────────────────╯
+
+I'll help you configure:
+• Your LLM provider and model
+• Your API credentials
+• Tool preferences
+• Platform integrations (optional)
+
+Let's begin!
+
+→ Which provider would you like to use?
+  1) OpenRouter (recommended — 200+ models, one API key)
+  2) OpenAI (GPT-4o, o1, o3-mini)
+  3) Anthropic (Claude Opus 4, Sonnet 4)
+  4) Nous Portal (Nous Research endpoint)
+  5) Local / Other (Ollama, vLLM, custom endpoint)
+  &gt; 1
+</code></pre>
+<h3>Step-by-Step Wizard Walkthrough</h3>
+<p>**Step 1: Choose a provider.** Pick **OpenRouter** (option 1) for the easiest start. It gives you access to every major model through a single API key.</p>
+<p>**Step 2: Enter your API key.** Paste the key you created earlier. It gets saved to `~/.hermes/.env`, not your shell history.</p>
+<p>**Step 3: Choose a model.** OpenRouter offers 200+ models. Good defaults:</p>
+<table><thead><tr>
+<th>Model</th>
+<th>Best for</th>
+<th>Cost</th>
+</tr></thead><tbody>
+<tr>
+<td>`openrouter:openai/gpt-4o`</td>
+<td>General purpose, writing, reasoning</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>`openrouter:anthropic/claude-sonnet-4`</td>
+<td>Coding, complex tasks</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>`openrouter:google/gemini-2.5-pro`</td>
+<td>Long context, research</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>`openrouter:meta-llama/llama-4-maverick`</td>
+<td>Open model, fast</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>`openrouter:qwen/qwen-2.5-72b-instruct`</td>
+<td>Strong open model</td>
+<td>Very low</td>
+</tr>
+</tbody></table>
+<p>For beginners, **`openrouter:openai/gpt-4o`** is a solid default — fast, capable, and affordable.</p>
+<p>**Step 4: Configure tools.** The wizard asks which tools you want enabled:</p>
+<p>- **Terminal** (run shell commands) — **Recommended: Yes**</p>
+<p>- **File system** (read/write files) — **Recommended: Yes**</p>
+<p>- **Web search** — **Recommended: Yes**</p>
+<p>- **Browser automation** — Optional, can enable later</p>
+<p>- **Vision** — Optional, for image analysis</p>
+<p>**Step 5: Messaging platforms (optional).** You can set up Telegram, Discord, or Slack now, or skip and configure later with `hermes gateway setup`.</p>
+<p>When the wizard finishes, you'll see:</p>
+<pre><code>
+✓ Setup complete! Your configuration has been saved.
+
+You can change any of these settings later with:
+  hermes model     — Change provider or model
+  hermes tools     — Enable/disable tools
+  hermes config    — View/edit all settings
+  hermes gateway   — Set up messaging platforms
+
+Ready to chat! Type your message below or /help for commands.
+</code></pre>
+<hr>
+<h2>Your First Chat</h2>
+<p>After the wizard, you're dropped into the Hermes CLI. You'll see a `>` prompt. Try these:</p>
+<pre><code>
+&gt; Hello! What can you do?
+</code></pre>
+<p>Hermes will respond with a friendly introduction and a list of capabilities. You'll see the **KawaiiSpinner** — an animated face (`◕‿◕`, `⧗◕‿◕⧗`, etc.) that shows the agent is thinking.</p>
+<h3>Asking Questions</h3>
+<pre><code>
+&gt; What time is it right now?
+</code></pre>
+<p>This will trigger Hermes to use its **date/time tool** — you'll see the tool call in the output:</p>
+<pre><code>
+ ◕‿◕  Thinking...
+ ┊ Calling tool: get_current_date
+
+ The current date and time is Saturday, May 23, 2026, 10:15:42 AM UTC.
+</code></pre>
+<h3>Seeing Tool Calls in Action</h3>
+<p>This is where Hermes separates from vanilla chatbots. Try:</p>
+<pre><code>
+&gt; Check my disk usage
+</code></pre>
+<p>You'll see Hermes:</p>
+<p>1. **Decide** what tool to use</p>
+<p>2. **Call** the terminal tool with `df -h`</p>
+<p>3. **Read** the output</p>
+<p>4. **Format** a readable response</p>
+<p>Example output:</p>
+<pre><code>
+ ⧗◕‿◕⧗  Working...
+ ┊ Running: df -h
+
+ 📊 Disk Usage Summary:
+
+ Filesystem      Size  Used  Avail  Use%
+ /dev/sda1       50G   23G    27G    46%
+ tmpfs           2.0G  1.2M   2.0G    1%
+
+ Your root partition is 46% full — plenty of room.
+</code></pre>
+<p>Try more:</p>
+<pre><code>
+&gt; Create a new directory called test-project and a file called notes.txt
+&gt; Search the web for "latest AI agent frameworks 2026"
+&gt; What's in my current directory?
+&gt; Write a Python script that prints the Fibonacci sequence
+</code></pre>
+<p>Each command will show tool calls in real-time — you can watch Hermes think, act, and iterate.</p>
+<h3>Understanding the Interface</h3>
+<pre><code>
+ ◕‿◕  Thinking...               ← The spinner shows the agent is processing
+ ┊ Calling tool: run_terminal    ← Every tool call is shown
+ ┊ Running: python3 script.py    ← The actual command being executed
+ ✓ Command completed (exit: 0)   ← Status of the tool call
+
+ Here's the result...            ← The agent's natural language response
+</code></pre>
+<p>Key interface elements:</p>
+<p>- **`>` prompt** — Type your message here</p>
+<p>- **Slash commands** — Type `/` to see available commands (`/help`, `/new`, `/model`, `/skills`, etc.)</p>
+<p>- **Tool call output** — Every tool the agent uses is shown with `┊` prefix</p>
+<p>- **Tab completion** — Press Tab to autocomplete slash commands</p>
+<p>- **`Ctrl+C`** — Interrupt the current action</p>
+<p>- **`Ctrl+L`** — Clear the screen</p>
+<p>- **Up/Down arrows** — Navigate conversation history</p>
+<p>- **`/new` or `/reset`** — Start a fresh conversation</p>
+<hr>
+<h2>Troubleshooting: `hermes doctor`</h2>
+<p>If something goes wrong, run:</p>
+<pre><code>
+hermes doctor
+</code></pre>
+<p>This runs a comprehensive diagnostic check:</p>
+<pre><code>
+⚕ Hermes Doctor
+
+System:
+  ✓ OS: Linux 6.8.0-110-generic (x86_64)
+  ✓ Shell: bash 5.2.21
+
+Installation:
+  ✓ Hermes path: /root/.local/bin/hermes
+  ✓ Hermes home: /root/.hermes
+  ✓ Git: available
+  ✓ Install method: git installer
+
+Python:
+  ✓ Python 3.11.9 (via uv)
+  ✓ Virtual environment: active
+
+Dependencies:
+  ✓ uv: 0.6.x
+  ✓ Node.js: v22.x
+  ✓ ripgrep: 14.x
+  ✓ ffmpeg: 7.x
+  ✓ Playwright browsers: installed
+
+Configuration:
+  ✓ Config file: /root/.hermes/config.yaml
+  ✓ API keys: OPENROUTER_API_KEY configured
+  ✓ Provider: openrouter
+  ✓ Model: openai/gpt-4o
+
+  ✗ Telegram: not configured
+  ✗ Discord: not configured
+
+  ✓ 2 checks passed, 2 optional checks skipped.
+</code></pre>
+<p>`hermes doctor` checks for:</p>
+<p>- Missing dependencies</p>
+<p>- Invalid configuration</p>
+<p>- Unset API keys</p>
+<p>- Broken symlinks</p>
+<p>- Permission issues</p>
+<p>- Python version compatibility</p>
+<p>Each issue comes with a suggested fix command.</p>
+<h3>Common Issues & Fixes</h3>
+<p>**`hermes: command not found`**</p>
+<p>- **Fix:** Run `source ~/.bashrc` (or `source ~/.zshrc`), then try again.</p>
+<p>- **If it persists:** Your `~/.local/bin` may not be in PATH. Add this to your shell config:</p>
+<p>  ```bash</p>
+<p>  export PATH="$HOME/.local/bin:$PATH"</p>
+<p>  ```</p>
+<p>**Setup wizard doesn't start — blank screen or hangs**</p>
+<p>- **Fix:** Your terminal might not be fully interactive. Try:</p>
+<p>  ```bash</p>
+<p>  hermes setup</p>
+<p>  ```</p>
+<p>  This launches the wizard directly.</p>
+<p>- **If that also hangs:** Try the non-interactive config path:</p>
+<p>  ```bash</p>
+<p>  hermes config set provider openrouter</p>
+<p>  hermes config set OPENROUTER_API_KEY your_key_here</p>
+<p>  hermes config set model openrouter:openai/gpt-4o</p>
+<p>  hermes chat</p>
+<p>  ```</p>
+<p>**`ModuleNotFoundError: No module named 'dotenv'`**</p>
+<p>- **Fix:** You're invoking the repo source file directly with system Python instead of the venv launcher. Make sure you're running `~/.local/bin/hermes` (or just `hermes` after `source ~/.bashrc`), not `~/hermes-agent/hermes`.</p>
+<p>**`API key not set`**</p>
+<p>- **Fix:** Run `hermes model` to configure your provider, or:</p>
+<p>  ```bash</p>
+<p>  hermes config set OPENROUTER_API_KEY your_key_here</p>
+<p>  ```</p>
+<p>**`Permission denied` when running `hermes`**</p>
+<p>- **Fix:** The installer needs write access to `~/.local/bin/`. If you installed as root, the binary might be in `/usr/local/bin/`. Try:</p>
+<p>  ```bash</p>
+<p>  sudo ln -s ~/.hermes/hermes-agent/venv/bin/hermes /usr/local/bin/hermes</p>
+<p>  ```</p>
+<p>**Slow first launch after install**</p>
+<p>- **Normal:** The first launch triggers Playwright browser download (~100MB) if the installer skipped it. Subsequent launches are instant.</p>
+<p>**`curl: command not found` during install**</p>
+<p>- **Fix:** Install curl first:</p>
+<p>  ```bash</p>
+<p>  sudo apt install curl -y   # Debian/Ubuntu</p>
+<p>  sudo dnf install curl -y   # Fedora</p>
+<p>  ```</p>
+<p>**Git not found during install**</p>
+<p>- **Fix:**</p>
+<p>  ```bash</p>
+<p>  sudo apt install git -y    # Debian/Ubuntu</p>
+<p>  sudo dnf install git -y    # Fedora</p>
+<p>  brew install git           # macOS</p>
+<p>  ```</p>
+<p>**Docker: `ghcr.io/nousresearch/hermes-agent: not found`**</p>
+<p>- **Fix:** First pull the image:</p>
+<p>  ```bash</p>
+<p>  docker pull ghcr.io/nousresearch/hermes-agent</p>
+<p>  ```</p>
+<p>  Then run. If pulling fails, you may need to authenticate with GitHub Container Registry:</p>
+<p>  ```bash</p>
+<p>  echo $GITHUB_TOKEN | docker login ghcr.io -u your-username --password-stdin</p>
+<p>  ```</p>
+<p>**WSL: `hermes` command works in Ubuntu but not in PowerShell**</p>
+<p>- **Expected.** WSL is a separate Linux environment. `hermes` only works inside the WSL terminal window. Use the native Windows installer if you need PowerShell access.</p>
+<hr>
+<h2>Next Steps After First Chat</h2>
+<p>You're up and running. Here's what to try next:</p>
+<p>1. **`hermes model`** — Experiment with different models (Claude for coding, Gemini for long context, open models for speed)</p>
+<p>2. **`hermes tools`** — Browse available tools and enable/disable them per platform</p>
+<p>3. **`/skills`** — See what skills are installed and available</p>
+<p>4. **`hermes gateway setup`** — Connect Telegram or Discord so you can chat from your phone</p>
+<p>5. **`hermes cron`** — Schedule your first automated task</p>
+<p>6. **`/help`** — Full list of slash commands</p>
+<hr>
+<h2>Key Takeaways</h2>
+<p>- **One command** is all it takes: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`</p>
+<p>- **The installer handles everything** — Git is the only prerequisite; Python, Node.js, ripgrep, and ffmpeg are auto-installed</p>
+<p>- **Docker alternative** available for containerized deployments</p>
+<p>- **WSL2** is the most stable Windows path; native Windows PowerShell install is in early beta</p>
+<p>- **First launch triggers the setup wizard** — choose OpenRouter for the simplest start</p>
+<p>- **Watch tool calls happen live** — Hermes shows every command it runs and tool it uses</p>
+<p>- **`hermes doctor`** diagnoses any issues with clear, actionable fixes</p>
+<p>- **From install to first chat is under 2 minutes** on a decent internet connection</p>
+<hr>
+<h2>Quiz Questions</h2>
+<p>1. **What is the only prerequisite for the one-line installer on Linux/macOS?**</p>
+<p>   - a) Python 3.11</p>
+<p>   - b) Git</p>
+<p>   - c) Docker</p>
+<p>   - d) Node.js</p>
+<p>2. **Where does the installer put the `hermes` command?**</p>
+<p>   - a) `/usr/bin/hermes`</p>
+<p>   - b) `~/hermes-agent/hermes`</p>
+<p>   - c) `~/.local/bin/hermes` (symlink to the venv)</p>
+<p>   - d) `/opt/hermes/hermes`</p>
+<p>3. **What provider is recommended for beginners during the setup wizard?**</p>
+<p>   - a) OpenAI</p>
+<p>   - b) Anthropic</p>
+<p>   - c) OpenRouter</p>
+<p>   - d) Nous Portal</p>
+<p>4. **What command do you run if you encounter issues after installation?**</p>
+<p>   - a) `hermes check`</p>
+<p>   - b) `hermes diagnose`</p>
+<p>   - c) `hermes doctor`</p>
+<p>   - d) `hermes status`</p>
+<p>5. **Which of these is NOT a step you should take after installation?**</p>
+<p>   - a) `source ~/.bashrc`</p>
+<p>   - b) `hermes` to launch the setup wizard</p>
+<p>   - c) Installing Python manually before running the installer</p>
+<p>   - d) Pasting your API key when prompted</p>
+<p>**Answers:** 1-b, 2-c, 3-c, 4-c, 5-c</p>
+<hr>
+<p>*Next Module: Module 3 — Configuration & Customization (coming soon)*</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-01-intro.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 1</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-03-configuration.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 3</a>
+    </div>
+</div>
+</body>
+</html>

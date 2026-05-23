@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Training Your Agent</h1>
+        <p class="meta">Module 6 of 10</p>
+        <div class="nav-links">
+            <a href="module-05-skills.html" class="nav-prev">Skills System - The Kille</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-07-gateway.html" class="nav-next">Next: Multi-Platform Gateway</a>
+        </div>
+    </div>
+<div class="content">
+<p>**Duration:** ~35 minutes  </p>
+<p>**Prerequisites:** Module 5 (Skills System)  </p>
+<p>**Skill Level:** Intermediate</p>
+<hr>
+<h2>6.1 Introduction</h2>
+<p>In Module 5, you learned how skills make the agent permanently capable. But skills are just one piece of the training puzzle. A truly effective agent knows not just *what to do*, but *how you like things done* — your preferences, your conventions, your environment, your communication style.</p>
+<p>This module covers the complete training system:</p>
+<p>- **Memory:** How the agent stores and retrieves information about you</p>
+<p>- **Corrections:** How every mistake becomes a learning opportunity</p>
+<p>- **User profiles:** Who you are, what you prefer, how you work</p>
+<p>- **Session search:** Finding past work and context</p>
+<p>- **The compound effect:** How 50+ sessions of training produce an agent that knows your entire stack</p>
+<p>After this module, you'll be able to train Hermes to be *your* agent — not just a generic AI assistant.</p>
+<hr>
+<h2>6.2 How Memory Works</h2>
+<p>Hermes Agent has a structured memory system with two main targets:</p>
+<h3>Memory Targets</h3>
+<table><thead><tr>
+<th>Target</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr>
+<td>`memory`</td>
+<td>General facts, preferences, and knowledge</td>
+<td>"Prefers tabs over spaces"</td>
+</tr>
+<tr>
+<td>`user_profile`</td>
+<td>Identity, roles, and communication style</td>
+<td>"Senior DevOps engineer, Python expert"</td>
+</tr>
+</tbody></table>
+<h3>The `memory` Target</h3>
+<p>The `memory` target stores general facts the agent should remember across sessions.</p>
+<p>**What goes in memory:**</p>
+<p>- Environment configuration (OS, tools installed, paths)</p>
+<p>- Project conventions (naming, structure, workflow)</p>
+<p>- Personal preferences (editor, language, formatting)</p>
+<p>- Lessons learned (mistakes, edge cases, workarounds)</p>
+<p>- Common credentials or connection info (without secrets)</p>
+<p>**How it works:**</p>
+<p>- Memory is persistent across sessions</p>
+<p>- The agent queries memory when it needs context it doesn't have</p>
+<p>- Memories can be tagged for better retrieval</p>
+<p>- New memories are added explicitly or by correction</p>
+<h3>The `user_profile` Target</h3>
+<p>The `user_profile` target is a structured profile of *you* — your identity, expertise, and communication preferences.</p>
+<p>**What goes in user_profile:**</p>
+<p>- Your name and role</p>
+<p>- Technical expertise level</p>
+<p>- Communication style (verbose/concise, formal/casual)</p>
+<p>- Preferred tools and technologies</p>
+<p>- Timezone and working hours</p>
+<p>- Language and locale preferences</p>
+<hr>
+<h2>6.3 The Memory Tool</h2>
+<p>Memory is managed through the `memory` tool with three actions: `add`, `replace`, and `remove`.</p>
+<h3>Adding Memory</h3>
+<pre><code>
+memory(add, "The user prefers two-space indent in Python files")
+memory(add, "Project root is at /home/user/projects/myapp")
+memory(add, "Deployments target staging.example.com")
+</code></pre>
+<p>You can also add memories directly through conversation:</p>
+<blockquote>**User:** "Remember that I use tabs for Go files."</blockquote>
+<p>></p>
+<blockquote>**Agent:** "Got it. I've memorized: User prefers tabs for Go files."</blockquote>
+<p>The agent extracts the key information and stores it properly.</p>
+<h3>Replacing Memory</h3>
+<p>When a fact changes:</p>
+<pre><code>
+memory(replace, "The user prefers tabs for Go files", "The user now prefers spaces for Go files")
+</code></pre>
+<h3>Removing Memory</h3>
+<p>When a fact is no longer relevant:</p>
+<pre><code>
+memory(remove, "The old project root was at /home/user/projects/legacy")
+</code></pre>
+<h3>Batch Memory Operations</h3>
+<p>For larger updates:</p>
+<pre><code>
+memory(add, [
+  "Database host is db.internal.example.com",
+  "Database port is 5432",
+  "Production database is named 'myapp_prod'"
+])
+</code></pre>
+<hr>
+<h2>6.4 What to Save in Memory</h2>
+<p>Effective memory management is about knowing what's worth remembering. Here's a guide:</p>
+<h3>✅ Save These</h3>
+<table><thead><tr>
+<th>Category</th>
+<th>Examples</th>
+</tr></thead><tbody>
+<tr>
+<td>**Preferences**</td>
+<td>"Prefers dark mode terminals", "Uses neovim not vim"</td>
+</tr>
+<tr>
+<td>**Environment facts**</td>
+<td>"Running on Ubuntu 24.04", "Python 3.12 is default"</td>
+</tr>
+<tr>
+<td>**Project conventions**</td>
+<td>"Uses pnpm not npm", "Tests use pytest"</td>
+</tr>
+<tr>
+<td>**Paths and locations**</td>
+<td>"Code at /home/user/code", "Logs at /var/log/myapp"</td>
+</tr>
+<tr>
+<td>**Credentials context**</td>
+<td>"SSH key is at ~/.ssh/id_ed25519" (not the key itself!)</td>
+</tr>
+<tr>
+<td>**Lessons learned**</td>
+<td>"Port 8080 requires sudo", "Docker needs --platform linux/amd64 on this machine"</td>
+</tr>
+<tr>
+<td>**Workflow preferences**</td>
+<td>"Always run tests before committing", "Use feature branches"</td>
+</tr>
+<tr>
+<td>**Access patterns**</td>
+<td>"Usually deploys on Tuesdays", "Check staging before production"</td>
+</tr>
+</tbody></table>
+<h3>❌ Don't Save These</h3>
+<table><thead><tr>
+<th>Category</th>
+<th>Why Not</th>
+</tr></thead><tbody>
+<tr>
+<td>**Secrets/passwords**</td>
+<td>Memory is stored on disk — treat it as unencrypted</td>
+</tr>
+<tr>
+<td>**Task progress**</td>
+<td>"I'm 60% through the migration" — stale immediately</td>
+</tr>
+<tr>
+<td>**Completed work**</td>
+<td>"Deployed v2.3 yesterday" — irrelevant tomorrow</td>
+</tr>
+<tr>
+<td>**Temporary state**</td>
+<td>"The build failed with error X" — belongs in the current session</td>
+</tr>
+<tr>
+<td>**Obvious facts**</td>
+<td>"The sky is blue" — wastes memory space</td>
+</tr>
+<tr>
+<td>**Emotional state**</td>
+<td>"User was frustrated" — not useful for future sessions</td>
+</tr>
+</tbody></table>
+<h3>The Litmus Test</h3>
+<p>Before saving something to memory, ask:</p>
+<p>1. **Will this be true next month?** — If no, it's temporary state, not memory.</p>
+<p>2. **Will I need this again?** — If no, it's one-off context.</p>
+<p>3. **Is this a preference or a fact?** — Preferences and stable facts are good memory.</p>
+<p>4. **Can I look this up faster than storing it?** — Some things are better documented externally.</p>
+<hr>
+<h2>6.5 How Corrections Make the Agent Smarter</h2>
+<p>Every interaction with the agent is a training opportunity. When the agent gets something wrong, your correction is the most valuable data it can receive.</p>
+<h3>The Correction Mechanism</h3>
+<p>When you correct the agent:</p>
+<pre><code>
+User:   "Deploy to staging, not production."
+Agent:  "You're right. I've corrected my understanding.
+         Memory updated: Deployments target staging first.
+         Would you like me to save this as a skill?"
+</code></pre>
+<p>The agent:</p>
+<p>1. **Acknowledges** the correction</p>
+<p>2. **Updates** its memory with the correct information</p>
+<p>3. **Offers** to create a skill if the correction represents a repeatable workflow</p>
+<h3>Types of Corrections</h3>
+<table><thead><tr>
+<th>Correction Type</th>
+<th>Example</th>
+<th>Agent Response</th>
+</tr></thead><tbody>
+<tr>
+<td>**Factual**</td>
+<td>"The database is PostgreSQL, not MySQL"</td>
+<td>Updates memory</td>
+</tr>
+<tr>
+<td>**Preferential**</td>
+<td>"I prefer full sentences in responses"</td>
+<td>Updates user_profile</td>
+</tr>
+<tr>
+<td>**Procedural**</td>
+<td>"Always run lint before commit"</td>
+<td>Updates memory + offers skill</td>
+</tr>
+<tr>
+<td>**Environmental**</td>
+<td>"The API is on port 3000, not 8080"</td>
+<td>Updates memory</td>
+</tr>
+<tr>
+<td>**Safety**</td>
+<td>"Never delete files without confirmation"</td>
+<td>Updates memory as rule</td>
+</tr>
+</tbody></table>
+<h3>The One-Correction Rule</h3>
+<p>A well-trained agent should never make the same mistake twice. If you correct the agent about something, and it makes the same error in a future session, that's a sign the memory didn't stick — escalate it to a skill.</p>
+<hr>
+<h2>6.6 Teaching Your Agent Your Preferred Workflows</h2>
+<p>The most powerful training happens when you teach the agent your workflows step by step.</p>
+<h3>The Walk-Through Method</h3>
+<p>The first time you do a complex task, walk the agent through it:</p>
+<blockquote>**User:** "Let me show you how I set up a new project. First, I clone the template repo..."</blockquote>
+<p>></p>
+<blockquote>**Agent:** "I'm following. Clone from which repo?"</blockquote>
+<p>></p>
+<blockquote>**User:** "git@github.com:myorg/project-template.git"</blockquote>
+<p>></p>
+<blockquote>**Agent:** "Noted. What's next?"</blockquote>
+<p>></p>
+<blockquote>**User:** "Then I run `pnpm install` and configure the `.env` file..."</blockquote>
+<p>></p>
+<blockquote>**Agent:** "I see the pattern. After this walk-through, would you like me to save this as a skill called 'setup-new-project'?"</blockquote>
+<h3>The Shadow Mode</h3>
+<p>For workflows you're experienced with, let the agent shadow you:</p>
+<blockquote>**User:** "Watch what I do for deploying to production. I'll narrate."</blockquote>
+<p>></p>
+<blockquote>(User performs the steps)</blockquote>
+<p>></p>
+<blockquote>**Agent:** "I observed your deployment workflow. It involved:</blockquote>
+<blockquote>1. Run tests (`pnpm test`)</blockquote>
+<blockquote>2. Build (`pnpm build`)</blockquote>
+<blockquote>3. Copy to server (`rsync -avz dist/ user@server:/var/www/`)</blockquote>
+<blockquote>4. Reload nginx (`ssh user@server 'sudo systemctl reload nginx'`)</blockquote>
+<p>></p>
+<blockquote>Shall I save this as a skill called 'deploy-production'?"</blockquote>
+<h3>The Correction Pipeline</h3>
+<p>Every correction should be treated as a potential pipeline input:</p>
+<pre><code>
+Correction → Memory Update → Skill Offer → (optional) Skill Creation
+</code></pre>
+<p>**Real example:**</p>
+<blockquote>**User:** "No, don't use `cp` — use `rsync` with compression."</blockquote>
+<p>></p>
+<blockquote>**Agent:** "Corrected. Memory updated: Use `rsync -avz` instead of `cp` for deployments."</blockquote>
+<p>></p>
+<blockquote>**User:** "Yes, save that as a skill."</blockquote>
+<p>></p>
+<blockquote>*(Agent creates `deploy-with-rsync` skill)*</blockquote>
+<p>This pipeline is the single most powerful training technique in Hermes Agent.</p>
+<hr>
+<h2>6.7 User Profiles</h2>
+<p>The `user_profile` target stores structured information about who you are and how you like to interact.</p>
+<h3>Creating Your Profile</h3>
+<p>Start with the basics:</p>
+<pre><code>
+memory(user_profile, "Senior DevOps engineer at Acme Corp")
+memory(user_profile, "Expert in: Python, Go, Kubernetes, Terraform")
+memory(user_profile, "Prefers concise, action-oriented responses")
+memory(user_profile, "Timezone: US/Eastern")
+memory(user_profile, "Communication style: direct, minimal pleasantries")
+memory(user_profile, "Preferred code editor: Neovim")
+memory(user_profile, "Shell: zsh with oh-my-zsh")
+</code></pre>
+<h3>Profile Sections</h3>
+<p>A well-built profile covers:</p>
+<p>**Identity**</p>
+<p>- Your name, role, team, organization</p>
+<p>- Your technical role (developer, SRE, data scientist, etc.)</p>
+<p>**Expertise**</p>
+<p>- Languages you know well (so the agent can tailor code examples)</p>
+<p>- Frameworks and tools you use daily</p>
+<p>- Areas where you want more guidance vs. areas where you're expert</p>
+<p>**Communication**</p>
+<p>- Verbosity preference (one-liners vs. detailed explanations)</p>
+<p>- Formality level (casual vs. formal)</p>
+<p>- Response structure preference (bullet points, paragraphs, steps)</p>
+<p>- Whether you want citations, confidence levels, or options</p>
+<p>**Environment**</p>
+<p>- Operating system and version</p>
+<p>- Default shell and terminal</p>
+<p>- Package manager preferences</p>
+<p>- Editor/IDE configuration</p>
+<p>**Workflow Preferences**</p>
+<p>- Testing before deployment (always/never/ask)</p>
+<p>- Staging/production workflow</p>
+<p>- Git workflow (feature branches, rebase, squash)</p>
+<p>- Code review expectations</p>
+<h3>Evolving Your Profile</h3>
+<p>Your profile isn't static. As your preferences change:</p>
+<pre><code>
+memory(user_profile_replace, "Prefers concise responses",
+       "Now prefers detailed explanations with examples")
+</code></pre>
+<p>Or let the agent observe:</p>
+<blockquote>**Agent:** "I notice you've been asking for more detailed explanations lately.</blockquote>
+<blockquote>Would you like me to update your profile from 'concise' to 'detailed'?"</blockquote>
+<hr>
+<h2>6.8 Memory Curation</h2>
+<p>Memory accumulates. Left unchecked, it becomes cluttered with outdated facts, superseded preferences, and irrelevant context.</p>
+<h3>Reviewing Memory</h3>
+<p>List all stored memories:</p>
+<pre><code>
+/memory list
+/memory list --tag database
+/memory list --since 2025-01-01
+</code></pre>
+<h3>Pruning Stale Memories</h3>
+<blockquote>**User:** "Check my memory for anything outdated."</blockquote>
+<p>></p>
+<blockquote>The agent reviews each memory against current reality and suggests pruning.</blockquote>
+<h3>Automated Curation</h3>
+<p>The agent can auto-curate memories:</p>
+<p>- **Staleness detection:** Memories older than 90 days are flagged</p>
+<p>- **Contradiction detection:** If two memories conflict, the agent asks for clarification</p>
+<p>- **Deduplication:** Similar memories are merged</p>
+<p>- **Low-value flagging:** Very generic memories are suggested for removal</p>
+<h3>Memory Health Check</h3>
+<p>Run a periodic memory audit:</p>
+<pre><code>
+/memory health-check
+</code></pre>
+<p>The agent produces a report:</p>
+<pre><code>
+Memory Health Report
+====================
+Total memories: 47
+Recently added (30d): 12
+Stale (90d+): 3
+Conflicts: 0
+Duplicates: 1
+
+Recommendations:
+- Remove: "Used to use Apt" (superseded by "Uses Nix")
+- Remove: "Project path was /tmp/test" (temporary)
+- Merge: 2 memory entries about Go formatting preferences
+</code></pre>
+<hr>
+<h2>6.9 Session Search</h2>
+<p>Sometimes the answer isn't in memory — it's in a previous conversation. Session search lets you find past context.</p>
+<h3>Searching Sessions</h3>
+<pre><code>
+/session search "database migration plan"
+/session search --from 2025-03-01 --to 2025-03-15
+/session search --tag deployment
+</code></pre>
+<h3>Session Context Loading</h3>
+<p>When you find a relevant session, you can load its context:</p>
+<pre><code>
+/session load last-deployment-conversation
+</code></pre>
+<p>This brings the agent up to speed on what was discussed and decided.</p>
+<h3>Session Tags</h3>
+<p>Tag important sessions for easy retrieval:</p>
+<pre><code>
+/session tag "production-incident-2025-05-15"
+</code></pre>
+<h3>Smart Session Linking</h3>
+<p>The agent automatically links sessions to memory and skills:</p>
+<blockquote>**User:** "Remember that issue we debugged last week?"</blockquote>
+<p>></p>
+<blockquote>**Agent:** "I found the session from May 16 about the database connection</blockquote>
+<blockquote>timeout. Key findings:</blockquote>
+<blockquote>- Pool size was too small (5 connections)</blockquote>
+<blockquote>- Fix: Increased to 25 connections in the config</blockquote>
+<blockquote>- Root cause: Connection leak in the worker pool</blockquote>
+<p>></p>
+<blockquote>I've saved this as a memory entry. Shall I make a diagnostic skill for it?"</blockquote>
+<hr>
+<h2>6.10 The Compound Effect</h2>
+<p>The headline claim of Hermes Agent is that it gets better over time. Here's what that actually means in practice.</p>
+<h3>Session 1: First Contact</h3>
+<p>The agent knows nothing about you. Everything is manual. You describe your environment, preferences, and needs from scratch. The agent asks clarifying questions.</p>
+<p>**Experience:** Like talking to a competent stranger.</p>
+<h3>Session 10: Familiarity</h3>
+<p>The agent knows your basic preferences, your common tools, your environment. It stops asking "what OS?" and starts remembering previous conversations.</p>
+<p>**Experience:** Like a new coworker on week two.</p>
+<h3>Session 25: Competence</h3>
+<p>The agent has a solid library of skills (10-15), a populated memory, and a user profile. It anticipates your needs and suggests skills unprompted. Corrections are rare and specific.</p>
+<p>**Experience:** Like a junior team member who's been on the project for a month.</p>
+<h3>Session 50: The Tipping Point</h3>
+<p>The agent crosses into **autonomous competence**. It has 30-50 skills covering your entire workflow. It:</p>
+<p>- Loads the right skill without being asked</p>
+<p>- Chains multiple skills for complex tasks</p>
+<p>- Remembers project-specific conventions</p>
+<p>- Suggests improvements to your workflows</p>
+<p>- Corrects itself before you can</p>
+<p>- Handles entire workflows with a single command</p>
+<p>**Experience:** Like a senior engineer who's worked with you for years.</p>
+<h3>Session 100+: Mastery</h3>
+<p>The agent has your entire stack memorized. It knows every tool, every config file, every deployment target, every team convention, every edge case you've ever encountered. It's not just an assistant — it's a force multiplier.</p>
+<p>**Experience:** Telepathy. You think about what needs doing, and the agent has already started.</p>
+<h3>What Drives the Compound Effect</h3>
+<table><thead><tr>
+<th>Session Range</th>
+<th>Key Actions</th>
+<th>Result</th>
+</tr></thead><tbody>
+<tr>
+<td>**1-10**</td>
+<td>Create user profile, add core memories, skill 3-5 repeated tasks</td>
+<td>Basic competence</td>
+</tr>
+<tr>
+<td>**11-25**</td>
+<td>Skill all repeated workflows, curate memories, develop correction reflex</td>
+<td>Reliable execution</td>
+</tr>
+<tr>
+<td>**26-50**</td>
+<td>Refine skills with pitfalls, publish useful skills, build profile depth</td>
+<td>Autonomous operation</td>
+</tr>
+<tr>
+<td>**51-100**</td>
+<td>Skill complex multi-step processes, chain skills, teach edge cases</td>
+<td>Mastery</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>6.11 Practical Training Workflow</h2>
+<p>Here's a step-by-step workflow for training your agent in any new domain:</p>
+<h3>Step 1: Prime the Memory</h3>
+<p>Before working in a new domain, add relevant context:</p>
+<pre><code>
+memory(add, "Working on project AcmeWeb, a Django app at /home/user/acmeweb")
+memory(add, "Using Python 3.12, PostgreSQL 16, Redis 7")
+memory(add, "Deploy target: acmeweb.staging.company.com via systemd")
+</code></pre>
+<h3>Step 2: Walk Through the First Task</h3>
+<p>Do the task once with the agent observing:</p>
+<pre><code>
+User: "Let me show you how to deploy the staging environment..."
+(Walks through the deployment)
+Agent: "I see the pattern. Save as skill?"
+</code></pre>
+<h3>Step 3: Create Skills from Repeatable Tasks</h3>
+<p>For every step you'll do again, create a skill:</p>
+<p>- Skill: `deploy-acmeweb-staging`</p>
+<p>- Skill: `rollback-acmeweb-staging`</p>
+<p>- Skill: `check-acmeweb-health`</p>
+<h3>Step 4: Correct Liberally</h3>
+<p>Every mistake is a teaching moment:</p>
+<pre><code>
+User: "No, use the staging config, not production."
+Agent: "Corrected. Saving to memory: Always use staging config first."
+</code></pre>
+<h3>Step 5: Review and Curate</h3>
+<p>At the end of the session:</p>
+<pre><code>
+Memory check: Are there any new preferences or facts to save?
+Session tag: Tag this session for future reference.
+</code></pre>
+<hr>
+<h2>6.12 Common Training Mistakes</h2>
+<h3>Mistake 1: Saving Too Much</h3>
+<p>Don't save everything. Focus on **reusable facts**, not ephemeral context.</p>
+<p>❌ `memory(add, "The build failed twice before succeeding")` — ephemeral, not useful  </p>
+<p>✅ `memory(add, "Build sometimes fails on the first attempt due to cache issues")` — reusable lesson</p>
+<h3>Mistake 2: Saving Secrets</h3>
+<p>Never save passwords, API keys, or tokens in memory. Memory files are readable on disk.</p>
+<h3>Mistake 3: Not Correcting</h3>
+<p>The most common mistake is letting small errors slide. Every uncorrected error is a future repeated error.</p>
+<h3>Mistake 4: Skipping the Skill Prompt</h3>
+<p>When the agent asks "Should I save this as a skill?" — say yes if it's repeatable. The agent's judgment about what's skill-worthy is conservative; it's better to have an extra skill than to lose a useful procedure.</p>
+<h3>Mistake 5: Neglecting Curation</h3>
+<p>Old memories create noise. Prune monthly. A cluttered memory is almost as bad as no memory.</p>
+<hr>
+<h2>6.13 Summary</h2>
+<p>Training your Hermes Agent is an investment that compounds with every session.</p>
+<p>**Key takeaways:**</p>
+<p>- Memory stores stable facts (preferences, environment, conventions) via `add`, `replace`, `remove`</p>
+<p>- The `user_profile` target captures who you are and how you communicate</p>
+<p>- Corrections are training data — every mistake is an opportunity to improve</p>
+<p>- The correction → skills pipeline turns one-time fixes into permanent capabilities</p>
+<p>- Session search lets you retrieve past context and decisions</p>
+<p>- After 50+ sessions, the agent transitions from helpful assistant to autonomous partner</p>
+<p>- Regular curation keeps memory clean and relevant</p>
+<p>**In the next module,** we'll cover advanced agent patterns — chaining skills, building autonomous workflows, and deploying the agent as a service.</p>
+<hr>
+<h2>6.14 Exercises</h2>
+<p>1. **Build your profile:** Use `memory(user_profile, ...)` to create a complete user profile with identity, expertise, and communication preferences.</p>
+<p>2. **Memory audit:** Run `/memory list` and identify three memories that are outdated — remove or update them.</p>
+<p>3. **Correction practice:** Use the agent for a task you know well. When it gets something wrong, correct it explicitly. Verify the correction stuck by asking about it later.</p>
+<p>4. **Skill pipeline:** Pick a workflow you do manually. Walk the agent through it, then save it as a skill. Then run the skill to verify it works.</p>
+<p>5. **Session search:** Tag an important session, then search for it by tag. Practice loading session context.</p>
+<hr>
+<h2>6.15 Further Reading</h2>
+<p>- [Memory Management Guide](https://hermes-agent.nousresearch.com/docs/memory)</p>
+<p>- [User Profiles Documentation](https://hermes-agent.nousresearch.com/docs/user-profiles)</p>
+<p>- [Session Management API](https://hermes-agent.nousresearch.com/docs/sessions)</p>
+<p>- [Training Best Practices](https://hermes-agent.nousresearch.com/docs/training)</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-05-skills.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 5</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-07-gateway.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 7</a>
+    </div>
+</div>
+</body>
+</html>

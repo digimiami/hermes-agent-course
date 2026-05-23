@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Multi-Platform Gateway</h1>
+        <p class="meta">Module 7 of 10</p>
+        <div class="nav-links">
+            <a href="module-06-training.html" class="nav-prev">Training Your Agent</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-08-vps.html" class="nav-next">Next: VPS Deployment</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Course:** Hermes Agent — From Zero to Autonomous Agent</blockquote>
+<blockquote>**Module:** 7 of 10</blockquote>
+<blockquote>**Reading time:** ~20 minutes</blockquote>
+<blockquote>**Difficulty:** Intermediate</blockquote>
+<hr>
+<h2>TL;DR</h2>
+<table><thead><tr>
+<th>**What it is**</th>
+<th>A single daemon process that connects Hermes to Telegram, Discord, Slack, WhatsApp, Signal, and 15+ other platforms — all from one agent instance</th>
+</tr></thead><tbody>
+<tr>
+<td>**Key idea**</td>
+<td>Same AI agent, different chat interfaces. Your tools, memory, skills, and cron jobs work identically across every platform</td>
+</tr>
+<tr>
+<td>**Setup**</td>
+<td>`hermes gateway setup` — interactive wizard, or manual `.env` config</td>
+</tr>
+<tr>
+<td>**Service**</td>
+<td>`hermes gateway install` — installs as systemd (Linux) or launchd (macOS)</td>
+</tr>
+<tr>
+<td>**Security**</td>
+<td>Allowlists, DM pairing, admin/user tiers, command approval for dangerous operations</td>
+</tr>
+<tr>
+<td>**Cron**</td>
+<td>Scheduled jobs deliver to your home channel on any platform</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>What Is the Gateway?</h2>
+<p>The Hermes Gateway is a **background daemon** that runs your agent and connects it to messaging platforms. Think of it as the bridge between your LLM-powered agent and the apps you use every day.</p>
+<p>Without the gateway, you run Hermes in your terminal — useful, but tied to your desktop. With the gateway:</p>
+<p>- You message your agent from **Telegram on your phone** while commuting</p>
+<p>- Your **Discord server** has a shared AI assistant your whole team can DM</p>
+<p>- **Cron jobs** (scheduled tasks) run 24/7 and deliver results to your chat</p>
+<p>- Your agent is always online, always ready, whether you're at your desk or not</p>
+<p>The architecture is clean:</p>
+<pre><code>
+Telegram ─┐
+Discord  ─┤
+Slack    ─┤
+WhatsApp ─┤
+Signal   ─┤              ┌─────────────────────┐
+Email    ─┤── platform ─→│   Hermes Gateway    │──→ AIAgent (your LLM)
+SMS      ─┤   adapters   │  (single daemon)    │──→ Tools (shell, files, web)
+Matrix   ─┤              │  Sessions, cron,    │──→ Skills
+Home     ─┤              │   security, voice   │──→ Memory
+Assistant─┘              └─────────────────────┘
+</code></pre>
+<p>One gateway process. Many platform adapters. Same agent, tools, skills, and memory everywhere.</p>
+<hr>
+<h2>Supported Platforms</h2>
+<p>Hermes ships with built-in adapters for the following platforms. Each adapter receives messages, routes them through a per-chat session store, and dispatches them to the agent for processing.</p>
+<table><thead><tr>
+<th>Platform</th>
+<th>Voice</th>
+<th>Images</th>
+<th>Files</th>
+<th>Threads</th>
+<th>Typing</th>
+<th>Streaming</th>
+</tr></thead><tbody>
+<tr>
+<td>----------</td>
+<td>:-----:</td>
+<td>:------:</td>
+<td>:-----:</td>
+<td>:-------:</td>
+<td>:------:</td>
+<td>:---------:</td>
+</tr>
+<tr>
+<td>**Telegram**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Discord**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Slack**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**WhatsApp**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Signal**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**SMS (Twilio)**</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**Email**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**Matrix**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Mattermost**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Home Assistant**</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**DingTalk**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Feishu / Lark**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**WeCom (WeChat Work)**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Weixin**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**BlueBubbles (iMessage)**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**QQ**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**Yuanbao**</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>**Microsoft Teams**</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**LINE**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**Google Chat**</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**API Server** (OpenAI-compatible)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>**Webhooks**</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p>**Voice** = TTS audio replies and/or voice message transcription. **Images** = send/receive images. **Files** = send/receive attachments. **Threads** = threaded conversations. **Typing** = typing indicator while processing. **Streaming** = progressive message updates.</p>
+<p>Platforms without built-in adapters can be added via the plugin system. See `ADDING_A_PLATFORM.md` in the gateway source.</p>
+<hr>
+<h2>How the Gateway Works</h2>
+<h3>Architecture Detail</h3>
+<p>Each platform has its own **adapter** — a Python module that handles the platform-specific protocol (Telegram's polling/webhook API, Discord's WebSocket gateway, Signal's CLI bridge, etc.).</p>
+<p>When a message arrives:</p>
+<p>1. **Authorization check** — Is this user allowed? (Allowlist, DM pairing, or admin check)</p>
+<p>2. **Session lookup** — Does this chat have an existing conversation context?</p>
+<p>3. **Platform-specific handling** — Mention checks, free-response channels, thread isolation</p>
+<p>4. **Agent dispatch** — The message is sent to the AIAgent with the correct session context</p>
+<p>5. **Response delivery** — The agent's response is streamed back to the platform with typing indicators</p>
+<h3>Same Tools Everywhere</h3>
+<p>Every platform gets the same toolset — just with a different toolset name for logging:</p>
+<table><thead><tr>
+<th>Platform</th>
+<th>Toolset Name</th>
+<th>Capabilities</th>
+</tr></thead><tbody>
+<tr>
+<td>Telegram</td>
+<td>`hermes-telegram`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td>`hermes-discord`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>Slack</td>
+<td>`hermes-slack`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>WhatsApp</td>
+<td>`hermes-whatsapp`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>SMS</td>
+<td>`hermes-sms`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>`hermes-email`</td>
+<td>Full tools including terminal</td>
+</tr>
+<tr>
+<td>Home Assistant</td>
+<td>`hermes-homeassistant`</td>
+<td>Full tools + HA device control</td>
+</tr>
+</tbody></table>
+<p>This means the **same agent** that runs shell commands in your terminal can do it from Telegram, Discord, or any other platform.</p>
+<h3>Session Management</h3>
+<p>Sessions persist across messages until they reset. The agent remembers your conversation context.</p>
+<p>Reset policies (configurable):</p>
+<p>- **Daily** — Reset at a specific hour (default: 4:00 AM)</p>
+<p>- **Idle** — Reset after N minutes of inactivity (default: 1440 min)</p>
+<p>- **Both** — Whichever triggers first (default)</p>
+<p>- **None** — Never auto-reset (controlled by compression only)</p>
+<p>Configure per-platform overrides in `~/.hermes/gateway.json`:</p>
+<pre><code>
+{
+  "reset_by_platform": {
+    "telegram": { "mode": "idle", "idle_minutes": 240 },
+    "discord": { "mode": "idle", "idle_minutes": 60 }
+  }
+}
+</code></pre>
+<hr>
+<h2>Telegram Setup</h2>
+<p>This is the most common gateway setup. Let's walk through it step by step.</p>
+<h3>Step 1: Create a Bot via BotFather</h3>
+<p>1. Open Telegram and search for **@BotFather**, or visit [t.me/BotFather](https://t.me/BotFather)</p>
+<p>2. Send `/newbot`</p>
+<p>3. Choose a **display name** (e.g., "My Hermes Agent")</p>
+<p>4. Choose a **username** that ends in `bot` (e.g., `my_hermes_bot`)</p>
+<p>5. BotFather replies with your **API token**:</p>
+<pre><code>
+123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+</code></pre>
+<p>**Keep this token secret.** Anyone with it can control your bot. If it leaks, use `/revoke` in BotFather immediately.</p>
+<h3>Step 2: Optional Customization</h3>
+<p>Message BotFather and use:</p>
+<table><thead><tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr>
+<td>`/setdescription`</td>
+<td>What the bot can do — shown before a user chats</td>
+</tr>
+<tr>
+<td>`/setabouttext`</td>
+<td>Short text on the bot's profile</td>
+</tr>
+<tr>
+<td>`/setuserpic`</td>
+<td>Upload an avatar</td>
+</tr>
+<tr>
+<td>`/setcommands`</td>
+<td>Define the command menu</td>
+</tr>
+</tbody></table>
+<p>A useful starting set for `/setcommands`:</p>
+<pre><code>
+help - Show help information
+new - Start a new conversation
+sethome - Set this chat as the home channel
+</code></pre>
+<h3>Step 3: Privacy Mode (Critical for Groups)</h3>
+<p>Telegram bots have **privacy mode enabled by default**. This is the #1 source of confusion.</p>
+<p>**With privacy mode ON**, your bot can only see:</p>
+<p>- Messages starting with `/`</p>
+<p>- Replies to its own messages</p>
+<p>- Service messages (joins, leaves, pins)</p>
+<p>**With privacy mode OFF**, the bot sees every message in the group.</p>
+<p>To disable it:</p>
+<p>1. Message **@BotFather**</p>
+<p>2. Send `/mybots` → select your bot</p>
+<p>3. Go to **Bot Settings → Group Privacy → Turn off**</p>
+<p>**Important:** You must remove and re-add the bot to any group after changing this setting. Telegram caches the privacy state when the bot joins.</p>
+<h3>Step 4: Find Your User ID</h3>
+<p>Your Telegram user ID is a number like `123456789`. Message [@userinfobot](https://t.me/userinfobot) to get it instantly.</p>
+<h3>Step 5: Configure Hermes</h3>
+<p>**Option A: Interactive Setup (Recommended)**</p>
+<pre><code>
+hermes gateway setup
+</code></pre>
+<p>Select **Telegram** when prompted. The wizard asks for your bot token and allowed user IDs, then writes the configuration.</p>
+<p>**Option B: Manual Configuration**</p>
+<p>Add to `~/.hermes/.env`:</p>
+<pre><code>
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+TELEGRAM_ALLOWED_USERS=123456789
+</code></pre>
+<p>For multiple users, comma-separate the IDs:</p>
+<pre><code>
+TELEGRAM_ALLOWED_USERS=123456789,987654321
+</code></pre>
+<h3>Step 6: Start the Gateway</h3>
+<pre><code>
+hermes gateway
+</code></pre>
+<p>The bot comes online within seconds. Send it a message on Telegram to verify.</p>
+<hr>
+<h2>Discord Setup</h2>
+<h3>Step 1: Create a Discord Application</h3>
+<p>1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)</p>
+<p>2. Click **New Application** → enter a name → **Create**</p>
+<p>3. Note your **Application ID** — you'll need it for the invite URL</p>
+<h3>Step 2: Create the Bot</h3>
+<p>1. In the left sidebar, click **Bot**</p>
+<p>2. Set **Public Bot** to **ON** (recommended)</p>
+<p>3. Set a custom avatar if desired</p>
+<h3>Step 3: Enable Privileged Gateway Intents</h3>
+<p>**This is the most critical step.** Scroll down to **Privileged Gateway Intents** and enable:</p>
+<table><thead><tr>
+<th>Intent</th>
+<th>Required?</th>
+<th>Why</th>
+</tr></thead><tbody>
+<tr>
+<td>--------</td>
+<td>:---------:</td>
+<td>-----</td>
+</tr>
+<tr>
+<td>**Presence Intent**</td>
+<td>Optional</td>
+<td>See online/offline status</td>
+</tr>
+<tr>
+<td>**Server Members Intent**</td>
+<td>**Required**</td>
+<td>Resolve usernames for allowed users</td>
+</tr>
+<tr>
+<td>**Message Content Intent**</td>
+<td>**Required**</td>
+<td>Read the text content of messages</td>
+</tr>
+</tbody></table>
+<p>**Without Message Content Intent enabled, your bot receives messages but the text content is empty.** It's the #1 reason Discord bots appear online but never respond.</p>
+<h3>Step 4: Get the Bot Token</h3>
+<p>Still on the **Bot** page, click **Reset Token**. Copy it immediately — it's only shown once.</p>
+<h3>Step 5: Generate the Invite URL</h3>
+<p>Use the **Installation** tab (if Public Bot is ON) or create a manual URL:</p>
+<pre><code>
+https://discord.com/oauth2/authorize?client_id=YOUR_APP_ID&scope=bot+applications.commands&permissions=274878286912
+</code></pre>
+<p>Replace `YOUR_APP_ID` with the ID from Step 1.</p>
+<p>Minimum permissions: View Channels, Send Messages, Embed Links, Attach Files, Read Message History.</p>
+<h3>Step 6: Invite to Your Server</h3>
+<p>Open the invite URL → select your server → **Authorize**. The bot appears in your server's member list.</p>
+<h3>Step 7: Find Your User ID</h3>
+<p>1. Open Discord → **Settings** → **Advanced** → enable **Developer Mode**</p>
+<p>2. Right-click your username → **Copy User ID**</p>
+<h3>Step 8: Configure Hermes</h3>
+<p>**Interactive:**</p>
+<pre><code>
+hermes gateway setup
+</code></pre>
+<p>**Manual — add to `~/.hermes/.env`:**</p>
+<pre><code>
+DISCORD_BOT_TOKEN=your-bot-token
+DISCORD_ALLOWED_USERS=284102345871466496
+</code></pre>
+<h3>Step 9: Start the Gateway</h3>
+<pre><code>
+hermes gateway
+</code></pre>
+<p>The bot comes online. Send it a DM or `@mention` it in a channel.</p>
+<hr>
+<h2>Gateway as a Systemd Service</h2>
+<p>For 24/7 operation, install the gateway as a background service.</p>
+<h3>Installation</h3>
+<pre><code>
+hermes gateway install
+</code></pre>
+<p>On Linux, this creates a systemd user service at `~/.config/systemd/user/hermes-gateway.service`.</p>
+<p>For a boot-time system service (recommended for VPS):</p>
+<pre><code>
+sudo hermes gateway install --system
+</code></pre>
+<h3>Service Management</h3>
+<pre><code>
+hermes gateway start      # Start the service
+hermes gateway stop       # Stop the service
+hermes gateway restart    # Restart the service
+hermes gateway status     # Check if it's running
+</code></pre>
+<h3>Enable Lingering (Linux)</h3>
+<p>Keeps user services running after you log out:</p>
+<pre><code>
+sudo loginctl enable-linger $USER
+</code></pre>
+<h3>View Logs</h3>
+<pre><code>
+# Systemd journal (user service)
+journalctl --user -u hermes-gateway -f
+
+# Systemd journal (system service)
+journalctl -u hermes-gateway -f
+
+# Direct log file
+tail -f ~/.hermes/logs/gateway.log
+</code></pre>
+<h3>macOS (launchd)</h3>
+<pre><code>
+hermes gateway install               # Install as launchd agent
+hermes gateway start                 # Start
+hermes gateway stop                  # Stop
+hermes gateway status                # Check status
+tail -f ~/.hermes/logs/gateway.log   # View logs
+</code></pre>
+<p>The plist lives at `~/Library/LaunchAgents/ai.hermes.gateway.plist` and captures your PATH at install time. If you add new tools later, re-run `hermes gateway install` to update it.</p>
+<hr>
+<h2>Gateway Status</h2>
+<p>Check what's running:</p>
+<pre><code>
+hermes gateway status
+</code></pre>
+<p>This shows:</p>
+<p>- Whether the service is active</p>
+<p>- How long it's been running</p>
+<p>- Which platforms are connected</p>
+<p>- Last log entries</p>
+<p>From within any connected chat, use:</p>
+<pre><code>
+/status     — Show session info
+/whoami    — Show your access tier and allowed commands
+/platforms — Show all active platform adapters
+</code></pre>
+<p>The `/platform` command lets you inspect and steer individual adapters without restarting:</p>
+<pre><code>
+/platform list                — Show all adapters and their state
+/platform pause &lt;name&gt;        — Stop dispatching new messages to one adapter
+/platform resume &lt;name&gt;       — Re-enable a paused adapter
+</code></pre>
+<hr>
+<h2>Gateway Logs</h2>
+<p>Logs are written to `~/.hermes/logs/gateway.log`. This is your primary debugging resource.</p>
+<p>Important log locations:</p>
+<table><thead><tr>
+<th>What</th>
+<th>Where</th>
+</tr></thead><tbody>
+<tr>
+<td>Gateway log</td>
+<td>`~/.hermes/logs/gateway.log`</td>
+</tr>
+<tr>
+<td>Agent log</td>
+<td>`~/.hermes/logs/agent.log`</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>`~/.hermes/logs/errors.log`</td>
+</tr>
+<tr>
+<td>Systemd journal (user)</td>
+<td>`journalctl --user -u hermes-gateway -f`</td>
+</tr>
+<tr>
+<td>Systemd journal (system)</td>
+<td>`journalctl -u hermes-gateway -f`</td>
+</tr>
+</tbody></table>
+<p>Each adapter logs its name in brackets, making it easy to filter:</p>
+<pre><code>
+[telegram] Connected to Telegram (polling mode)
+[discord] Connected to Discord
+[telegram] Message from @username: /new
+</code></pre>
+<hr>
+<h2>Security</h2>
+<h3>Allowlists</h3>
+<p>By default, the gateway denies all users who are not explicitly allowed. This is the safe default for a bot with terminal access.</p>
+<pre><code>
+# Per-platform
+TELEGRAM_ALLOWED_USERS=123456789,987654321
+DISCORD_ALLOWED_USERS=284102345871466496
+SIGNAL_ALLOWED_USERS=+15551234567
+
+# Global (applies to all platforms)
+GATEWAY_ALLOWED_USERS=123456789
+
+# Or explicitly allow everyone (NOT recommended if the bot has terminal access)
+GATEWAY_ALLOW_ALL_USERS=true
+</code></pre>
+<h3>DM Pairing</h3>
+<p>Instead of manually configuring user IDs, unknown users receive a one-time pairing code when they DM the bot:</p>
+<pre><code>
+# User sees: "Pairing code: XKGH5N7P"
+# You approve them with:
+hermes pairing approve telegram XKGH5N7P
+
+# Other commands:
+hermes pairing list              # View pending + approved users
+hermes pairing revoke telegram 123456789   # Remove access
+</code></pre>
+<p>Pairing codes expire after 1 hour and use cryptographic randomness.</p>
+<h3>Admin vs Regular Users</h3>
+<p>Every allowed user falls into one of two tiers per scope:</p>
+<p>- **Admin** — full access to all slash commands and capabilities</p>
+<p>- **Regular user** — can chat normally but only run explicitly enabled slash commands</p>
+<p>Configure in `~/.hermes/config.yaml`:</p>
+<pre><code>
+gateway:
+  platforms:
+    discord:
+      extra:
+        allow_from: ["111", "222", "333"]
+        allow_admin_from: ["111"]
+        user_allowed_commands: [status, model]
+</code></pre>
+<p>Use `/whoami` from any platform to see your current tier and allowed commands.</p>
+<h3>Command Approval</h3>
+<p>When the agent wants to run a dangerous command (e.g., `rm -rf /`), the gateway sends an **approve/deny** button (Telegram) or prompts you to use `/approve` / `/deny`. This prevents the agent from executing destructive operations without your confirmation.</p>
+<hr>
+<h2>Home Channel Concept</h2>
+<p>The **home channel** is the default delivery destination for your platform. When a cron job specifies `deliver: telegram` without a specific chat ID, messages are sent to the home channel.</p>
+<h3>Setting a Home Channel</h3>
+<p>The easiest way — in any chat, use:</p>
+<pre><code>
+/sethome
+</code></pre>
+<p>The gateway confirms with something like:</p>
+<pre><code>
+✅ This chat is now the home channel for Telegram.
+</code></pre>
+<h3>Manual Configuration</h3>
+<p>In `~/.hermes/.env`:</p>
+<pre><code>
+TELEGRAM_HOME_CHANNEL=-1001234567890
+TELEGRAM_HOME_CHANNEL_NAME="My Notes"
+
+DISCORD_HOME_CHANNEL=987654321098765432
+DISCORD_HOME_CHANNEL_NAME="Team Chat"
+</code></pre>
+<p>Group chat IDs are negative numbers on Telegram.</p>
+<hr>
+<h2>Cron Deliveries</h2>
+<p>When Hermes executes a scheduled task (cron job), the result needs to go somewhere. The gateway handles delivery seamlessly.</p>
+<h3>How It Works</h3>
+<p>1. Cron job fires at the scheduled time</p>
+<p>2. Agent executes the task in a fresh session</p>
+<p>3. Result is delivered to the configured destination</p>
+<h3>Delivery Options</h3>
+<p>When creating a cron job, specify where results go:</p>
+<pre><code>
+# Deliver to the home channel
+hermes cron create "0 8 * * *" "Check server status" --deliver telegram
+
+# Deliver to Discord home channel
+hermes cron create "0 8 * * *" "Check server status" --deliver discord
+
+# Save to local files
+hermes cron create "0 8 * * *" "Check server status" --deliver local
+</code></pre>
+<p>From a chat session, just tell the agent naturally:</p>
+<pre><code>
+Every morning at 9am, check the server status and send me a summary on Telegram.
+</code></pre>
+<p>Hermes creates the cron job and configures delivery automatically.</p>
+<hr>
+<h2>Running the Gateway 24/7 on a VPS</h2>
+<p>For a permanently online agent, run the gateway on a VPS:</p>
+<p>1. Provision a VPS ($4-6/month — see Module 8)</p>
+<p>2. Install Hermes with the standard one-liner</p>
+<p>3. Configure your API keys and platform tokens in `.env`</p>
+<p>4. Install the gateway as a system service:</p>
+<pre><code>
+sudo hermes gateway install --system
+sudo hermes gateway start --system
+sudo loginctl enable-linger $USER
+</code></pre>
+<p>5. Verify with:</p>
+<pre><code>
+sudo hermes gateway status --system
+</code></pre>
+<p>The gateway restarts automatically at boot, runs your cron jobs, and delivers results to your home channel.</p>
+<hr>
+<h2>Troubleshooting</h2>
+<h3>Gateway Crash Loop</h3>
+<p>**Symptom:** The gateway starts and immediately crashes. `systemctl` shows `failed` status.</p>
+<p>**Diagnosis:**</p>
+<pre><code>
+journalctl --user -u hermes-gateway -n 50 --no-pager
+</code></pre>
+<p>**Common causes:**</p>
+<p>- **Missing API keys** — Your `.env` file doesn't have a required API key for your LLM provider. Check that the provider's API key is set.</p>
+<p>- **Invalid bot token** — The Telegram or Discord token is wrong. Verify it in `.env`.</p>
+<p>- **Platform auth failure** — Check logs for `authentication failed` messages.</p>
+<p>**Fix:**</p>
+<p>1. Verify `.env` has all required keys</p>
+<p>2. Run `hermes gateway` in foreground to see real-time errors</p>
+<p>3. If a platform token is invalid, regenerate it and update `.env`</p>
+<p>4. Restart: `hermes gateway restart`</p>
+<h3>Discord Silent (Bot Online but Not Responding)</h3>
+<p>**Symptom:** The bot shows as online/active in your server but never responds to messages.</p>
+<p>**Almost always caused by missing Message Content Intent.**</p>
+<p>**Check:**</p>
+<p>1. Go to [Discord Developer Portal](https://discord.com/developers/applications)</p>
+<p>2. Select your application → **Bot** → **Privileged Gateway Intents**</p>
+<p>3. Is **Message Content Intent** toggled ON?</p>
+<p>**Fix:**</p>
+<p>1. Toggle **Message Content Intent** ON</p>
+<p>2. Click **Save Changes**</p>
+<p>3. Restart the gateway: `hermes gateway restart`</p>
+<p>**Still not working?** Check:</p>
+<p>- Is your user ID in `DISCORD_ALLOWED_USERS`?</p>
+<p>- Are you mentioning the bot? (In channels, you need `@mention` unless free-response channels are configured)</p>
+<p>- Check the gateway log for authorization denials</p>
+<h3>Telegram Not Responding</h3>
+<p>**Symptom:** The bot is online but doesn't reply to messages.</p>
+<p>**Check:**</p>
+<pre><code>
+tail -f ~/.hermes/logs/gateway.log
+</code></pre>
+<p>**Common causes:**</p>
+<p>- **Wrong bot token** — Verify in `.env`</p>
+<p>- **User not authorized** — Is your user ID in `TELEGRAM_ALLOWED_USERS`?</p>
+<p>- **Privacy mode blocking** — If the bot is in a group, check privacy mode</p>
+<p>- **Rate limiting** — Telegram rate-limits bots that send too many requests. Wait a few minutes.</p>
+<p>**Fix:**</p>
+<p>1. Send a message and watch the logs in real time</p>
+<p>2. If you see `Not authorized`, add your user ID to the allowlist</p>
+<p>3. If you see nothing at all, the bot token is likely wrong</p>
+<p>4. Restart the gateway</p>
+<h3>Circuit Breaker Paused an Adapter</h3>
+<p>**Symptom:** A platform that was working suddenly stops. Log shows "paused-by-breaker".</p>
+<p>**Cause:** The adapter encountered repeated failures (network blips, rate-limit replies, websocket disconnects) and the circuit breaker tripped.</p>
+<p>**Fix:**</p>
+<pre><code>
+# From another platform or CLI
+/platform resume &lt;name&gt;
+</code></pre>
+<p>The breaker does **not** auto-resume — this prevents the gateway from thrashing reconnects during a sustained outage.</p>
+<h3>Logs Show "Failed" but Gateway Seems Fine</h3>
+<p>The gateway uses **circuit breakers** per adapter. Repeated retryable failures cause the breaker to trip. Check:</p>
+<p>1. `~/.hermes/logs/gateway.log` — search for `circuit breaker`, `paused`, or `disabled`</p>
+<p>2. `/platform list` output — shows current state and last reason</p>
+<p>3. The platform's status page (Telegram API status, Discord status, etc.)</p>
+<p>Once upstream is healthy, use `/platform resume <name>` to re-arm the adapter.</p>
+<hr>
+<h2>Summary</h2>
+<p>- The **gateway** is a single daemon connecting Hermes to 20+ messaging platforms</p>
+<p>- Each platform has its own **adapter** — but all share the same agent, tools, memory, and skills</p>
+<p>- **Telegram** setup: BotFather → get token → `hermes gateway setup` → done</p>
+<p>- **Discord** setup: Developer Portal → create bot → **enable Message Content Intent** → invite → configure</p>
+<p>- Install as a **systemd service** for 24/7 operation: `hermes gateway install`</p>
+<p>- **Security** is multi-layered: allowlists, DM pairing, admin/user tiers, command approval</p>
+<p>- The **home channel** (`/sethome`) is where cron deliveries land</p>
+<p>- **Troubleshooting** starts with the gateway log: `~/.hermes/logs/gateway.log`</p>
+<p>In the next module, we'll deploy the gateway to a VPS for always-on, production-grade operation.</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-06-training.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 6</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-08-vps.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 8</a>
+    </div>
+</div>
+</body>
+</html>

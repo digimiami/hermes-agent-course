@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Dashboard — AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; top: -20%; left: -10%;
+            width: 120%; height: 120%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.06) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* Header */
+        .dash-header {
+            padding: 50px 0 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .dash-header .welcome-badge {
+            display: inline-block;
+            background: rgba(0,206,201,0.1);
+            border: 1px solid rgba(0,206,201,0.15);
+            color: #00cec9;
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .dash-header h1 {
+            font-size: 2.2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+        .dash-header .sub { color: #808098; font-size: 1em; }
+        .dash-header .progress-summary {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+        .dash-header .progress-summary span {
+            color: #606080;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dash-header .progress-summary .stat {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Module List */
+        .module-list { margin-bottom: 40px; }
+        .module-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 14px;
+            padding: 22px 24px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+        }
+        .module-card:hover {
+            border-color: rgba(108,92,231,0.3);
+            transform: translateX(4px);
+            background: rgba(20,20,40,0.6);
+        }
+        .module-card .num {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+        .module-card .info { flex: 1; }
+        .module-card .info h3 {
+            color: #e8e8f0;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .module-card .info p {
+            color: #606080;
+            font-size: 0.82em;
+        }
+        .module-card .arrow {
+            color: #404060;
+            font-size: 1.2em;
+            transition: transform 0.2s, color 0.2s;
+        }
+        .module-card:hover .arrow {
+            color: #00cec9;
+            transform: translateX(3px);
+        }
+
+        /* Resources Section */
+        .resources {
+            border-top: 1px solid rgba(108,92,231,0.08);
+            padding: 40px 0;
+        }
+        .resources h3 {
+            text-align: center;
+            color: #808098;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .resource-item {
+            background: rgba(18,18,34,0.4);
+            border: 1px solid rgba(108,92,231,0.06);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            text-decoration: none;
+            transition: border-color 0.2s;
+        }
+        .resource-item:hover { border-color: rgba(108,92,231,0.25); }
+        .resource-item .r-icon { font-size: 1.4em; margin-bottom: 6px; display: block; }
+        .resource-item h4 { color: #c0c0d0; font-size: 0.82em; font-weight: 600; }
+
+        /* Support */
+        .support-box {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid rgba(108,92,231,0.06);
+        }
+        .support-box p { color: #606080; font-size: 0.85em; }
+        .support-box a { color: #a78bfa; text-decoration: none; }
+        .support-box a:hover { color: #00cec9; }
+
+        .footer-note {
+            text-align: center;
+            color: #404060;
+            font-size: 0.76em;
+            padding: 20px 0 40px;
+        }
+
+        @media (max-width: 600px) {
+            .dash-header h1 { font-size: 1.5em; }
+            .module-card { padding: 16px 18px; gap: 14px; }
+            .module-card .num { width: 32px; height: 32px; font-size: 0.8em; }
+            .module-card .info h3 { font-size: 0.88em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<div class="container">
+    <div class="dash-header">
+        <span class="welcome-badge">🎉 WELCOME TO THE COURSE</span>
+        <h1>AI Agents: Master Hermes Agent</h1>
+        <p class="sub">Your complete course dashboard — all 10 modules, ready when you are.</p>
+        <div class="progress-summary">
+            <span>📦 <span class="stat">10</span> modules</span>
+            <span>⏱ <span class="stat">50+</span> lessons</span>
+            <span>⚡ <span class="stat">25+</span> skill templates</span>
+            <span>🎁 <span class="stat">6</span> bonuses</span>
+        </div>
+    </div>
+
+    <div class="module-list">
+        <a href="module-01-intro.html" class="module-card">
+            <div class="num">1</div>
+            <div class="info">
+                <h3>What is Hermes Agent &amp; Why It Matters</h3>
+                <p>Understand the architecture, ecosystem, and why this is different from ChatGPT.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-02-installation.html" class="module-card">
+            <div class="num">2</div>
+            <div class="info">
+                <h3>Installation &amp; First Run</h3>
+                <p>Install on your local machine. One-liner, Docker, setup wizard, your first conversation.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-03-configuration.html" class="module-card">
+            <div class="num">3</div>
+            <div class="info">
+                <h3>Configuration Deep Dive</h3>
+                <p>Model providers, API keys, toolsets, profiles, memory, security.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-04-usage.html" class="module-card">
+            <div class="num">4</div>
+            <div class="info">
+                <h3>Daily Usage &amp; Power Features</h3>
+                <p>Slash commands, delegation, cron jobs, webhooks, sessions, checkpoints.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-05-skills.html" class="module-card">
+            <div class="num">5</div>
+            <div class="info">
+                <h3>Skills System — The Killer Feature</h3>
+                <p>Create, manage, and publish skills. Build your agent's knowledge base.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-06-training.html" class="module-card">
+            <div class="num">6</div>
+            <div class="info">
+                <h3>Training Your Agent</h3>
+                <p>Memory, user profiles, corrections pipeline, teaching workflows.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-07-gateway.html" class="module-card">
+            <div class="num">7</div>
+            <div class="info">
+                <h3>Multi-Platform Gateway</h3>
+                <p>Telegram, Discord, WhatsApp bots. Run your agent everywhere.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-08-vps.html" class="module-card">
+            <div class="num">8</div>
+            <div class="info">
+                <h3>VPS Deployment</h3>
+                <p>Set up a $5 VPS, secure it, run Hermes 24/7 as a systemd service.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-09-monetization.html" class="module-card">
+            <div class="num">9</div>
+            <div class="info">
+                <h3>Monetization Strategies</h3>
+                <p>Seven ways to make money — agent as a service, white-label, SaaS, skills marketplace.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="module-10-advanced.html" class="module-card">
+            <div class="num">10</div>
+            <div class="info">
+                <h3>Advanced Use Cases</h3>
+                <p>Trading bots, content automation, code review, customer support, data pipelines.</p>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+    </div>
+
+    <div class="resources">
+        <h3>📚 Resources</h3>
+        <div class="resources-grid">
+            <a href="https://hermes-agent.nousresearch.com" class="resource-item" target="_blank">
+                <span class="r-icon">📄</span>
+                <h4>Hermes Docs</h4>
+            </a>
+            <a href="https://github.com/nousresearch/hermes-agent" class="resource-item" target="_blank">
+                <span class="r-icon">💻</span>
+                <h4>GitHub Repo</h4>
+            </a>
+            <a href="https://hermes-agent-course.vercel.app/" class="resource-item" target="_blank">
+                <span class="r-icon">🏠</span>
+                <h4>Course Home</h4>
+            </a>
+            <div class="resource-item" style="cursor:default;">
+                <span class="r-icon">💬</span>
+                <h4>Community (Coming Soon)</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="support-box">
+        <p>📬 Questions? <a href="mailto:hermes-course@agentmail.to">hermes-course@agentmail.to</a> — we typically reply within 12 hours.</p>
+    </div>
+
+    <div class="footer-note">
+        <p>© 2026 AI Agents Course. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

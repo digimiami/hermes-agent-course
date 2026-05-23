@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Daily Usage & Power Features</h1>
+        <p class="meta">Module 4 of 10</p>
+        <div class="nav-links">
+            <a href="module-03-configuration.html" class="nav-prev">Configuration Deep Dive</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-05-skills.html" class="nav-next">Next: Skills System - The Kille</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Duration:** ~50 minutes reading  </blockquote>
+<blockquote>**Prerequisites:** Module 3 (Configuration)  </blockquote>
+<blockquote>**Goal:** Master Hermes Agent as a daily driver — from interactive chat to cron jobs, delegation, and multi-agent orchestration.</blockquote>
+<hr>
+<h2>4.1 Interactive Chat vs. Single Query Mode</h2>
+<p>Hermes Agent has two main interaction modes.</p>
+<h3>Interactive Chat (Default)</h3>
+<pre><code>
+hermes
+</code></pre>
+<p>This launches the full terminal UI with:</p>
+<p>- A Rich-formatted banner showing the active model, provider, and profile</p>
+<p>- A persistent text input area at the bottom (prompt_toolkit)</p>
+<p>- Split-pane output with streaming responses</p>
+<p>- A status bar showing model, tokens, and session ID</p>
+<p>- Full tab-completion for slash commands</p>
+<p>Inside interactive mode, you type normally and Hit `Enter` to send. The agent can chain multiple tool calls — searching the web, reading files, writing code, running terminals — all in a single turn.</p>
+<h3>Single Query Mode</h3>
+<pre><code>
+hermes chat -q "List all files in /root"
+# Or equivalently:
+hermes -q "List all files in /root"
+</code></pre>
+<p>This sends one query, waits for the response, prints it, then exits. Use this for:</p>
+<p>- **Shell scripts:** `result=$(hermes chat -q "What's the weather?")`</p>
+<p>- **Cron jobs:** `hermes -p daily cron run daily-report`</p>
+<p>- **Batch processing:** Pipe queries from a file list or CI pipeline</p>
+<p>The single-query mode sets `HERMES_YOLO_MODE=1` internally so dangerous commands auto-approve — ideal for automation.</p>
+<pre><code>
+# Named session (persists for follow-ups)
+hermes chat -q "Write a Python script" --continue my-session
+</code></pre>
+<h3>Key Flags</h3>
+<table><thead><tr>
+<th>Flag</th>
+<th>Effect</th>
+</tr></thead><tbody>
+<tr>
+<td>`-q "..."`</td>
+<td>Single query mode</td>
+</tr>
+<tr>
+<td>`-p <profile>`</td>
+<td>Use a specific profile</td>
+</tr>
+<tr>
+<td>`-w`</td>
+<td>Worktree mode (isolated git worktree)</td>
+</tr>
+<tr>
+<td>`--continue <name>`</td>
+<td>Resume a named session</td>
+</tr>
+<tr>
+<td>`--resume`</td>
+<td>Resume the last session</td>
+</tr>
+<tr>
+<td>`--ignore-user-config`</td>
+<td>Skip `config.yaml`, use defaults</td>
+</tr>
+<tr>
+<td>`--list-tools`</td>
+<td>Print all tool schemas and exit</td>
+</tr>
+<tr>
+<td>`--voice`</td>
+<td>Start with voice input enabled</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4.2 Slash Commands Master List</h2>
+<p>Inside an interactive session, everything starts with `/`. Here's every command organized by category.</p>
+<h3>Session Management</h3>
+<table><thead><tr>
+<th>Command</th>
+<th>Aliases</th>
+<th>What It Does</th>
+</tr></thead><tbody>
+<tr>
+<td>`/new [name]`</td>
+<td>`/reset`</td>
+<td>Start a completely fresh session</td>
+</tr>
+<tr>
+<td>`/retry`</td>
+<td>—</td>
+<td>Resend your last message to the agent</td>
+</tr>
+<tr>
+<td>`/undo`</td>
+<td>—</td>
+<td>Remove the last exchange (you + agent)</td>
+</tr>
+<tr>
+<td>`/title [name]`</td>
+<td>—</td>
+<td>Name the current session for resumption</td>
+</tr>
+<tr>
+<td>`/compress [topic]`</td>
+<td>—</td>
+<td>Manually trigger context compression</td>
+</tr>
+<tr>
+<td>`/save`</td>
+<td>—</td>
+<td>Dump the current conversation to a file</td>
+</tr>
+<tr>
+<td>`/history`</td>
+<td>—</td>
+<td>Show the full conversation so far</td>
+</tr>
+<tr>
+<td>`/resume [name]`</td>
+<td>—</td>
+<td>Jump back into a named session</td>
+</tr>
+<tr>
+<td>`/sessions`</td>
+<td>—</td>
+<td>Browse all past sessions</td>
+</tr>
+<tr>
+<td>`/branch [name]`</td>
+<td>`/fork`</td>
+<td>Fork the current conversation</td>
+</tr>
+<tr>
+<td>`/snap create`</td>
+<td>—</td>
+<td>Snapshot config/state (exportable)</td>
+</tr>
+<tr>
+<td>`/rollback [N]`</td>
+<td>—</td>
+<td>Restore filesystem to checkpoint N</td>
+</tr>
+<tr>
+<td>`/stop`</td>
+<td>—</td>
+<td>Kill all agent background processes</td>
+</tr>
+<tr>
+<td>`/agents`</td>
+<td>`/tasks`</td>
+<td>List active subagents and tasks</td>
+</tr>
+<tr>
+<td>`/background <prompt>`</td>
+<td>`/bg`, `/btw`</td>
+<td>Run a prompt in a background thread</td>
+</tr>
+<tr>
+<td>`/queue <prompt>`</td>
+<td>`/q`</td>
+<td>Queue input for next turn</td>
+</tr>
+<tr>
+<td>`/steer <prompt>`</td>
+<td>—</td>
+<td>Inject a message after the next tool call</td>
+</tr>
+<tr>
+<td>`/goal [text/pause/resume/clear/status]`</td>
+<td>—</td>
+<td>Persistent cross-turn objective</td>
+</tr>
+<tr>
+<td>`/subgoal [text/remove N/clear]`</td>
+<td>—</td>
+<td>Extra criteria on the active goal</td>
+</tr>
+<tr>
+<td>`/status`</td>
+<td>—</td>
+<td>Session info (model, tokens, uptime)</td>
+</tr>
+<tr>
+<td>`/profile`</td>
+<td>—</td>
+<td>Show active profile name and path</td>
+</tr>
+</tbody></table>
+<h3>Configuration</h3>
+<table><thead><tr>
+<th>Command</th>
+<th>Aliases</th>
+<th>What It Does</th>
+</tr></thead><tbody>
+<tr>
+<td>`/model [name]`</td>
+<td>`/provider`</td>
+<td>Switch provider or model mid-session</td>
+</tr>
+<tr>
+<td>`/personality [name]`</td>
+<td>—</td>
+<td>Set a predefined personality</td>
+</tr>
+<tr>
+<td>`/verbose`</td>
+<td>—</td>
+<td>Cycle tool progress verbosity</td>
+</tr>
+<tr>
+<td>`/yolo`</td>
+<td>—</td>
+<td>Toggle YOLO mode on/off</td>
+</tr>
+<tr>
+<td>`/reasoning [level]`</td>
+<td>—</td>
+<td>Set reasoning effort</td>
+</tr>
+<tr>
+<td>`/voice [on/off/tts]`</td>
+<td>—</td>
+<td>Toggle voice mode</td>
+</tr>
+<tr>
+<td>`/fast [normal/fast]`</td>
+<td>—</td>
+<td>Toggle priority processing (OpenAI/Anthropic)</td>
+</tr>
+<tr>
+<td>`/skin [name]`</td>
+<td>—</td>
+<td>Change the CLI theme</td>
+</tr>
+<tr>
+<td>`/indicator [style]`</td>
+<td>—</td>
+<td>Change the busy indicator animation</td>
+</tr>
+</tbody></table>
+<h3>Tools & Skills</h3>
+<table><thead><tr>
+<th>Command</th>
+<th>Aliases</th>
+<th>What It Does</th>
+</tr></thead><tbody>
+<tr>
+<td>`/tools [list/enable/disable]`</td>
+<td>—</td>
+<td>Manage tools (CLI only)</td>
+</tr>
+<tr>
+<td>`/toolsets`</td>
+<td>—</td>
+<td>List available toolsets</td>
+</tr>
+<tr>
+<td>`/skills [search/inspect/install]`</td>
+<td>—</td>
+<td>Browse and manage skills</td>
+</tr>
+<tr>
+<td>`/bundles`</td>
+<td>—</td>
+<td>List skill bundles</td>
+</tr>
+<tr>
+<td>`/cron [subcommand]`</td>
+<td>—</td>
+<td>Manage scheduled tasks</td>
+</tr>
+<tr>
+<td>`/curator [run/pause/pin]`</td>
+<td>—</td>
+<td>Background skill maintenance</td>
+</tr>
+<tr>
+<td>`/kanban [subcommand]`</td>
+<td>—</td>
+<td>Multi-agent coordination board</td>
+</tr>
+</tbody></table>
+<h3>Information & Help</h3>
+<table><thead><tr>
+<th>Command</th>
+<th>What It Does</th>
+</tr></thead><tbody>
+<tr>
+<td>`/help`</td>
+<td>Show all commands</td>
+</tr>
+<tr>
+<td>`/usage`</td>
+<td>Show token usage and cost</td>
+</tr>
+<tr>
+<td>`/insights [--days N]`</td>
+<td>Analyze recent usage patterns</td>
+</tr>
+<tr>
+<td>`/limits`</td>
+<td>Check per-provider rate limits</td>
+</tr>
+<tr>
+<td>`/whoami`</td>
+<td>Show your access level (admin/user)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4.3 Switching Models Mid-Session with `/model`</h2>
+<p>One of Hermes's most powerful features: you can change models **without losing your conversation context**.</p>
+<pre><code>
+# Inside a session, switch models mid-conversation:
+/model "gemini/gemini-3-flash-preview"
+
+# Switch provider entirely:
+/model --provider anthropic
+/model --provider openai
+
+# Set the new model as default (persists to config.yaml):
+/model "openrouter/anthropic/claude-sonnet-4" --global
+</code></pre>
+<p>**Use cases:**</p>
+<p>- Start brainstorming with a cheap/fast model, then `/model` to a reasoning model for deep analysis</p>
+<p>- Hit a rate limit? `/model` to a different provider</p>
+<p>- Need vision? Switch to Gemini for image analysis, then back</p>
+<p>The full conversation history is preserved across model switches — only the inference backend changes. All active toolsets remain unchanged.</p>
+<hr>
+<h2>4.4 Context Compression</h2>
+<p>Long conversations consume tokens and degrade quality. Hermes has two compression strategies.</p>
+<h3>Automatic Compression (Default)</h3>
+<pre><code>
+# In config.yaml:
+compression:
+  enabled: true
+  threshold: 0.50  # Compress at 50% of the model's context limit
+</code></pre>
+<p>When the conversation approaches the model's context window, Hermes automatically summarizes earlier turns into a compact form. This happens transparently — you just keep chatting.</p>
+<h3>Manual Compression</h3>
+<pre><code>
+# Trigger compression immediately
+/compress
+
+# Compress around a specific topic
+/compress "focus on the database schema decisions"
+</code></pre>
+<p>The `/compress` command:</p>
+<p>1. Takes the conversation so far</p>
+<p>2. Asks an auxiliary LLM to summarize it</p>
+<p>3. Replaces the full history with the summary</p>
+<p>4. Keeps the most recent N turns intact (so you don't lose the current thread)</p>
+<p>The `/usage` command shows your current context usage:</p>
+<pre><code>
+/usage
+# Output:
+# Tokens: 12,847 / 200,000 (6.4%)
+# Cost this session: $0.04
+</code></pre>
+<hr>
+<h2>4.5 Subagent Delegation</h2>
+<p>The `delegate_task` tool spawns **isolated child agents** with their own context, tools, and terminal sessions. The parent blocks until all children complete and only sees their summary results — never intermediate tool calls.</p>
+<h3>How Delegation Works</h3>
+<pre><code>
+You ──&gt; Hermes (parent) ──&gt; delegate_task("Write unit tests for parser.py")
+                                │
+                        ┌───────┴───────┐
+                        ▼               ▼
+                  Child Agent 1     Child Agent 2
+                  (writes tests)    (verifies they pass)
+                        │               │
+                        └───────┬───────┘
+                                ▼
+                        Summary back to parent
+</code></pre>
+<h3>Configuring Delegation</h3>
+<pre><code>
+# In config.yaml:
+delegation:
+  max_iterations: 45       # Max turns per child
+  model: ""                # Child model (empty = inherit parent)
+  provider: ""             # Child provider (empty = inherit parent)
+  auto_approve: true       # Auto-approve dangerous commands in children
+</code></pre>
+<h3>Using Delegate in Conversation</h3>
+<pre><code>
+You: Implement a REST API for the todo app. Delegate the database layer
+     to one subagent and the route handlers to another.
+
+Hermes: I'll split this into parallel workstreams.
+        
+        🔄 Delegating: Database schema & models...
+        🔄 Delegating: Route handlers & middleware...
+        
+        ✅ Database layer complete (child: 8 turns)
+          - Created models.py with SQLAlchemy schema
+          - Added migration script
+          
+        ✅ Route handlers complete (child: 12 turns)  
+          - Created routes.py with CRUD endpoints
+          - Added input validation
+          
+        Both branches finished. Here's the full implementation...
+</code></pre>
+<h3>Batch Delegation</h3>
+<p>The delegate tool also supports batch mode for processing multiple independent tasks in parallel — perfect for code review, file analysis, or bulk operations.</p>
+<pre><code>
+# Behind the scenes, delegation uses ThreadPoolExecutor
+# with configurable max_workers (default: half your CPU cores)
+</code></pre>
+<hr>
+<h2>4.6 Session Management</h2>
+<p>Every conversation is a **session** — persisted to SQLite with full-text search.</p>
+<h3>Naming and Resuming Sessions</h3>
+<pre><code>
+# Start a named session
+hermes chat --continue "code-review-session"
+
+# Inside the session, give it a title
+/title "Implementing the payment module"
+
+# Later, resume it
+hermes --continue "Implementing the payment module"
+
+# Or via the session browser
+hermes sessions list
+hermes --continue &lt;session-id&gt;
+</code></pre>
+<h3>Session Persistence</h3>
+<p>Sessions are stored in `~/.hermes/state.db` (SQLite with FTS5). Each session records:</p>
+<p>- Full message history</p>
+<p>- Model and provider used</p>
+<p>- Token usage and cost</p>
+<p>- Timestamps</p>
+<p>- Title (if set)</p>
+<h3>Session Search</h3>
+<p>The `/sessions` command opens an interactive browser:</p>
+<pre><code>
+/sessions
+# Lists all sessions with: title, model, date, token count
+# Type a number to resume, or filter by date/model
+</code></pre>
+<p>The `session_search` tool inside conversations lets the agent search past sessions to recall decisions, code patterns, or facts from weeks ago.</p>
+<h3>Branching</h3>
+<pre><code>
+/branch "try-with-postgres"
+# Creates a fork of the current conversation
+# You now have two diverging threads from the same starting point
+</code></pre>
+<hr>
+<h2>4.7 Cron Jobs</h2>
+<p>Hermes has a built-in cron scheduler that runs inside the gateway. Jobs execute as agent conversations with full tool access.</p>
+<h3>Creating Cron Jobs</h3>
+<pre><code>
+# Inside a session, ask the agent:
+"Create a daily summary cron job that runs at 8 AM"
+
+# Or use the cron tool directly:
+/cron create
+# Interactive prompt:
+#   Name: daily-report
+#   Schedule: 0 8 * * *  (cron expression)
+#   Prompt: "Summarize yesterday's activity in /root/logs"
+#   Platform: cli  (or telegram, discord, etc.)
+</code></pre>
+<h3>Cron Commands</h3>
+<pre><code>
+# List all jobs
+/cron list
+
+# Pause/resume
+/cron pause daily-report
+/cron resume daily-report
+
+# Run immediately (one-shot)
+/cron run daily-report
+
+# Edit a job's prompt or schedule
+/cron edit daily-report
+
+# Remove a job
+/cron remove daily-report
+</code></pre>
+<h3>Cron Schedule Format</h3>
+<p>Standard cron expressions with 5 fields:</p>
+<pre><code>
+┌───────── minute (0-59)
+│ ┌──────── hour (0-23)
+│ │ ┌─────── day of month (1-31)
+│ │ │ ┌────── month (1-12)
+│ │ │ │ ┌───── day of week (0-7, 0/7 = Sunday)
+│ │ │ │ │
+0 8 * * 1-5   # Weekdays at 8 AM
+</code></pre>
+<h3>Cron Safety Features</h3>
+<p>- **Prompt injection scanning** — every assembled job prompt is scanned for injection before execution</p>
+<p>- **Auto-approval** — cron agents run with auto-approved dangerous commands (set `delegation.auto_approve: false` to disable)</p>
+<p>- **Tool filtering** — cron uses the `hermes-cron` toolset, which you configure independently of the CLI toolset</p>
+<p>- **Output delivery** — cron results are sent to the configured platform (Telegram, email, Slack, etc.)</p>
+<h3>Cron with Platforms</h3>
+<pre><code>
+hermes cron create \
+  --name "weekly-audit" \
+  --schedule "0 9 * * 1" \
+  --prompt "Audit /var/log for errors in the last week and summarize findings" \
+  --platform telegram    # Deliver results to Telegram
+</code></pre>
+<hr>
+<h2>4.8 Webhooks</h2>
+<p>The webhook platform lets external systems trigger Hermes agents via HTTP POST requests.</p>
+<h3>Setting Up Webhook Endpoints</h3>
+<pre><code>
+# Start the gateway with webhook support
+hermes gateway start
+
+# The webhook listener runs on the gateway port
+# Default: http://localhost:8290/webhook
+</code></pre>
+<h3>Webhook Payload Format</h3>
+<pre><code>
+POST /webhook HTTP/1.1
+Content-Type: application/json
+
+{
+  "message": "A new deployment is ready for review",
+  "platform": "webhook",
+  "metadata": {
+    "source": "github-actions",
+    "repo": "myorg/myapp",
+    "commit": "abc123"
+  }
+}
+</code></pre>
+<h3>Use Cases</h3>
+<p>- **CI/CD pipelines** — trigger agent to review deployment output</p>
+<p>- **Monitoring alerts** — agent diagnoses and responds to system alerts</p>
+<p>- **GitHub webhooks** — agent reviews PRs, comments on issues</p>
+<p>- **IoT events** — agent processes sensor data and takes action</p>
+<pre><code>
+# Example: GitHub Actions workflow
+curl -X POST https://hermes.myserver.com/webhook \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Deploy to prod completed. Verify health endpoints.", "platform": "webhook"}'
+</code></pre>
+<hr>
+<h2>4.9 Goal Mode</h2>
+<p>Goals persist across conversation turns, giving the agent a standing directive it keeps working toward.</p>
+<h3>Setting a Goal</h3>
+<pre><code>
+/goal "Refactor the database layer to use async SQLAlchemy"
+
+# Add sub-goals
+/subgoal "Add connection pooling"
+/subgoal "Rewrite all CRUD operations as async"
+/subgoal "Update tests"
+</code></pre>
+<h3>How Goals Work</h3>
+<p>When a goal is active:</p>
+<p>1. The goal text is appended to the system prompt on every turn</p>
+<p>2. The agent autonomously works toward the goal across multiple user messages</p>
+<p>3. Completing a sub-goal triggers the agent to move to the next one</p>
+<p>4. Interleaving unrelated questions doesn't reset progress</p>
+<h3>Managing Goals</h3>
+<pre><code>
+/goal status    # See current goal + sub-goal progress
+/goal pause     # Temporarily suspend goal pursuit
+/goal resume    # Re-activate the goal
+/goal clear     # Remove the current goal completely
+</code></pre>
+<p>Goals are not persisted across sessions — they're session-scoped.</p>
+<hr>
+<h2>4.10 Worktree Mode</h2>
+<p>The `-w` flag creates an **isolated git worktree** for the current session, letting you run multiple Hermes instances in the same repository without conflicts.</p>
+<pre><code>
+# Start a session in worktree mode
+hermes -w
+# Creates: ~/my-repo/.worktrees/hermes-&lt;uuid&gt;/
+# The session's CWD is inside this worktree
+</code></pre>
+<h3>Why Worktrees Matter</h3>
+<p>Without worktrees, two Hermes sessions modifying the same files race against each other. Worktrees give each session:</p>
+<p>- Its own working directory (a detached HEAD copy of the repo)</p>
+<p>- No interference between parallel sessions</p>
+<p>- Clean isolation — changes in one worktree don't affect others</p>
+<p>- The original repository remains untouched until you merge</p>
+<h3>Worktree Lifecycle</h3>
+<pre><code>
+# Create a worktree session
+hermes -w
+
+# Inside the session, you can:
+# - Edit files
+# - Run tests
+# - Create branches
+# All isolated from other sessions
+
+# On exit, the worktree is cleaned up automatically
+# Uncommitted changes are lost (by design — commit before exiting!)
+</code></pre>
+<h3>Multi-Agent Worktree Workflows</h3>
+<pre><code>
+# Terminal 1
+hermes -w -q "Refactor the auth module"
+
+# Terminal 2 (same repo, different worktree)
+hermes -w -q "Write tests for the auth module"
+
+# Terminal 3 (gateway, providing chat access)
+hermes gateway start
+# Both Telegram and CLI sessions get their own worktrees
+</code></pre>
+<hr>
+<h2>4.11 Checkpoints & Rollback</h2>
+<p>Checkpoints let you rewind the **filesystem state** to a previous point — like undo for your whole project.</p>
+<h3>Creating Checkpoints</h3>
+<p>Checkpoints are created automatically by the `terminal` and `file` tools. Every file write, patch, or terminal command that modifies files records a snapshot.</p>
+<pre><code>
+# List all checkpoints for this session
+/rollback
+# Shows:
+#   [0]  Just now        - Initial state
+#   [1]  2 min ago       - After creating routes.py
+#   [2]  30 sec ago      - After modifying database.py
+</code></pre>
+<h3>Restoring a Checkpoint</h3>
+<pre><code>
+# Restore to checkpoint 1
+/rollback 1
+# Files are reverted. Cannot be undone (but you can restore forward too).
+</code></pre>
+<h3>Snapshot System (Portable)</h3>
+<pre><code>
+# Create a named snapshot (exportable)
+/snap create "pre-refactor"
+# Saved to ~/.hermes/checkpoints/&lt;name&gt;/
+
+# Restore from a snapshot
+/snap restore "pre-refactor"
+
+# List all snapshots
+/snap ls
+
+# Prune old snapshots
+/snap prune
+</code></pre>
+<p>Snapshots capture:</p>
+<p>- Files in the working directory (configurable scope)</p>
+<p>- Active conversation context</p>
+<p>- Agent memory state</p>
+<p>This is useful for:</p>
+<p>- **Experiment before big refactors** — explore freely, revert instantly</p>
+<p>- **Teaching/demos** — create snapshots at different stages</p>
+<p>- **Reproducible debugging** — save the exact state before a bug occurs</p>
+<hr>
+<h2>4.12 Multi-Agent Coordination with tmux and Kanban</h2>
+<p>For complex workflows, Hermes supports running multiple agents in parallel with structured coordination.</p>
+<h3>tmux Integration</h3>
+<p>Hermes can be used inside tmux sessions for persistent, detachable agent instances:</p>
+<pre><code>
+# Create a tmux session for each agent
+tmux new-session -s dev-agent   'hermes -p developer'
+tmux new-window -t dev-agent -n test-agent 'hermes -p tester'
+tmux new-window -t dev-agent -n deploy-agent 'hermes -p deploy'
+
+# Detach and reattach later
+tmux detach
+tmux attach -t dev-agent
+</code></pre>
+<h3>Kanban Board</h3>
+<p>The kanban system provides structured multi-agent coordination with a shared task board:</p>
+<pre><code>
+# Initialize the kanban board (first time)
+/kanban init
+
+# Create a task on the board
+/kanban create "Refactor payment processor" --assignee coder
+
+# List all tasks
+/kanban list
+# Shows: ID, Title, Assignee, Status, Priority
+
+# Link tasks to show dependencies
+/kanban link 5 --depends-on 3
+
+# Complete a task
+/kanban complete 5 --result "...summary..."
+</code></pre>
+<h3>Kanban Worker Profiles</h3>
+<p>When an agent is spawned as a kanban worker (via the kanban dispatcher in the gateway), it automatically receives tools to:</p>
+<p>- Show assigned tasks (`kanban_show`)</p>
+<p>- Mark tasks complete with structured handoffs (`kanban_complete`)</p>
+<p>- Block for human input (`kanban_block`)</p>
+<p>- Heartbeat during long operations (`kanban_heartbeat`)</p>
+<p>- Comment on task threads (`kanban_comment`)</p>
+<h3>Multi-Profile Orchestration</h3>
+<pre><code>
+# ~/.hermes/config.yaml in the kanban orchestrator profile:
+kanban:
+  dispatch_in_gateway: true
+  workers:
+    - name: coder
+      description: "Full-stack development and code writing"
+    - name: reviewer  
+      description: "Code review, security audit, best practices"
+    - name: sysadmin
+      description: "Server management, deployment, monitoring"
+</code></pre>
+<p>The kanban decomposer automatically breaks incoming tasks into subtasks and routes them to the most appropriate worker profile based on their descriptions.</p>
+<hr>
+<h2>4.13 Power User Tips</h2>
+<h3>1. Chain Multiple Commands</h3>
+<pre><code>
+# Use single-query mode in pipelines
+curl -s https://api.github.com/repos/user/repo/issues \
+  | hermes chat -q "Summarize these GitHub issues and prioritize them"
+</code></pre>
+<h3>2. Background Processing</h3>
+<pre><code>
+# Inside a session, do work without blocking
+/background "Download the dataset and preprocess it"
+# Keep chatting while the background task runs
+# The agent interrupts when done
+</code></pre>
+<h3>3. Session Context Files</h3>
+<pre><code>
+# Create ~/.hermes/context-files/ for persistent project context
+# The agent loads these into system prompt automatically
+</code></pre>
+<h3>4. Custom Persona Files (SOUL.md)</h3>
+<pre><code>
+# ~/.hermes/SOUL.md defines your agent's core personality
+# It's loaded into every session across all profiles
+</code></pre>
+<h3>5. Keyboard Shortcuts in CLI</h3>
+<table><thead><tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr></thead><tbody>
+<tr>
+<td>`Ctrl+C`</td>
+<td>Interrupt current agent task</td>
+</tr>
+<tr>
+<td>`Ctrl+L`</td>
+<td>Clear screen</td>
+</tr>
+<tr>
+<td>`Ctrl+R`</td>
+<td>Reverse search command history</td>
+</tr>
+<tr>
+<td>`Tab`</td>
+<td>Autocomplete slash commands</td>
+</tr>
+<tr>
+<td>`Shift+Enter`</td>
+<td>New line (multi-line input)</td>
+</tr>
+<tr>
+<td>`Ctrl+Enter`</td>
+<td>Send multi-line input</td>
+</tr>
+<tr>
+<td>`Up/Down`</td>
+<td>Navigate command history</td>
+</tr>
+</tbody></table>
+<h3>6. Daily Workflow Example</h3>
+<pre><code>
+# Morning: start the gateway for mobile access
+hermes gateway start
+
+# Check in from CLI
+hermes chat -q "Summarize what I was working on yesterday"
+
+# Start a focused session
+hermes --continue "payment-refactor"
+
+# During session:
+/model "openrouter/deepseek/deepseek-chat-v3-0324"  # Switch to cheaper model
+/verbose 2        # Show intermediate tool calls
+/goal "Refactor the payment module to use Stripe"
+
+# After session: schedule daily report
+hermes cron create \
+  --name "daily-ticket-summary" \
+  --schedule "0 17 * * 5" \
+  --prompt "Summarize this week's GitHub activity" \
+  --platform telegram
+</code></pre>
+<hr>
+<h2>4.14 Quick Reference: Common Task Cheatsheet</h2>
+<table><thead><tr>
+<th>Task</th>
+<th>Command</th>
+</tr></thead><tbody>
+<tr>
+<td>Start chatting</td>
+<td>`hermes`</td>
+</tr>
+<tr>
+<td>Ask one question</td>
+<td>`hermes chat -q "question"`</td>
+</tr>
+<tr>
+<td>Use a specific profile</td>
+<td>`hermes -p work`</td>
+</tr>
+<tr>
+<td>Resume last session</td>
+<td>`hermes --resume`</td>
+</tr>
+<tr>
+<td>Switch model in-session</td>
+<td>`/model "provider/model"`</td>
+</tr>
+<tr>
+<td>Check usage</td>
+<td>`/usage`</td>
+</tr>
+<tr>
+<td>Compress context</td>
+<td>`/compress`</td>
+</tr>
+<tr>
+<td>Set a goal</td>
+<td>`/goal "objective"`</td>
+</tr>
+<tr>
+<td>Schedule a task</td>
+<td>`hermes cron create` (or `/cron create` in-session)</td>
+</tr>
+<tr>
+<td>Enable browser</td>
+<td>`hermes tools enable browser`</td>
+</tr>
+<tr>
+<td>Toggle YOLO</td>
+<td>`/yolo`</td>
+</tr>
+<tr>
+<td>Rollback file changes</td>
+<td>`/rollback <N>`</td>
+</tr>
+<tr>
+<td>Fork conversation</td>
+<td>`/branch "exploration-name"`</td>
+</tr>
+<tr>
+<td>See all sessions</td>
+<td>`hermes sessions list`</td>
+</tr>
+<tr>
+<td>Send webhook</td>
+<td>`curl -X POST <gateway-url>/webhook -d '{"message":"..."}'`</td>
+</tr>
+<tr>
+<td>Create a profile</td>
+<td>`hermes profile create <name>`</td>
+</tr>
+<tr>
+<td>Manage credentials</td>
+<td>`hermes auth`</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Key Takeaways</h2>
+<p>- **Two modes**: Interactive (`hermes`) for deep work, single-query (`hermes -q`) for automation</p>
+<p>- **Slash commands** are your interface to session management, model switching, and tools</p>
+<p>- **Context compression** keeps long conversations efficient — both automatic and manual (`/compress`)</p>
+<p>- **Subagent delegation** parallelizes work without contaminating parent context</p>
+<p>- **Session management** gives you named, searchable, resumable conversations</p>
+<p>- **Cron jobs** let the agent work unattended on schedules</p>
+<p>- **Webhooks** bridge external systems into agent conversations</p>
+<p>- **Goal mode** gives the agent persistent cross-turn objectives</p>
+<p>- **Worktrees** isolate parallel agent instances in the same git repo</p>
+<p>- **Checkpoints** provide filesystem undo for safe experimentation</p>
+<p>- **Kanban + tmux** enable full multi-agent orchestration for complex workflows</p>
+<p>- **The `/model` command** is arguably Hermes's killer feature — switch inference backends mid-conversation without losing context</p>
+<blockquote>**Next Steps:** Explore the Skills System (Module 5) to create procedural knowledge that makes your agent smarter with every interaction.</blockquote>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-03-configuration.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 3</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-05-skills.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 5</a>
+    </div>
+</div>
+</body>
+</html>

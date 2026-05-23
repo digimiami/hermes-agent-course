@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Monetization Strategies</h1>
+        <p class="meta">Module 9 of 10</p>
+        <div class="nav-links">
+            <a href="module-08-vps.html" class="nav-prev">VPS Deployment</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <a href="module-10-advanced.html" class="nav-next">Next: Advanced Use Cases</a>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Course:** Hermes Agent — From Zero to Autonomous Agent</blockquote>
+<blockquote>**Module:** 9 of 10</blockquote>
+<blockquote>**Reading time:** ~25 minutes</blockquote>
+<blockquote>**Difficulty:** Beginner — business strategy, not technical</blockquote>
+<hr>
+<h2>TL;DR</h2>
+<table><thead><tr>
+<th>Strategy</th>
+<th>Effort</th>
+<th>Revenue Potential</th>
+<th>Timeline</th>
+</tr></thead><tbody>
+<tr>
+<td>----------</td>
+<td>:------:</td>
+<td>:-----------------:</td>
+<td>:--------:</td>
+</tr>
+<tr>
+<td>Agent as a Service</td>
+<td>Medium</td>
+<td>$20–50/mo per user</td>
+<td>2–4 weeks</td>
+</tr>
+<tr>
+<td>Local Business Automation</td>
+<td>High</td>
+<td>$500–5,000/setup</td>
+<td>4–8 weeks</td>
+</tr>
+<tr>
+<td>Custom Skill Development</td>
+<td>Low</td>
+<td>$100–500/skill</td>
+<td>1–2 weeks</td>
+</tr>
+<tr>
+<td>Affiliate Marketing</td>
+<td>Low</td>
+<td>$50–500/mo passive</td>
+<td>4–12 weeks</td>
+</tr>
+<tr>
+<td>Sell This Course</td>
+<td>Medium</td>
+<td>$500–5,000/mo</td>
+<td>4–8 weeks</td>
+</tr>
+<tr>
+<td>White-Label Hermes</td>
+<td>High</td>
+<td>$2K–5K setup + $100–200/mo</td>
+<td>6–12 weeks</td>
+</tr>
+<tr>
+<td>SaaS Product</td>
+<td>Very High</td>
+<td>$10–50/mo per seat</td>
+<td>12–24 weeks</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Introduction</h2>
+<p>Hermes Agent isn't just a powerful productivity tool — it's a **business platform**. Because it's open-source (MIT license), infinitely customizable, and runs on cheap infrastructure, you can build income streams around it that would be impossible with closed platforms like ChatGPT or Claude.</p>
+<p>In this module, we'll cover seven concrete monetization strategies, from easiest to most ambitious. Each includes:</p>
+<p>- What you need to build</p>
+<p>- How to find customers</p>
+<p>- Revenue projections</p>
+<p>- Real-world examples</p>
+<hr>
+<h2>Strategy 1: Sell Access to Your Agent as a Service</h2>
+<p>**Difficulty:** Medium | **Revenue:** $20–50/mo per user | **Setup time:** 2–4 weeks</p>
+<p>This is the simplest model: set up Hermes on a VPS, connect it to Telegram or Discord, and charge people for access to your shared AI assistant.</p>
+<h3>What You Offer</h3>
+<p>A team or individual gets a Telegram/Discord bot that:</p>
+<p>- Answers questions with any LLM model</p>
+<p>- Runs code and shell commands</p>
+<p>- Searches the web</p>
+<p>- Edits files and manages projects</p>
+<p>- Remembers past conversations</p>
+<p>- Runs scheduled tasks</p>
+<h3>Technical Setup</h3>
+<p>1. **VPS** — DigitalOcean ($6/mo) or Hetzner ($4/mo)</p>
+<p>2. **Hermes** — Standard install + gateway</p>
+<p>3. **Platform** — Telegram bot (easiest) or Discord bot</p>
+<p>4. **Users** — Add them to `TELEGRAM_ALLOWED_USERS` or `DISCORD_ALLOWED_USERS`</p>
+<p>For a team:</p>
+<pre><code>
+TELEGRAM_ALLOWED_USERS=111111,222222,333333,444444
+</code></pre>
+<p>Or use **DM pairing** so users self-register and you approve them:</p>
+<pre><code>
+hermes pairing approve telegram XKGH5N7P
+</code></pre>
+<h3>Pricing Models</h3>
+<table><thead><tr>
+<th>Model</th>
+<th>Price</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr>
+<td>-------</td>
+<td>:-----:</td>
+<td>---------</td>
+</tr>
+<tr>
+<td>Individual</td>
+<td>$20/mo</td>
+<td>One person, unlimited messages</td>
+</tr>
+<tr>
+<td>Team (up to 5)</td>
+<td>$50/mo</td>
+<td>Small dev team, shared bot</td>
+</tr>
+<tr>
+<td>Team (up to 20)</td>
+<td>$100/mo</td>
+<td>Department or startup</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom</td>
+<td>Custom skills, dedicated VPS</td>
+</tr>
+</tbody></table>
+<h3>Finding Customers</h3>
+<p>- **Developer communities** — Hacker News, Reddit (r/programming, r/SideProject), Dev.to</p>
+<p>- **Twitter/X** — Post about what your agent does. Show screenshots of results.</p>
+<p>- **Indie hacker forums** — IndieHackers, ProductHunt</p>
+<p>- **Freelance platforms** — Upwork, Fiverr, Contra</p>
+<p>- **Professional networks** — LinkedIn, Slack communities, Discord servers</p>
+<h3>Cost Analysis</h3>
+<table><thead><tr>
+<th>Item</th>
+<th>Cost</th>
+</tr></thead><tbody>
+<tr>
+<td>------</td>
+<td>:----:</td>
+</tr>
+<tr>
+<td>VPS</td>
+<td>$5–10/mo</td>
+</tr>
+<tr>
+<td>LLM API</td>
+<td>$0.50–2 per active user per month</td>
+</tr>
+<tr>
+<td>Total per 10 users</td>
+<td>~$10–30/mo in costs</td>
+</tr>
+<tr>
+<td>Revenue at $20/user</td>
+<td>$200/mo</td>
+</tr>
+<tr>
+<td>**Gross profit**</td>
+<td>**$170–190/mo**</td>
+</tr>
+</tbody></table>
+<p>The magic is that LLM costs are sub-linear — one API key serves all users, and many queries are cheap (cached responses, small models for simple questions).</p>
+<h3>Example Pitch</h3>
+<blockquote>"I've built an AI assistant for developers. It lives in Telegram, remembers what you've worked on, can run code, search the web, and automate repetitive tasks. $25/month per person. Try it free for a week."</blockquote>
+<hr>
+<h2>Strategy 2: Automate Tasks for Local Businesses</h2>
+<p>**Difficulty:** High | **Revenue:** $500–5,000/setup + $100–500/mo retainer | **Setup time:** 4–8 weeks</p>
+<p>Local businesses have repetitive digital tasks they pay humans to do. Hermes can do many of them automatically.</p>
+<h3>What You Offer</h3>
+<p>A concierge AI agent that handles:</p>
+<p>- **Customer inquiries** — Answer FAQs via website widget or WhatsApp</p>
+<p>- **Review management** — Monitor Google/Yelp reviews, draft responses, send reports</p>
+<p>- **Social media** — Create and schedule posts, monitor engagement</p>
+<p>- **Inventory alerts** — Check supplier prices, notify when stock is low</p>
+<p>- **Appointment management** — Send reminders, reschedule, follow up</p>
+<p>- **Invoice follow-up** — Detect overdue invoices, draft payment reminders</p>
+<p>- **Competitor monitoring** — Weekly reports on competitors' prices and offers</p>
+<h3>Technical Setup</h3>
+<p>Each business gets a dedicated Hermes instance on a VPS:</p>
+<p>1. **VPS** — $6/mo DigitalOcean droplet</p>
+<p>2. **WhatsApp bot** — Hermes WhatsApp integration for customer communication</p>
+<p>3. **Email gateway** — For receiving/sending automated emails</p>
+<p>4. **Custom skills** — Business-specific automation logic</p>
+<p>5. **Cron jobs** — Scheduled reports and monitoring</p>
+<h3>Pricing</h3>
+<table><thead><tr>
+<th>Service</th>
+<th>Setup Fee</th>
+<th>Monthly Retainer</th>
+</tr></thead><tbody>
+<tr>
+<td>---------</td>
+<td>:---------:</td>
+<td>:----------------:</td>
+</tr>
+<tr>
+<td>Basic (1-2 automations)</td>
+<td>$500</td>
+<td>$100/mo</td>
+</tr>
+<tr>
+<td>Standard (3-5 automations)</td>
+<td>$1,500</td>
+<td>$250/mo</td>
+</tr>
+<tr>
+<td>Premium (full suite)</td>
+<td>$5,000</td>
+<td>$500/mo</td>
+</tr>
+</tbody></table>
+<h3>Finding Customers</h3>
+<p>- **Walk into local businesses** — Restaurants, auto shops, salons, dental clinics, real estate agents</p>
+<p>- **Cold email** — Find small businesses without modern systems</p>
+<p>- **Chamber of Commerce** — Join your local chamber and offer member discounts</p>
+<p>- **Google Maps** — Find businesses with outdated websites/no online presence</p>
+<p>- **Referral program** — Offer existing clients $100 referral bonus</p>
+<h3>Example</h3>
+<p>A **dental clinic** pays $2,000 setup + $300/mo for:</p>
+<p>- Automated appointment reminders via SMS (saves 15h/week of front desk time)</p>
+<p>- Weekly social media posts with dental tips (generated by Hermes)</p>
+<p>- Monthly competitor analysis of nearby clinics' pricing</p>
+<p>- Automated review responses on Google Maps</p>
+<p>- Daily report of no-shows and reschedules</p>
+<p>**The clinic saves** ~$1,200/mo in labor costs. **You earn** $300/mo recurring. Win-win.</p>
+<hr>
+<h2>Strategy 3: Build and Sell Custom Skills</h2>
+<p>**Difficulty:** Low | **Revenue:** $100–500/skill | **Setup time:** 1–2 weeks</p>
+<p>Hermes skills are modular, sharable, and easy to create. If you can identify a repeatable workflow, package it as a skill and sell it.</p>
+<h3>What You Offer</h3>
+<p>A ready-to-use Hermes skill that handles a specific task:</p>
+<p>- **Code review skill** — Consistent PR review with team-specific guidelines</p>
+<p>- **SEO audit skill** — Crawls a URL, generates actionable SEO recommendations</p>
+<p>- **Legal document summarizer** — Extracts key clauses from contracts</p>
+<p>- **Competitive intelligence skill** — Monitors competitors and generates reports</p>
+<p>- **Crypto portfolio tracker** — Daily summaries of positions and news</p>
+<p>- **Real estate lead qualifier** — Analyzes property listings and scores leads</p>
+<p>- **Recipe generator / meal planner** — With dietary restriction handling</p>
+<p>- **Resume screener** — Analyzes resumes against job descriptions</p>
+<h3>Technical Setup</h3>
+<p>Skills are just markdown files. Create `~/.hermes/skills/your-skill/SKILL.md`:</p>
+<pre><code>
+---
+name: seo-audit
+description: Crawls a URL and generates actionable SEO recommendations
+---
+
+# SEO Audit Guidelines
+
+When asked to audit a URL...
+
+1. Fetch the page content
+2. Check: title tag, meta description, H1-H3 structure, image alt text
+3. Check: page speed (CLS, LCP, FID metrics via Lighthouse)
+4. Check: keyword density, internal/external links
+5. Generate a report with: score out of 100, top 3 issues, quick wins
+</code></pre>
+<p>Package it for distribution:</p>
+<pre><code>
+tar -czf seo-audit-skill.tar.gz -C ~/.hermes/skills seo-audit/
+</code></pre>
+<h3>Pricing</h3>
+<table><thead><tr>
+<th>Skill Complexity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>:----------------:</td>
+<td>:-----:</td>
+</tr>
+<tr>
+<td>Simple (10–30 lines)</td>
+<td>$100–200</td>
+</tr>
+<tr>
+<td>Medium (30–100 lines)</td>
+<td>$200–350</td>
+</tr>
+<tr>
+<td>Complex (100+ lines, integrations)</td>
+<td>$350–500</td>
+</tr>
+</tbody></table>
+<h3>Marketing Channels</h3>
+<p>- **Hermes community** — GitHub Discussions, Discord, Reddit</p>
+<p>- **Skill marketplaces** — Gumroad, Sellfy, Lemonsqueezy</p>
+<p>- **Developer tool directories** — Awesome lists, GitHub topics</p>
+<p>- **Blog posts** — "How I automated [X] with Hermes" → link to your skill</p>
+<p>- **YouTube tutorials** — Walk through the problem → show the skill → sell</p>
+<h3>Example</h3>
+<p>You build a **blog content automation skill** that:</p>
+<p>1. Scrapes trending topics in a niche</p>
+<p>2. Generates an article outline</p>
+<p>3. Writes the first draft</p>
+<p>4. Creates social media snippets</p>
+<p>5. Generates an SEO meta description</p>
+<p>Price: **$299**. Sell to bloggers, content marketers, and agency owners.</p>
+<p>Even if you only sell 10 copies, that's **$2,990** for a weekend of work.</p>
+<hr>
+<h2>Strategy 4: Affiliate Marketing</h2>
+<p>**Difficulty:** Low | **Revenue:** $50–500/mo passive | **Setup time:** 4–12 weeks</p>
+<p>This is the lowest-effort option. Create content about Hermes Agent, include affiliate links to VPS providers and LLM APIs, and earn commissions.</p>
+<h3>What You Promote</h3>
+<table><thead><tr>
+<th>Service</th>
+<th>Commission</th>
+<th>Why It Fits</th>
+</tr></thead><tbody>
+<tr>
+<td>---------</td>
+<td>:----------:</td>
+<td>-------------</td>
+</tr>
+<tr>
+<td>**DigitalOcean**</td>
+<td>$25–100 per referral</td>
+<td>Every VPS guide mentions them</td>
+</tr>
+<tr>
+<td>**Hetzner**</td>
+<td>~€10 per referral</td>
+<td>Best value VPS for Hermes</td>
+</tr>
+<tr>
+<td>**Vultr**</td>
+<td>$10–50 per referral</td>
+<td>Another VPS option</td>
+</tr>
+<tr>
+<td>**OpenRouter**</td>
+<td>5–10% recurring</td>
+<td>LLM API aggregator</td>
+</tr>
+<tr>
+<td>**Firecrawl**</td>
+<td>Commission varies</td>
+<td>Web search API for Hermes</td>
+</tr>
+<tr>
+<td>**OpenAI / Anthropic**</td>
+<td>None directly, but referral programs exist</td>
+<td>Mention in course content</td>
+</tr>
+<tr>
+<td>**Domain registrars**</td>
+<td>$1–5 per referral</td>
+<td>For webhook setups</td>
+</tr>
+</tbody></table>
+<h3>Content Ideas</h3>
+<p>- **Blog posts** — "How to Set Up Your Own AI Agent in 10 Minutes"</p>
+<p>- **YouTube videos** — "I Built a Free AI Assistant (ChatGPT Alternative)"</p>
+<p>- **Twitter threads** — "5 Things My AI Agent Does for Me Every Day"</p>
+<p>- **GitHub repos** — Curated list of Hermes skills and configurations</p>
+<p>- **Courses** — This course! Include affiliate links for VPS and API services</p>
+<p>- **Reddit posts** — Answer questions about self-hosted AI</p>
+<h3>Expected Revenue</h3>
+<table><thead><tr>
+<th>Traffic</th>
+<th>Conversion</th>
+<th>Monthly Revenue</th>
+</tr></thead><tbody>
+<tr>
+<td>:-------:</td>
+<td>:----------:</td>
+<td>:---------------:</td>
+</tr>
+<tr>
+<td>1,000 visitors/mo</td>
+<td>1%</td>
+<td>~$50–100</td>
+</tr>
+<tr>
+<td>10,000 visitors/mo</td>
+<td>1%</td>
+<td>~$500–1,000</td>
+</tr>
+<tr>
+<td>100,000 visitors/mo</td>
+<td>1%</td>
+<td>~$5,000–10,000</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Strategy 5: Create and Sell THIS Course</h2>
+<p>**Difficulty:** Medium | **Revenue:** $500–5,000/mo | **Setup time:** 4–8 weeks</p>
+<p>You're reading the result — Hermes is a deep product with a growing user base, and there's no comprehensive course. Fill that gap.</p>
+<h3>What You Offer</h3>
+<p>A structured learning path:</p>
+<p>- **Beginner track** — What is Hermes, installation, basic usage (free or low-cost)</p>
+<p>- **Intermediate track** — Skills, training, gateway, VPS deployment (paid)</p>
+<p>- **Advanced track** — Plugin development, multi-agent systems, custom integrations (premium)</p>
+<h3>Platforms</h3>
+<table><thead><tr>
+<th>Platform</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr></thead><tbody>
+<tr>
+<td>----------</td>
+<td>:----:</td>
+<td>:----:</td>
+</tr>
+<tr>
+<td>**Gumroad**</td>
+<td>Easy setup, handles payments</td>
+<td>Limited course features</td>
+</tr>
+<tr>
+<td>**Teachable**</td>
+<td>Full course platform</td>
+<td>Monthly fee</td>
+</tr>
+<tr>
+<td>**Udemy**</td>
+<td>Built-in audience</td>
+<td>50%+ revenue share</td>
+</tr>
+<tr>
+<td>**Your own site**</td>
+<td>Full control</td>
+<td>You do all marketing</td>
+</tr>
+<tr>
+<td>**Lemonsqueezy**</td>
+<td>Developer-friendly, global tax compliance</td>
+<td>No course features</td>
+</tr>
+</tbody></table>
+<h3>Pricing Models</h3>
+<table><thead><tr>
+<th>Model</th>
+<th>Price</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr>
+<td>-------</td>
+<td>:-----:</td>
+<td>---------</td>
+</tr>
+<tr>
+<td>One-time purchase</td>
+<td>$50–200</td>
+<td>Full course access forever</td>
+</tr>
+<tr>
+<td>Subscription</td>
+<td>$10–30/mo</td>
+<td>Access to all modules + updates</td>
+</tr>
+<tr>
+<td>Tiered</td>
+<td>Free + $49 + $149</td>
+<td>Starter / Pro / Enterprise</td>
+</tr>
+<tr>
+<td>Bundled</td>
+<td>$197</td>
+<td>Course + custom skills pack</td>
+</tr>
+</tbody></table>
+<h3>Marketing</h3>
+<p>- **GitHub** — Publish the course outline as a repo. Collect emails.</p>
+<p>- **Blog** — Publish one module for free. Gate the rest.</p>
+<p>- **YouTube** — Video version. Monetize with ads + course sales.</p>
+<p>- **Communities** — Share in Hermes Discord, Hacker News, Reddit</p>
+<p>- **Affiliate program** — Give 30% commissions to promoters</p>
+<hr>
+<h2>Strategy 6: White-Label Hermes for Clients</h2>
+<p>**Difficulty:** High | **Revenue:** $2K–5K setup + $100–200/mo maintenance | **Setup time:** 6–12 weeks</p>
+<p>Businesses want AI assistants but don't want to manage servers, API keys, or open-source software. White-label Hermes — brand it as their AI assistant and manage everything for them.</p>
+<h3>What You Offer</h3>
+<p>A branded AI assistant for their company:</p>
+<p>- **Their logo, their name** — Bot profile, welcome messages</p>
+<p>- **Custom knowledge base** — Their documentation, FAQ, SOPs</p>
+<p>- **Custom tools** — Integration with their CRM, support desk, database</p>
+<p>- **Shared team access** — Per-user authorization</p>
+<p>- **SLA** — Guaranteed uptime, response time</p>
+<p>- **Monthly reports** — Usage stats, common questions, cost analysis</p>
+<h3>Technical Setup</h3>
+<p>1. **Dedicated VPS** per client (or isolated instances)</p>
+<p>2. **Custom skill** per client containing their knowledge</p>
+<p>3. **Branded Telegram/Discord bot** with custom name and avatar</p>
+<h3>Pricing</h3>
+<table><thead><tr>
+<th>Tier</th>
+<th>Setup</th>
+<th>Monthly</th>
+<th>What's Included</th>
+</tr></thead><tbody>
+<tr>
+<td>:----:</td>
+<td>:-----:</td>
+<td>:-------:</td>
+<td>-----------------</td>
+</tr>
+<tr>
+<td>Basic</td>
+<td>$2,000</td>
+<td>$100/mo</td>
+<td>Telegram bot, basic knowledge, email support</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>$3,500</td>
+<td>$150/mo</td>
+<td>Discord + Telegram, custom skills, priority support</td>
+</tr>
+<tr>
+<td>Premium</td>
+<td>$5,000</td>
+<td>$200/mo</td>
+<td>Full platform support, custom integrations, SLA</td>
+</tr>
+</tbody></table>
+<h3>Finding Clients</h3>
+<p>- **Target B2B** — Agencies, law firms, real estate brokerages, e-commerce stores</p>
+<p>- **Offering to other agencies** — "I can add AI assistant capabilities to your service offerings"</p>
+<p>- **LinkedIn outreach** — Connect with CTOs, Heads of Engineering, Operations Directors</p>
+<p>- **Referral from Strategy 2 clients** — They tell other business owners</p>
+<h3>Example</h3>
+<p>A **real estate agency** pays $3,500 setup + $150/mo for:</p>
+<p>- Branded WhatsApp bot for client inquiries</p>
+<p>- Automated property listing summaries</p>
+<p>- Lead qualification (scores leads based on budget/preferences)</p>
+<p>- Appointment scheduling and reminders</p>
+<p>- Monthly market analysis report</p>
+<p>**Their alternative:** Hire a full-time assistant ($40K+/yr). Hermes costs them $2,300/yr.</p>
+<hr>
+<h2>Strategy 7: SaaS Product</h2>
+<p>**Difficulty:** Very High | **Revenue:** $10–50/mo per seat | **Setup time:** 12–24 weeks</p>
+<p>Build a multi-tenant SaaS platform where users sign up, connect their Telegram/Discord, and get a personal AI agent.</p>
+<h3>What You Offer</h3>
+<p>A fully managed, multi-tenant Hermes service:</p>
+<p>- **Self-service signup** — Users create accounts, no sales call needed</p>
+<p>- **Free trial** — 7 days with limited messages</p>
+<p>- **Tiered plans** — Based on messages, users, features</p>
+<p>- **Multi-platform** — Users choose Telegram, Discord, Slack, or WhatsApp</p>
+<p>- **Admin dashboard** — Usage stats, billing, team management</p>
+<h3>Technical Architecture</h3>
+<p>Each user or team gets an isolated Hermes agent:</p>
+<pre><code>
+User signs up ─→ Gateway creates a new Hermes profile
+              → Profile has its own sessions, skills, cron jobs
+              → All traffic routed through a shared gateway with tenant isolation
+              → Billing metered by API calls / messages
+</code></pre>
+<p>For true isolation, use Docker per tenant:</p>
+<pre><code>
+version: '3'
+services:
+  hermes-tenant-1:
+    image: hermes-agent
+    environment:
+      - HERMES_HOME=/data/tenant-1
+      - OPENAI_API_KEY=tenant-1-key
+    volumes:
+      - /data/tenant-1:/data
+</code></pre>
+<h3>Pricing Model</h3>
+<table><thead><tr>
+<th>Plan</th>
+<th>Price</th>
+<th>Limits</th>
+</tr></thead><tbody>
+<tr>
+<td>:----:</td>
+<td>:-----:</td>
+<td>--------</td>
+</tr>
+<tr>
+<td>Free</td>
+<td>$0</td>
+<td>50 messages/mo, 1 user</td>
+</tr>
+<tr>
+<td>Starter</td>
+<td>$10/mo</td>
+<td>500 messages/mo, 3 users</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>$25/mo</td>
+<td>2,000 messages/mo, 10 users</td>
+</tr>
+<tr>
+<td>Team</td>
+<td>$50/mo</td>
+<td>10,000 messages/mo, unlimited users</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom</td>
+<td>Custom limits, dedicated infra</td>
+</tr>
+</tbody></table>
+<h3>Estimated Costs per 100 Users</h3>
+<table><thead><tr>
+<th>Item</th>
+<th>Cost</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>------</td>
+<td>:----:</td>
+<td>-------</td>
+</tr>
+<tr>
+<td>VPS (4 instances)</td>
+<td>$60/mo</td>
+<td>Hetzner or DO</td>
+</tr>
+<tr>
+<td>LLM API</td>
+<td>$50–200/mo</td>
+<td>Varies by usage</td>
+</tr>
+<tr>
+<td>Domain + email</td>
+<td>$20/mo</td>
+<td></td>
+</tr>
+<tr>
+<td>Payment processing</td>
+<td>3% + $0.30/transaction</td>
+<td>Stripe</td>
+</tr>
+<tr>
+<td>**Total**</td>
+<td>**~$130–280/mo**</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>At 100 users, even at $10/mo: **$1,000/mo revenue** → **~$2–3k/mo at $25 avg.**</p>
+<h3>Building the SaaS</h3>
+<p>1. **Start as a service** — Manually onboard first 10 customers (Strategy 1)</p>
+<p>2. **Automate** — Build a simple signup flow that provisions new instances</p>
+<p>3. **Scale** — Add billing, dashboard, self-service</p>
+<hr>
+<h2>Real Revenue Projections</h2>
+<p>Here's what each strategy can realistically generate at different stages:</p>
+<table><thead><tr>
+<th>Strategy</th>
+<th>Month 1–3</th>
+<th>Month 4–6</th>
+<th>Month 7–12</th>
+<th>Year 2+</th>
+</tr></thead><tbody>
+<tr>
+<td>----------</td>
+<td>:---------:</td>
+<td>:---------:</td>
+<td>:----------:</td>
+<td>:--------:</td>
+</tr>
+<tr>
+<td>Agent as a Service</td>
+<td>$200–500</td>
+<td>$500–2,000</td>
+<td>$1,000–5,000</td>
+<td>$2,000–15,000</td>
+</tr>
+<tr>
+<td>Local Business Automation</td>
+<td>$500–2,000</td>
+<td>$1,000–5,000</td>
+<td>$3,000–10,000</td>
+<td>$5,000–25,000</td>
+</tr>
+<tr>
+<td>Custom Skills</td>
+<td>$0–500</td>
+<td>$500–2,000</td>
+<td>$1,000–5,000</td>
+<td>$2,000–10,000</td>
+</tr>
+<tr>
+<td>Affiliate Marketing</td>
+<td>$0–100</td>
+<td>$100–500</td>
+<td>$200–1,000</td>
+<td>$500–5,000</td>
+</tr>
+<tr>
+<td>Sell This Course</td>
+<td>$200–1,000</td>
+<td>$1,000–3,000</td>
+<td>$2,000–10,000</td>
+<td>$3,000–20,000</td>
+</tr>
+<tr>
+<td>White-Label</td>
+<td>$0–5,000</td>
+<td>$2,000–10,000</td>
+<td>$5,000–25,000</td>
+<td>$10,000–50,000</td>
+</tr>
+<tr>
+<td>SaaS Product</td>
+<td>$0</td>
+<td>$500–2,000</td>
+<td>$2,000–10,000</td>
+<td>$10,000–100,000+</td>
+</tr>
+</tbody></table>
+<h3>Reality Check</h3>
+<p>- **Most of these require active marketing.** Building the product is half the work — selling it is the other half.</p>
+<p>- **Start with one strategy.** Don't try all seven. Pick the one that fits your skills and audience.</p>
+<p>- **Combo strategies work best.** Sell Agent as a Service → upsell white-label. Create a course → promote VPS affiliate links.</p>
+<p>- **Customer support takes time.** Every additional user means more questions, bugs, and requests.</p>
+<p>- **LLM costs scale with usage.** Monitor them. Set rate limits. Use cheaper models for routine tasks.</p>
+<hr>
+<h2>What Works Best for Different Backgrounds</h2>
+<table><thead><tr>
+<th>Your Background</th>
+<th>Best Strategy</th>
+</tr></thead><tbody>
+<tr>
+<td>Developer</td>
+<td>Agent as a Service, Custom Skills, SaaS</td>
+</tr>
+<tr>
+<td>Freelancer / Consultant</td>
+<td>Local Business Automation, White-Label</td>
+</tr>
+<tr>
+<td>Content Creator</td>
+<td>Affiliate Marketing, Sell This Course</td>
+</tr>
+<tr>
+<td>Agency Owner</td>
+<td>White-Label, Local Business Automation</td>
+</tr>
+<tr>
+<td>Technical Marketer</td>
+<td>Affiliate Marketing, Sell This Course</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Getting Started Today</h2>
+<p>Don't overthink it. Here's your 7-day launch plan:</p>
+<p>**Day 1:** Choose one strategy from this module</p>
+<p>**Day 2:** Set up Hermes on a $6 VPS (use Module 8)</p>
+<p>**Day 3:** Configure Telegram/Discord (use Module 7)</p>
+<p>**Day 4:** Build your first paying offering</p>
+<p>**Day 5:** Tell 10 people about it (friends, forums, social media)</p>
+<p>**Day 6:** Get feedback, adjust pricing</p>
+<p>**Day 7:** Launch</p>
+<p>Your first customer is the hardest. After that, it compounds.</p>
+<hr>
+<h2>Summary</h2>
+<p>- **Agent as a Service** — Simplest entry. $20–50/mo per user. Start here.</p>
+<p>- **Local Business Automation** — Highest per-client revenue. $500–5,000 setup.</p>
+<p>- **Custom Skills** — Low effort, good for developers. $100–500/skill.</p>
+<p>- **Affiliate Marketing** — Passive, low effort. Best as a supplement.</p>
+<p>- **Sell This Course** — Position yourself as an expert. $50–200/course.</p>
+<p>- **White-Label** — High ticket, high effort. Best for agencies.</p>
+<p>- **SaaS** — Highest ceiling, hardest execution. Build toward this.</p>
+<p>The common thread: **Hermes is open-source, customizable, and cheap to run.** That combination is rare and valuable. People will pay for access, automation, expertise, and convenience built on top of it.</p>
+<p>In the next module, we'll explore advanced use cases — trading bots, content automation, code review agents, research assistants, and more.</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-08-vps.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 8</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <a href="module-10-advanced.html" class="nav-next" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;">Module 10</a>
+    </div>
+</div>
+</body>
+</html>

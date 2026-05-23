@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - AI Agents: Master Hermes Agent</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #d0d0d8;
+            line-height: 1.7;
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .container { max-width: 840px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .course-header {
+            padding: 40px 0 20px;
+            border-bottom: 1px solid rgba(108,92,231,0.08);
+            margin-bottom: 40px;
+        }
+        .course-header .back {
+            color: #6c5ce7; text-decoration: none; font-size: 0.85em; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+        }
+        .course-header .back:hover { color: #00cec9; }
+        .course-header h1 {
+            font-size: 2em; font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .course-header .meta { color: #606080; font-size: 0.85em; margin-top: 6px; }
+        .course-header .nav-links {
+            display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+        }
+        .course-header .nav-links a {
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82em; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .nav-prev { background: rgba(108,92,231,0.08); color: #a78bfa; border: 1px solid rgba(108,92,231,0.1); }
+        .nav-prev:hover { background: rgba(108,92,231,0.15); }
+        .nav-next { background: linear-gradient(135deg, #6c5ce7, #00cec9); color: #fff; }
+        .nav-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+        .nav-index { background: rgba(108,92,231,0.06); color: #808098; border: 1px solid rgba(108,92,231,0.08); }
+        .nav-index:hover { color: #fff; }
+        .content { padding-bottom: 60px; }
+        .content h2 { color: #a78bfa; font-size: 1.4em; font-weight: 700; margin-top: 36px; margin-bottom: 12px; }
+        .content h3 { color: #c0c0e0; font-size: 1.15em; font-weight: 700; margin-top: 28px; margin-bottom: 10px; }
+        .content h4 { color: #e0e0e8; font-size: 1em; font-weight: 700; margin-top: 24px; margin-bottom: 8px; }
+        .content p { margin-bottom: 16px; color: #a0a0b0; font-size: 0.95em; }
+        .content ul, .content ol { margin: 0 0 16px 24px; color: #a0a0b0; font-size: 0.95em; }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: #e0e0e8; }
+        .content code {
+            background: rgba(108,92,231,0.08); padding: 2px 8px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #a0e0a0;
+        }
+        .content pre {
+            background: rgba(10,10,20,0.8); border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 10px; padding: 18px 22px; margin: 20px 0; overflow-x: auto;
+        }
+        .content pre code { background: none; padding: 0; font-size: 0.85em; color: #b0d0b0; }
+        .content blockquote {
+            border-left: 3px solid #6c5ce7; padding: 12px 20px; margin: 20px 0;
+            background: rgba(108,92,231,0.04); border-radius: 0 10px 10px 0;
+            color: #9090a8; font-size: 0.92em;
+        }
+        .content table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88em; }
+        .content th, .content td { padding: 10px 14px; border: 1px solid rgba(108,92,231,0.08); text-align: left; }
+        .content th { background: rgba(108,92,231,0.06); color: #c0c0d8; font-weight: 600; }
+        .content td { color: #9090a8; }
+        .content hr { border: none; border-top: 1px solid rgba(108,92,231,0.08); margin: 36px 0; }
+        .content .module-nav-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 0; margin-top: 40px;
+            border-top: 1px solid rgba(108,92,231,0.08);
+        }
+        @media (max-width: 600px) {
+            .course-header h1 { font-size: 1.4em; }
+            .content h2 { font-size: 1.15em; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+    <div class="course-header">
+        <a href="index.html" class="back">Back to Course Dashboard</a>
+        <h1>Advanced Use Cases</h1>
+        <p class="meta">Module 10 of 10</p>
+        <div class="nav-links">
+            <a href="module-09-monetization.html" class="nav-prev">Monetization Strategies</a>
+            <a href="index.html" class="nav-index">All Modules</a>
+            <span></span>
+        </div>
+    </div>
+<div class="content">
+<blockquote>**Course:** Hermes Agent — From Zero to Autonomous Agent</blockquote>
+<blockquote>**Module:** 10 of 10</blockquote>
+<blockquote>**Reading time:** ~25 minutes</blockquote>
+<blockquote>**Difficulty:** Advanced</blockquote>
+<hr>
+<h2>TL;DR</h2>
+<table><thead><tr>
+<th>Use Case</th>
+<th>What It Does</th>
+<th>Key Tools</th>
+</tr></thead><tbody>
+<tr>
+<td>**Trading Bot**</td>
+<td>Automated crypto/stock monitoring and execution</td>
+<td>Cron jobs, API calls, terminal</td>
+</tr>
+<tr>
+<td>**Content Automation**</td>
+<td>AI script → voiceover → video → upload pipeline</td>
+<td>Skills, terminal, API calls</td>
+</tr>
+<tr>
+<td>**Code Review Bot**</td>
+<td>Auto-review PRs via webhooks or cron</td>
+<td>Webhooks, terminal, cron</td>
+</tr>
+<tr>
+<td>**Customer Support Agent**</td>
+<td>Automated support across Telegram/Discord</td>
+<td>Gateway, allowlists, skills</td>
+</tr>
+<tr>
+<td>**Research Assistant**</td>
+<td>Daily digests, paper summaries, trend analysis</td>
+<td>Cron, skills, web search</td>
+</tr>
+<tr>
+<td>**Personal Assistant**</td>
+<td>Email triage, calendar, todo management</td>
+<td>API server, skills, cron</td>
+</tr>
+<tr>
+<td>**Multi-Agent Systems**</td>
+<td>Delegated task execution with sub-agents</td>
+<td>Delegation, `/background`</td>
+</tr>
+<tr>
+<td>**Home Automation**</td>
+<td>Voice-controlled smart home via Home Assistant</td>
+<td>Home Assistant adapter</td>
+</tr>
+<tr>
+<td>**CI/CD Integration**</td>
+<td>Automated deployment pipeline assistant</td>
+<td>Webhooks, terminal</td>
+</tr>
+<tr>
+<td>**Data Pipeline**</td>
+<td>ETL, reporting, visualization automation</td>
+<td>Cron, skills, Python execution</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Use Case 1: Trading Bot</h2>
+<p>Build an automated trading bot that monitors markets, analyzes trends, and executes trades on your behalf.</p>
+<h3>Setup</h3>
+<p>You'll need API access to a trading platform. Hermes supports any exchange with a REST API via the terminal tool.</p>
+<p>**Bybit example:**</p>
+<pre><code>
+# Add API keys to .env
+BYBIT_API_KEY=your_api_key
+BYBIT_API_SECRET=your_api_secret
+</code></pre>
+<p>Create a cron job for market monitoring:</p>
+<pre><code>
+/ Monitor BTC price every 30 minutes. If price drops &gt;3% in 24h, 
+  check RSI and volume. If RSI &lt; 30 and volume &gt; 2x average, 
+  alert me on Telegram with a buy recommendation.
+</code></pre>
+<p>**Alpaca (stocks) example:**</p>
+<pre><code>
+# Add API keys to .env
+ALPACA_API_KEY=your_api_key
+ALPACA_SECRET_KEY=your_api_secret
+</code></pre>
+<p>Create a cron job:</p>
+<pre><code>
+Every morning at 9:30 AM EST, check my Alpaca portfolio. 
+Show: current positions, P&L, top gainers/losers. 
+If any position is down &gt;5%, recommend whether to hold or sell.
+</code></pre>
+<h3>Expected Results</h3>
+<table><thead><tr>
+<th>Task</th>
+<th>Output</th>
+</tr></thead><tbody>
+<tr>
+<td>Price monitoring</td>
+<td>Alerts with technical analysis</td>
+</tr>
+<tr>
+<td>Portfolio summary</td>
+<td>Daily P&L report sent to Telegram</td>
+</tr>
+<tr>
+<td>Backtesting</td>
+<td>Historical performance analysis</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Paper trading (always test before going live!)</td>
+</tr>
+</tbody></table>
+<h3>Safety Considerations</h3>
+<p>- **Never give the agent full trading permissions** — Use read-only or whitelisted API keys</p>
+<p>- **Paper trade first** — Run in simulation mode for at least a month</p>
+<p>- **Set position limits** — Hard-code maximum trade sizes</p>
+<p>- **Human-in-the-loop** — Use command approval for actual trades</p>
+<p>- **Monitor costs** — Frequent API calls can add up</p>
+<hr>
+<h2>Use Case 2: Content Automation</h2>
+<p>Build an end-to-end content pipeline: Hermes writes a script, generates a voiceover, creates visuals, renders a video, and uploads it to YouTube.</p>
+<h3>The Pipeline</h3>
+<pre><code>
+Cron job fires → Agent writes script → TTS generates voiceover
+→ Python/moviepy renders video → Upload via YouTube API
+→ Post link to Telegram/Discord
+</code></pre>
+<h3>Setup</h3>
+<p>Create a content skill at `~/.hermes/skills/content-creator/SKILL.md`:</p>
+<pre><code>
+---
+name: content-creator
+description: Creates AI-generated video content from topic prompts
+---
+
+# Content Creator Guidelines
+
+When creating a video from a topic:
+
+1. Research the topic via web search
+2. Write a 2-minute script (300 words, conversational tone)
+3. Generate TTS audio using the configured voice
+4. Find or generate relevant visuals
+5. Use moviepy to compose the video with captions
+6. Save to ~/content/output/
+</code></pre>
+<h3>Cron Job</h3>
+<p>Create a daily content job:</p>
+<pre><code>
+Every morning at 6 AM, create a 2-minute explainer video about 
+a trending AI news story from the past 24 hours. 
+Use a professional, accessible tone. 
+Save the video to ~/content/output/ and post the link to Telegram.
+</code></pre>
+<h3>Required Tools</h3>
+<table><thead><tr>
+<th>Tool</th>
+<th>Purpose</th>
+<th>Installation</th>
+</tr></thead><tbody>
+<tr>
+<td>**ffmpeg**</td>
+<td>Audio/video processing</td>
+<td>`sudo apt install ffmpeg`</td>
+</tr>
+<tr>
+<td>**moviepy**</td>
+<td>Python video editing</td>
+<td>`pip install moviepy`</td>
+</tr>
+<tr>
+<td>**TTS**</td>
+<td>Voice generation</td>
+<td>Built into Hermes via configured provider</td>
+</tr>
+<tr>
+<td>**OpenAI/Anthropic**</td>
+<td>Script writing</td>
+<td>API key in `.env`</td>
+</tr>
+</tbody></table>
+<h3>Example Workflow</h3>
+<p>1. Cron fires at 6 AM</p>
+<p>2. Agent searches for top AI news</p>
+<p>3. Writes a script with hook, body, and CTA</p>
+<p>4. Generates voiceover via TTS</p>
+<p>5. Creates captions/subtitles</p>
+<p>6. Renders video with background music</p>
+<p>7. Saves to output directory</p>
+<p>8. Posts link to Telegram</p>
+<hr>
+<h2>Use Case 3: Code Review Bot</h2>
+<p>Automatically review pull requests in your GitHub repositories. Two approaches:</p>
+<h3>Approach A: Cron-Based (Simple)</h3>
+<p>Poll for open PRs on a schedule. See Module 7's GitHub PR review guide for the full setup.</p>
+<pre><code>
+# Cron job: every 2 hours, check for new PRs and review them
+hermes cron create "0 */2 * * *" \
+  "Check for new open PRs in myorg/backend-api.\n\n\
+   For each PR opened or updated in the last 4 hours:\n\
+   1. Fetch the diff\n\
+   2. Review for bugs, security issues, code quality\n\
+   3. Format findings with file:line, severity, and fix suggestion\n\n\
+   If no new PRs, say: No new PRs to review." \
+  --skill code-review \
+  --deliver telegram
+</code></pre>
+<h3>Approach B: Webhook-Based (Real-time)</h3>
+<p>Set up a webhook endpoint that GitHub pushes events to when PRs are opened or updated.</p>
+<p>1. Configure the webhook adapter in `~/.hermes/gateway.json`:</p>
+<pre><code>
+{
+  "platforms": {
+    "webhook": {
+      "enabled": true,
+      "extra": {
+        "port": 9000,
+        "endpoints": {
+          "/github-pr": {
+            "description": "GitHub PR review webhook",
+            "allowed_senders": ["github.com"],
+            "script": "review_pr"
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>2. Create a review script that Hermes executes when a webhook fires</p>
+<p>3. Configure GitHub to send webhook events to `http://your-server:9000/github-pr`</p>
+<p>**Pros:** No polling delay. Reviews happen seconds after a PR is opened.</p>
+<p>**Cons:** Requires a public endpoint (port forwarding, or deploy on a cloud host).</p>
+<h3>Expected Results</h3>
+<p>- Every PR gets a review within minutes (webhook) or hours (cron)</p>
+<p>- Reviews include specific line numbers and code snippets</p>
+<p>- Team receives summary in Telegram/Discord</p>
+<p>- Catch bugs before they reach production</p>
+<hr>
+<h2>Use Case 4: Customer Support Agent</h2>
+<p>Set up a Telegram or Discord bot that handles customer support for your product or service.</p>
+<h3>Setup</h3>
+<p>1. Create a skill with your product's knowledge base:</p>
+<pre><code>
+~/.hermes/skills/support/SKILL.md
+</code></pre>
+<p>Include:</p>
+<p>- Product documentation and FAQs</p>
+<p>- Known issues and workarounds</p>
+<p>- Escalation criteria</p>
+<p>- Brand voice and tone guidelines</p>
+<p>2. Configure the bot with appropriate authorization:</p>
+<pre><code>
+# Allow all customers to message the bot
+GATEWAY_ALLOW_ALL_USERS=true
+
+# But restrict dangerous commands
+# In config.yaml:
+gateway:
+  platforms:
+    telegram:
+      extra:
+        allow_admin_from: ["your-user-id"]
+        user_allowed_commands: [help, status]
+</code></pre>
+<h3>Features</h3>
+<table><thead><tr>
+<th>Feature</th>
+<th>Implementation</th>
+</tr></thead><tbody>
+<tr>
+<td>FAQ answering</td>
+<td>Skill with product knowledge</td>
+</tr>
+<tr>
+<td>Ticket creation</td>
+<td>Agent writes to your support system's API</td>
+</tr>
+<tr>
+<td>Order lookup</td>
+<td>API integration via terminal tool</td>
+</tr>
+<tr>
+<td>Escalation</td>
+<td>`/escalate` command starts a support ticket</td>
+</tr>
+<tr>
+<td>Status checks</td>
+<td>Cron job checks service health</td>
+</tr>
+</tbody></table>
+<h3>Example</h3>
+<pre><code>
+# User messages: "My order hasn't arrived in 2 weeks"
+# Hermes checks the order system, finds the tracking info:
+# "I can see order #12345 is with USPS (tracking: 1Z999AA10123456784).
+#  Last scan was in Memphis distribution center. Would you like me to
+#  contact USPS support? Or I can escalate this to our team."
+</code></pre>
+<hr>
+<h2>Use Case 5: Research Assistant</h2>
+<p>An automated researcher that monitors topics, summarizes papers, and delivers digests.</p>
+<h3>Daily Digest</h3>
+<pre><code>
+# Every morning at 7 AM
+hermes cron create "0 7 * * *" \
+  "Create a research digest:\n\n\
+   1. Search arxiv for new papers about: large language models, AI agents\n\
+   2. Search PubMed for: AI in healthcare\n\
+   3. Search tech news for: AI industry developments\n\
+   4. For each source, summarize the top 3 items\n\
+   5. Format as a clean digest with sections and links\n\n\
+   Focus on papers and news from the past 24 hours only." \
+  --deliver telegram
+</code></pre>
+<h3>Paper Summary on Demand</h3>
+<pre><code>
+# Send this to your bot:
+"Summarize this paper: [arxiv link].
+ Focus on: methodology, results, limitations. 
+ Compare it to the previous work in this area.
+ End with: should I read the full paper? (yes/no + 1 sentence reason)"
+</code></pre>
+<h3>Configurable Research Briefings</h3>
+<p>Create multiple cron jobs for different topics:</p>
+<pre><code>
+# AI research (weekdays only)
+"Cron: 0 8 * * 1-5 — AI digest"
+
+# Crypto (daily)
+"Cron: 0 9 * * * — Crypto news and market analysis"
+
+# Industry competitors (weekly)
+"Cron: 0 10 * * 1 — Weekly competitor analysis"
+</code></pre>
+<hr>
+<h2>Use Case 6: Personal Assistant</h2>
+<p>Use Hermes as a full personal assistant for email triage, calendar management, and task tracking.</p>
+<h3>Email Triage</h3>
+<p>Via the **API server** or **webhook** adapter, Hermes can receive and process emails:</p>
+<pre><code>
+1. Gateway receives email
+2. Agent reads it and determines: important?, requires action?, spam?
+3. Responds with: summary, priority, suggested action
+4. Delivers digest to Telegram
+</code></pre>
+<p>Setup via email adapter:</p>
+<pre><code>
+# In .env
+EMAIL_ENABLED=true
+EMAIL_ADDRESS=assistant@yourdomain.com
+EMAIL_PASSWORD=your_app_password
+EMAIL_ALLOWED_SENDERS=trusted@example.com
+</code></pre>
+<h3>Calendar & Todo</h3>
+<p>Hermes can manage a todo list in a skill file:</p>
+<pre><code>
+# Todo skill — stores tasks in ~/todo.md
+
+When I say "remind me to X":
+1. Add to ~/todo.md with date
+2. Confirm with "Added: X"
+3. Create a cron job if there's a time: "Remind me at [time]: X"
+</code></pre>
+<p>Daily check-in:</p>
+<pre><code>
+Every morning at 8 AM, read my todo list, check my calendar,
+and give me a summary of what's scheduled and what's due today.
+</code></pre>
+<hr>
+<h2>Use Case 7: Multi-Agent Systems</h2>
+<p>Hermes supports **delegation** — spawning sub-agents that work on tasks in parallel.</p>
+<h3>How Delegation Works</h3>
+<p>Within any session, you can tell Hermes to delegate tasks to sub-agents. Each sub-agent gets an isolated session and runs independently.</p>
+<pre><code>
+You: "Research three topics and combine the results"
+
+Main agent:
+  ├── → Sub-agent 1: "Research topic A"
+  ├── → Sub-agent 2: "Research topic B"  
+  └── → Sub-agent 3: "Research topic C"
+  
+  ← Collects all results
+  ← Combines into one response
+</code></pre>
+<h3>Use Cases</h3>
+<table><thead><tr>
+<th>Task</th>
+<th>Structure</th>
+</tr></thead><tbody>
+<tr>
+<td>Market research</td>
+<td>Each competitor gets its own sub-agent</td>
+</tr>
+<tr>
+<td>Code analysis</td>
+<td>Each file/repo gets its own sub-agent</td>
+</tr>
+<tr>
+<td>Writing</td>
+<td>Outline → draft → review in parallel</td>
+</tr>
+<tr>
+<td>Data processing</td>
+<td>Each data source gets its own sub-agent</td>
+</tr>
+</tbody></table>
+<h3>Via `/background`</h3>
+<p>The `/background` command spawns a separate agent instance:</p>
+<pre><code>
+/background Check all servers in the cluster and report any that are down
+</code></pre>
+<p>The background agent runs independently — you can keep chatting while it works. Results arrive in the same chat when complete.</p>
+<h3>Multi-Agent Kanban Board</h3>
+<p>Hermes ships with a **kanban plugin** for multi-agent orchestration:</p>
+<pre><code>
+hermes-plugin-kanban-install
+</code></pre>
+<p>This provides a visual board where you assign tasks to agents, track progress, and manage complex workflows.</p>
+<hr>
+<h2>Use Case 8: Home Automation via Home Assistant</h2>
+<p>Hermes integrates with **Home Assistant** to give you voice-controlled smart home management through Telegram or Discord.</p>
+<h3>Setup</h3>
+<p>Configure the Home Assistant platform:</p>
+<pre><code>
+# In .env
+HOMEASSISTANT_ENABLED=true
+HOMEASSISTANT_BASE_URL=http://192.168.1.100:8123
+HOMEASSISTANT_ACCESS_TOKEN=your_long_lived_token
+</code></pre>
+<p>The Home Assistant adapter adds special tools:</p>
+<p>- `ha_list_entities` — List all Home Assistant entities</p>
+<p>- `ha_get_state` — Get the state of an entity</p>
+<p>- `ha_call_service` — Call a Home Assistant service (turn on/off, set temp, etc.)</p>
+<p>- `ha_list_services` — List available services</p>
+<h3>Examples</h3>
+<pre><code>
+"Turn off all lights in the living room"
+"Set the thermostat to 72 degrees"
+"What's the temperature outside?"
+"Lock the front door and arm the alarm"
+"Good night" → Agent runs a scene: lights off, doors locked, alarm on
+</code></pre>
+<h3>Automations with Cron</h3>
+<pre><code>
+Every day at sunset: close the garage door if it's open
+Every morning at 7 AM: turn on the coffee maker and set lights to 50%
+When I leave home (detected by phone): turn off all lights and AC
+</code></pre>
+<hr>
+<h2>Use Case 9: CI/CD Integration</h2>
+<p>Integrate Hermes into your CI/CD pipeline for automated deployments, monitoring, and rollback decisions.</p>
+<h3>Webhook-Triggered Deployments</h3>
+<p>When a CI/CD pipeline (GitHub Actions, GitLab CI, Jenkins) completes:</p>
+<p>1. Pipeline sends webhook to Hermes</p>
+<p>2. Hermes checks the build output, test results, and deployment logs</p>
+<p>3. If tests pass and metrics are healthy → approve deployment</p>
+<p>4. If tests fail or metrics degrade → notify the team with details</p>
+<h3>Monitoring Cron</h3>
+<pre><code>
+Every 5 minutes, check the production server health:
+- Is the app responding on port 443?
+- Is the database connection pool under 80%?
+- Is the error rate below 0.1%?
+- Is memory usage under 80%?
+
+If any check fails, alert the team in Telegram with the details.
+</code></pre>
+<h3>Automated Rollback</h3>
+<p>When a deployment causes issues:</p>
+<pre><code>
+If error rate spikes above 5% within 10 minutes of a deployment:
+1. Run: kubectl rollout undo deployment/app
+2. Verify the previous version is serving traffic
+3. Notify the team: "Rolled back deployment v1.2.3 due to error rate spike"
+</code></pre>
+<hr>
+<h2>Use Case 10: Data Pipeline (ETL, Reporting, Visualization)</h2>
+<p>Use Hermes as an automated data processing engine that extracts, transforms, and visualizes data on a schedule.</p>
+<h3>ETL Pipeline</h3>
+<pre><code>
+Cron job fires:
+1. Extract: Download CSV from API or database
+2. Transform: Clean data, compute metrics, aggregate
+3. Load: Write results to a database or generate a report
+
+Delivery:
+- Send summary to Telegram
+- Save full report to local files
+- Generate charts and send them as images
+</code></pre>
+<h3>Example: Sales Dashboard</h3>
+<pre><code>
+hermes cron create "0 7 * * 1" \
+  "Generate a weekly sales report:\n\n\
+   1. Run: python3 ~/scripts/extract_sales_data.py\n\
+   2. Calculate: total revenue, top products, YoY growth\n\
+   3. Create a bar chart comparing this week vs last week\n\
+   4. Create a pie chart of revenue by product category\n\
+   5. Save charts to ~/weekly-reports/[date]/\n\
+   6. Write a summary with key numbers and insights\n\
+   7. Send the summary + charts to Telegram" \
+  --deliver telegram
+</code></pre>
+<h3>Visualization Tools</h3>
+<table><thead><tr>
+<th>Tool</th>
+<th>Purpose</th>
+<th>Install</th>
+</tr></thead><tbody>
+<tr>
+<td>**matplotlib**</td>
+<td>Python charts</td>
+<td>`pip install matplotlib`</td>
+</tr>
+<tr>
+<td>**pandas**</td>
+<td>Data manipulation</td>
+<td>`pip install pandas`</td>
+</tr>
+<tr>
+<td>**seaborn**</td>
+<td>Statistical charts</td>
+<td>`pip install seaborn`</td>
+</tr>
+<tr>
+<td>**plotly**</td>
+<td>Interactive charts</td>
+<td>`pip install plotly`</td>
+</tr>
+<tr>
+<td>**SQLite**</td>
+<td>Local database</td>
+<td>Built into Python</td>
+</tr>
+</tbody></table>
+<h3>Example: KPI Dashboard</h3>
+<p>A cron job that runs every hour:</p>
+<p>1. Queries your database for key metrics</p>
+<p>2. Checks them against thresholds</p>
+<p>3. If any metric is outside acceptable range:</p>
+<p>   - Creates a chart showing the trend</p>
+<p>   - Sends an alert to Telegram with the chart</p>
+<p>   - Logs the incident for later review</p>
+<hr>
+<h2>Combining Use Cases</h2>
+<p>The real power of Hermes is combining multiple use cases into a single agent.</p>
+<h3>Example: Full-Tech-Stack Automation</h3>
+<p>A single Hermes instance running on a $6 VPS:</p>
+<p>- **Trading bot** (monitors crypto markets, alerts on opportunities)</p>
+<p>- **Code reviewer** (reviews team PRs every 2 hours)</p>
+<p>- **CI/CD monitor** (watches deployments, handles rollbacks)</p>
+<p>- **Home automation** (controls lights and thermostat via Telegram)</p>
+<p>- **Daily briefing** (news, weather, server health every morning)</p>
+<p>- **Research assistant** (weekly paper digest on AI topics)</p>
+<p>- **Personal assistant** (todo list, reminders, email triage)</p>
+<p>All from one gateway. All delivering to your Telegram.</p>
+<hr>
+<h2>The Limit Is Your Imagination</h2>
+<p>Hermes is a platform, not just a tool. The 10 use cases in this module are starting points — you can combine, extend, and customize them infinitely.</p>
+<p>Some ideas to explore on your own:</p>
+<p>- **Bot network** — Multiple Hermes instances, each specialized, communicating via webhooks</p>
+<p>- **Customer onboarding** — Automated Telegram bot that walks new users through your product</p>
+<p>- **Compliance monitoring** — Watch logs for PII leaks, security policy violations</p>
+<p>- **Content moderation** — Auto-flag inappropriate content in your community</p>
+<p>- **Language learning partner** — Chat with Hermes in your target language with corrections</p>
+<p>- **Virtual D&D DM** — Generative dungeon master for your party</p>
+<p>- **Personal tutor** — Analyzes your learning history and generates practice problems</p>
+<p>- **Automated pentesting** — Scheduled security scans with report generation</p>
+<hr>
+<h2>Course Wrap-Up</h2>
+<p>You've reached the end of the Hermes Agent course. Let's recap what you've learned:</p>
+<table><thead><tr>
+<th>Module</th>
+<th>Topic</th>
+</tr></thead><tbody>
+<tr>
+<td>:------:</td>
+<td>-------</td>
+</tr>
+<tr>
+<td>1</td>
+<td>What Hermes is and why it matters</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Installing Hermes on any platform</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Configuration, providers, models</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Basic usage, tools, terminal workflows</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Building and training custom skills</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Teaching and improving skills over time</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Multi-platform messaging gateway</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Production VPS deployment</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Monetization strategies</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Advanced use cases</td>
+</tr>
+</tbody></table>
+<h3>Next Steps</h3>
+<p>1. **Deploy** — Set up Hermes on a VPS (Module 8)</p>
+<p>2. **Connect** — Wire up Telegram or Discord (Module 7)</p>
+<p>3. **Build** — Create your first custom skill (Module 5)</p>
+<p>4. **Automate** — Schedule your first cron job (Module 6)</p>
+<p>5. **Monetize** — Pick a strategy and start (Module 9)</p>
+<p>6. **Explore** — Try the advanced use cases that interest you</p>
+<p>Hermes is MIT-licensed, open-source, and maintained by Nous Research. The community is active on GitHub and Discord. Join us, share what you build, and help shape the future of autonomous AI agents.</p>
+<p>Go build something amazing.</p>
+</div>
+    <div class="module-nav-bottom">
+        <a href="module-09-monetization.html" class="nav-prev" style="padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);">Module 9</a>
+        <a href="index.html" style="color:#606080;font-size:0.85em;text-decoration:none;">Dashboard</a>
+        <span></span>
+    </div>
+</div>
+</body>
+</html>
