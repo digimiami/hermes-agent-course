@@ -1,2 +1,4 @@
 demo-video/frames/
 demo-video/generate_demo.py
+!.gitignore
+__pycache__/
