@@ -1,6 +1,9 @@
 {
   "rewrites": [
-    { "source": "/thank-you", "destination": "/thank-you.html" }
+    { "source": "/thank-you", "destination": "/thank-you.html" },
+    { "source": "/course", "destination": "/course/index.html" },
+    { "source": "/course/", "destination": "/course/index.html" },
+    { "source": "/course/:module", "destination": "/course/:module.html" }
   ],
   "cleanUrls": true
 }
