@@ -680,6 +680,21 @@
     </div>
 </div>
 
+<!-- ============ CONTACT & SUPPORT ============ -->
+<div class="section section-dark" style="text-align:center;">
+    <div class="container reveal">
+        <h2 class="section-title" style="margin-bottom:8px;">📬 Have Questions?</h2>
+        <p class="section-sub">Email us anytime — we typically reply within 12 hours.</p>
+        <div style="margin-top:24px;">
+            <a href="mailto:hermes-course@agentmail.to" style="display:inline-flex;align-items:center;gap:10px;background:#1a1a30;border:1px solid #2a2a50;border-radius:12px;padding:14px 28px;color:#c0c0e0;font-size:1.05em;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#6c5ce7'" onmouseout="this.style.borderColor='#2a2a50'">
+                <span style="font-size:22px;">✉️</span>
+                hermes-course@agentmail.to
+            </a>
+        </div>
+        <p style="color:#505068;font-size:0.85em;margin-top:14px;">Not ready to enroll? Send us your questions — happy to help.</p>
+    </div>
+</div>
+
 <!-- ============ EMAIL CAPTURE ============ -->
 <div class="section email-section">
     <div class="container reveal">
@@ -726,7 +741,7 @@
             </div>
             <div class="footer-col">
                 <h4>Support</h4>
-                <a href="mailto:hello@aiagentscourse.com">Email Us</a>
+                <a href="mailto:hermes-course@agentmail.to">hermes-course@agentmail.to</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -767,7 +782,7 @@
             <h3>Third-Party Services</h3>
             <p>We use Stripe for payment processing. Stripe's privacy policy applies to payment data. Learn more at stripe.com/privacy.</p>
             <h3>Contact</h3>
-            <p>Email us at hello@aiagentscourse.com for any privacy-related questions.</p>
+            <p>Email us at hermes-course@agentmail.to for any privacy-related questions.</p>
         </div>
         <div id="legalTerms" style="display:none;">
             <h2>Terms of Service</h2>
@@ -824,14 +839,48 @@
             el.parentElement.classList.toggle('open');
         };
 
-        // Email capture
+        // Email capture — sends via AgentMail API
         window.captureEmail = function(event) {
             event.preventDefault();
-            var email = document.getElementById('emailInput');
-            if (!email || !email.value) return;
-            console.log('Captured email:', email.value);
-            alert('✅ Check your inbox! (Connect your email API - ConvertKit, Mailchimp, etc.)');
-            email.value = '';
+            var input = document.getElementById('emailInput');
+            var btn = event.target.querySelector('button') || event.target;
+            if (!input || !input.value) return;
+
+            var email = input.value.trim();
+            var originalText = btn.innerHTML;
+
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span>Sending...</span>';
+
+            fetch('/api/email-capture', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    input.value = '';
+                    var msg = document.getElementById('emailSuccess');
+                    if (!msg) {
+                        msg = document.createElement('p');
+                        msg.id = 'emailSuccess';
+                        msg.style.cssText = 'color:#6ee7b7;font-size:0.9em;margin-top:12px;';
+                        input.parentElement.parentElement.appendChild(msg);
+                    }
+                    msg.textContent = '✅ ' + data.message;
+                } else {
+                    alert('❌ ' + (data.error || 'Something went wrong. Please try again.'));
+                }
+            })
+            .catch(function() {
+                alert('❌ Network error. Please try again.');
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
         };
 
         // Legal overlays
