@@ -5,413 +5,458 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Agents: Master Hermes Agent — Build Your Own AI Assistant</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #07070d;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
             color: #e0e0e0;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-        a { color: inherit; text-decoration: none; }
-        img { max-width: 100%; }
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        a { text-decoration: none; }
 
-        /* ===== UTILITY ===== */
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-glow {
+            position: fixed;
+            top: -20%; left: -10%;
+            width: 120%; height: 120%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-orb.o1 { width: 500px; height: 500px; top: 10%; right: -10%; background: rgba(0,206,201,0.06); animation: float1 12s ease-in-out infinite alternate; }
+        .bg-orb.o2 { width: 400px; height: 400px; bottom: 20%; left: -8%; background: rgba(108,92,231,0.06); animation: float2 10s ease-in-out infinite alternate; }
+        @keyframes float1 { 0% { transform: translate(0,0); } 100% { transform: translate(-60px, 40px); } }
+        @keyframes float2 { 0% { transform: translate(0,0); } 100% { transform: translate(50px, -30px); } }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== TYPOGRAPHY ===== */
         .section-title {
             text-align: center;
             font-size: 2.4em;
             font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #8b7cf7, #00cec9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .section-sub {
             text-align: center;
-            font-size: 1.15em;
-            color: #9090a0;
-            max-width: 700px;
-            margin: 0 auto 50px;
+            font-size: 1.08em;
+            color: #808098;
+            max-width: 650px;
+            margin: 0 auto 44px;
         }
-        .section { padding: 90px 0; }
-        .section-dark { background: #0a0a14; }
+        .section { padding: 90px 0; position: relative; z-index: 1; }
+        .section-dark { background: rgba(10,10,20,0.5); }
 
         /* ===== BUTTONS ===== */
         .btn-primary {
-            display: inline-block;
-            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
             color: #fff;
-            padding: 16px 44px;
+            padding: 15px 40px;
             border-radius: 50px;
-            font-size: 1.05em;
+            font-size: 1em;
             font-weight: 700;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.25s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,92,231,0.35); }
-        .btn-secondary {
-            display: inline-block;
-            background: transparent;
-            color: #fff;
-            padding: 16px 44px;
-            border-radius: 50px;
-            font-size: 1.05em;
-            font-weight: 600;
-            border: 1.5px solid rgba(108,92,231,0.5);
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s;
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #00cec9, #6c5ce7);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .btn-secondary:hover { border-color: #6c5ce7; transform: translateY(-2px); }
-        .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+        .btn-primary:hover::before { opacity: 1; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(108,92,231,0.35); }
+        .btn-primary span { position: relative; z-index: 1; }
 
-        /* ===== GRID / CARDS ===== */
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(108,92,231,0.08);
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            border: 1px solid rgba(108,92,231,0.25);
+            cursor: pointer;
+            transition: border-color 0.25s, transform 0.25s, background 0.25s;
+        }
+        .btn-secondary:hover { border-color: #6c5ce7; background: rgba(108,92,231,0.15); transform: translateY(-2px); }
+
+        .btn-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+
+        /* ===== GLASS CARD ===== */
+        .glass {
+            background: rgba(18,18,34,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(108,92,231,0.12);
+            border-radius: 16px;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .glass:hover {
+            border-color: rgba(108,92,231,0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(108,92,231,0.1);
+        }
+
+        /* ===== GRIDS ===== */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
-        .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-        .card {
-            background: #12121e;
-            border: 1px solid #1e1e32;
-            border-radius: 14px;
-            padding: 30px;
-            transition: border-color 0.3s, transform 0.25s;
-        }
-        .card:hover { border-color: #6c5ce7; transform: translateY(-4px); }
-        .card .icon { font-size: 2.2em; margin-bottom: 16px; display: block; }
-        .card h3 { font-size: 1.1em; margin-bottom: 8px; color: #fff; font-weight: 700; }
-        .card p { color: #808098; font-size: 0.92em; }
-        .card ul { list-style: none; padding: 0; }
-        .card li { color: #808098; font-size: 0.92em; padding: 6px 0; display: flex; align-items: center; gap: 10px; }
+        .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; }
+        .card { padding: 30px; }
+
+        .card .icon { font-size: 2em; margin-bottom: 14px; display: block; }
+        .card h3 { font-size: 1.08em; margin-bottom: 8px; color: #fff; font-weight: 700; }
+        .card p { color: #808098; font-size: 0.9em; line-height: 1.7; }
+        .card ul { list-style: none; }
+        .card li { color: #808098; font-size: 0.9em; padding: 6px 0; display: flex; align-items: center; gap: 10px; }
         .card li::before { content: "✓"; color: #00cec9; font-weight: 700; }
 
         /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(135deg, #07071a 0%, #12123a 40%, #0a0a1f 100%);
-            padding: 100px 0 70px;
-            text-align: center;
-            border-bottom: 1px solid #1a1a3a;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(108,92,231,0.06) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .hero h1 { font-size: 3.4em; font-weight: 900; line-height: 1.15; margin-bottom: 18px; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
-        .hero .subtitle { font-size: 1.3em; color: #b0b0c0; margin-bottom: 12px; font-weight: 500; }
-        .hero .tagline { font-size: 1em; color: #707090; margin-bottom: 36px; max-width: 650px; margin-left: auto; margin-right: auto; }
+        .hero { padding: 100px 0 70px; text-align: center; position: relative; z-index: 1; }
+        .hero h1 { font-size: 3.6em; font-weight: 900; line-height: 1.12; margin-bottom: 16px; background: linear-gradient(135deg, #a78bfa, #00cec9, #6c5ce7); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradShift 6s ease-in-out infinite alternate; }
+        @keyframes gradShift { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .hero .subtitle { font-size: 1.25em; color: #b0b0c8; font-weight: 500; margin-bottom: 10px; }
+        .hero .tagline { font-size: 0.95em; color: #707090; max-width: 620px; margin: 0 auto 34px; }
         .hero .price-box {
             display: inline-block;
-            background: rgba(108,92,231,0.12);
-            border: 1px solid rgba(108,92,231,0.3);
+            background: rgba(108,92,231,0.1);
+            border: 1px solid rgba(108,92,231,0.25);
             border-radius: 16px;
-            padding: 26px 48px;
-            margin-bottom: 10px;
-        }
-        .hero .price { font-size: 3.2em; font-weight: 900; color: #fff; }
-        .hero .price span { font-size: 0.35em; font-weight: 400; color: #808098; }
-        .hero .price-note { color: #606078; font-size: 0.88em; margin-top: 4px; }
-        .hero .meta { color: #505068; font-size: 0.85em; margin-top: 14px; }
-
-        /* ===== DEMO VIDEO ===== */
-        .demo-video-wrap {
-            max-width: 720px;
-            margin: 0 auto;
-            background: #12121e;
-            border: 1px solid #1e1e32;
-            border-radius: 18px;
-            overflow: hidden;
+            padding: 24px 44px;
             position: relative;
         }
-        .demo-video-placeholder {
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, #1a1a30, #0e0e20);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
+        .hero .price-box::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 17px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9, #6c5ce7);
+            background-size: 200% 200%;
+            z-index: -1;
+            animation: borderGlow 4s ease-in-out infinite alternate;
+            opacity: 0.4;
         }
-        .play-btn {
-            width: 72px; height: 72px;
-            background: linear-gradient(90deg, #6c5ce7, #00cec9);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8em;
-            box-shadow: 0 0 40px rgba(108,92,231,0.3);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .play-btn:hover { transform: scale(1.08); }
-        .play-label { color: #606080; font-size: 0.9em; }
+        @keyframes borderGlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .hero .price { font-size: 3em; font-weight: 900; color: #fff; }
+        .hero .price span { font-size: 0.35em; font-weight: 400; color: #808098; }
+        .hero .meta { color: #505068; font-size: 0.83em; margin-top: 14px; }
 
         /* ===== WHO IT'S FOR ===== */
-        .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .who-card {
-            border-radius: 14px;
-            padding: 36px;
-        }
-        .who-card h3 { font-size: 1.3em; margin-bottom: 16px; }
-        .who-card ul { list-style: none; padding: 0; }
-        .who-card li { padding: 7px 0; font-size: 0.95em; display: flex; align-items: center; gap: 10px; }
-        .who-card.for { background: rgba(0,206,201,0.06); border: 1px solid rgba(0,206,201,0.2); }
+        .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+        .who-card { border-radius: 16px; padding: 34px; }
+        .who-card h3 { font-size: 1.2em; margin-bottom: 14px; font-weight: 700; }
+        .who-card ul { list-style: none; }
+        .who-card li { padding: 7px 0; font-size: 0.92em; display: flex; align-items: center; gap: 10px; color: #808098; }
+        .who-card.for { background: rgba(0,206,201,0.05); border: 1px solid rgba(0,206,201,0.15); }
         .who-card.for h3 { color: #00cec9; }
         .who-card.for li::before { content: "✓"; color: #00cec9; font-weight: 700; }
-        .who-card.not { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2); }
+        .who-card.not { background: rgba(255,107,107,0.05); border: 1px solid rgba(255,107,107,0.15); }
         .who-card.not h3 { color: #ff6b6b; }
         .who-card.not li::before { content: "✗"; color: #ff6b6b; font-weight: 700; }
 
         /* ===== SCREENSHOTS ===== */
         .screenshot-card {
-            background: #12121e;
-            border: 1px solid #1e1e32;
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.1);
             border-radius: 12px;
             overflow: hidden;
-            transition: border-color 0.3s, transform 0.25s;
+            transition: border-color 0.3s, transform 0.3s;
         }
-        .screenshot-card:hover { border-color: #6c5ce7; transform: translateY(-3px); }
+        .screenshot-card:hover { border-color: rgba(108,92,231,0.35); transform: translateY(-3px); }
         .screenshot-card .img-placeholder {
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, #1a1a2e, #0e0e1a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-            color: #3a3a5a;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #12122a, #0a0a18);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2em;
         }
-        .screenshot-card .caption {
-            padding: 14px 18px;
-            font-size: 0.88em;
-            color: #808098;
-            text-align: center;
-        }
+        .screenshot-card .caption { padding: 12px 16px; font-size: 0.82em; color: #808098; text-align: center; }
 
         /* ===== BONUS ===== */
-        .bonus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .bonus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
         .bonus-item {
-            background: #12121e;
-            border: 1px solid #1e1e32;
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.1);
             border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
+            padding: 22px;
+            display: flex; align-items: center; gap: 16px;
             transition: border-color 0.3s;
         }
-        .bonus-item:hover { border-color: #6c5ce7; }
-        .bonus-item .b-icon { font-size: 2em; flex-shrink: 0; }
-        .bonus-item h4 { color: #fff; font-size: 1em; margin-bottom: 3px; }
-        .bonus-item p { color: #606080; font-size: 0.85em; }
+        .bonus-item:hover { border-color: rgba(108,92,231,0.35); }
+        .bonus-item .b-icon { font-size: 1.8em; flex-shrink: 0; }
+        .bonus-item h4 { color: #fff; font-size: 0.95em; margin-bottom: 2px; }
+        .bonus-item p { color: #606080; font-size: 0.82em; }
         .bonus-badge {
             display: inline-block;
-            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
             color: #fff;
-            padding: 6px 18px;
+            padding: 5px 16px;
             border-radius: 20px;
-            font-size: 0.85em;
+            font-size: 0.82em;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
         }
 
         /* ===== TESTIMONIALS ===== */
-        .testimonial { background: #12121e; border: 1px solid #1e1e32; border-radius: 14px; padding: 30px; position: relative; }
-        .testimonial .quote { color: #c0c0d0; font-size: 0.95em; font-style: italic; margin-bottom: 18px; line-height: 1.7; }
-        .testimonial .quote::before { content: """; font-size: 2em; color: #6c5ce7; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+        .testimonial {
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.1);
+            border-radius: 14px;
+            padding: 28px;
+        }
+        .testimonial .quote { color: #c0c0d0; font-size: 0.9em; font-style: italic; margin-bottom: 16px; line-height: 1.7; }
         .testimonial .author { display: flex; align-items: center; gap: 12px; }
         .testimonial .avatar {
-            width: 40px; height: 40px; border-radius: 50%;
+            width: 38px; height: 38px; border-radius: 50%;
             background: linear-gradient(135deg, #6c5ce7, #00cec9);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.9em; color: #fff;
+            font-weight: 700; font-size: 0.85em; color: #fff;
         }
-        .testimonial .name { font-weight: 600; color: #fff; font-size: 0.9em; }
-        .testimonial .role { color: #606080; font-size: 0.82em; }
+        .testimonial .name { font-weight: 600; color: #fff; font-size: 0.88em; }
+        .testimonial .role { color: #606080; font-size: 0.8em; }
 
         /* ===== FAQ ===== */
-        .faq-list { max-width: 750px; margin: 0 auto; }
+        .faq-list { max-width: 720px; margin: 0 auto; }
         .faq-item {
-            background: #12121e;
-            border: 1px solid #1e1e32;
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.08);
             border-radius: 12px;
             margin-bottom: 10px;
             overflow: hidden;
         }
         .faq-question {
-            padding: 18px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            color: #e0e0e0;
-            font-size: 0.98em;
-            transition: color 0.2s;
-            user-select: none;
+            padding: 18px 22px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-weight: 600;
+            color: #e0e0e0; font-size: 0.95em;
+            user-select: none; transition: color 0.2s;
         }
         .faq-question:hover { color: #00cec9; }
-        .faq-question .faq-toggle {
-            font-size: 1.3em;
-            transition: transform 0.3s;
-            color: #6c5ce7;
-        }
+        .faq-question .faq-toggle { transition: transform 0.3s; color: #6c5ce7; font-size: 1.1em; }
         .faq-item.open .faq-toggle { transform: rotate(180deg); }
         .faq-answer {
-            padding: 0 24px;
-            max-height: 0;
-            overflow: hidden;
+            padding: 0 22px; max-height: 0; overflow: hidden;
             transition: max-height 0.35s ease, padding 0.35s ease;
-            color: #808098;
-            font-size: 0.92em;
-            line-height: 1.7;
+            color: #808098; font-size: 0.9em; line-height: 1.7;
         }
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-            padding: 0 24px 18px;
-        }
-
-        /* ===== TRUST / SAFETY ===== */
-        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .trust-item {
-            background: #12121e;
-            border: 1px solid #1e1e32;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-        }
-        .trust-item .t-icon { font-size: 2em; margin-bottom: 12px; }
-        .trust-item h4 { color: #fff; font-size: 1em; margin-bottom: 6px; }
-        .trust-item p { color: #606080; font-size: 0.88em; }
-
-        /* ===== EMAIL CAPTURE ===== */
-        .email-section {
-            background: linear-gradient(135deg, #0f0f22, #18183a);
-            text-align: center;
-            border-top: 1px solid #1a1a3a;
-            border-bottom: 1px solid #1a1a3a;
-        }
-        .email-form {
-            display: flex;
-            gap: 12px;
-            max-width: 480px;
-            margin: 30px auto 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .email-form input {
-            flex: 1;
-            min-width: 220px;
-            padding: 16px 22px;
-            border-radius: 50px;
-            border: 1px solid #2a2a4a;
-            background: #12121e;
-            color: #fff;
-            font-size: 0.95em;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .email-form input:focus { border-color: #6c5ce7; }
-        .email-form input::placeholder { color: #505070; }
-        .email-form button { padding: 16px 32px; white-space: nowrap; }
-
-        /* ===== CTA SECTION ===== */
-        .cta-section {
-            text-align: center;
-            padding: 90px 0;
-            background: linear-gradient(135deg, #07071a, #12123a);
-        }
-        .cta-section h2 { font-size: 2.6em; font-weight: 800; margin-bottom: 16px; color: #fff; }
-        .cta-section p { color: #a0a0b0; margin-bottom: 30px; font-size: 1.1em; }
-        .cta-section .guarantee { margin-top: 14px; color: #606078; font-size: 0.88em; }
-
-        /* ===== STICKY MOBILE CTA ===== */
-        .sticky-cta {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(7,7,13,0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid #1a1a3a;
-            padding: 12px 20px;
-            z-index: 1000;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .sticky-cta .sticky-text { font-weight: 700; font-size: 0.95em; color: #fff; }
-        .sticky-cta .sticky-text small { font-weight: 400; color: #808098; font-size: 0.85em; display: block; }
-        .sticky-cta .btn-primary { padding: 12px 28px; font-size: 0.9em; white-space: nowrap; }
+        .faq-item.open .faq-answer { max-height: 300px; padding: 0 22px 16px; }
 
         /* ===== CURRICULUM ===== */
-        .module-list { max-width: 800px; margin: 0 auto; }
+        .module-list { max-width: 760px; margin: 0 auto; }
         .module-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 18px 0;
-            border-bottom: 1px solid #1a1a2a;
+            display: flex; align-items: flex-start; gap: 18px;
+            padding: 16px 0; border-bottom: 1px solid rgba(108,92,231,0.06);
         }
         .module-item:last-child { border-bottom: none; }
         .module-item .num {
             background: linear-gradient(135deg, #6c5ce7, #00cec9);
-            width: 36px; height: 36px;
-            border-radius: 50%;
+            width: 34px; height: 34px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.9em; flex-shrink: 0;
+            font-weight: 700; font-size: 0.85em; flex-shrink: 0;
         }
-        .module-item h4 { color: #fff; margin-bottom: 4px; font-size: 1em; }
-        .module-item p { color: #606080; font-size: 0.88em; }
+        .module-item h4 { color: #fff; margin-bottom: 3px; font-size: 0.95em; }
+        .module-item p { color: #606080; font-size: 0.85em; }
+
+        /* ===== EMAIL ===== */
+        .email-section {
+            background: linear-gradient(135deg, rgba(10,10,26,0.8), rgba(20,20,50,0.8));
+            text-align: center;
+            border-top: 1px solid rgba(108,92,231,0.1);
+            border-bottom: 1px solid rgba(108,92,231,0.1);
+        }
+        .email-form { display: flex; gap: 12px; max-width: 460px; margin: 26px auto 0; flex-wrap: wrap; justify-content: center; }
+        .email-form input {
+            flex: 1; min-width: 220px;
+            padding: 15px 20px; border-radius: 50px;
+            border: 1px solid rgba(108,92,231,0.2);
+            background: rgba(18,18,34,0.6);
+            color: #fff; font-size: 0.92em; outline: none;
+            transition: border-color 0.2s;
+        }
+        .email-form input:focus { border-color: #6c5ce7; }
+        .email-form input::placeholder { color: #505070; }
+
+        /* ===== TRUST ===== */
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+        .trust-item {
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 12px;
+            padding: 24px; text-align: center;
+        }
+        .trust-item .t-icon { font-size: 1.8em; margin-bottom: 10px; }
+        .trust-item h4 { color: #fff; font-size: 0.95em; margin-bottom: 5px; }
+        .trust-item p { color: #606080; font-size: 0.85em; }
 
         /* ===== FOOTER ===== */
-        footer { text-align: center; padding: 40px; color: #404060; font-size: 0.82em; border-top: 1px solid #1a1a2a; }
+        .footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid rgba(108,92,231,0.08);
+            padding: 50px 0 30px;
+        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 30px; }
+        .footer-brand h3 { font-size: 1.1em; font-weight: 800; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .footer-brand p { color: #606080; font-size: 0.85em; max-width: 280px; line-height: 1.6; }
+        .footer-col h4 { color: #fff; font-size: 0.88em; font-weight: 600; margin-bottom: 14px; }
+        .footer-col a {
+            display: block;
+            color: #606080; font-size: 0.85em;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: #00cec9; }
+        .footer-bottom {
+            border-top: 1px solid rgba(108,92,231,0.06);
+            padding-top: 20px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        }
+        .footer-bottom p { color: #404060; font-size: 0.8em; }
+        .footer-bottom-links { display: flex; gap: 18px; }
+        .footer-bottom-links a { color: #404060; font-size: 0.8em; transition: color 0.2s; }
+        .footer-bottom-links a:hover { color: #00cec9; }
+
+        /* ===== LEGAL PAGES (overlay) ===== */
+        .legal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+        .legal-overlay.open { display: block; }
+        .legal-content {
+            max-width: 720px;
+            margin: 0 auto;
+            background: rgba(18,18,34,0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(108,92,231,0.2);
+            border-radius: 18px;
+            padding: 40px;
+            position: relative;
+        }
+        .legal-content h2 { font-size: 1.6em; font-weight: 800; color: #fff; margin-bottom: 20px; background: linear-gradient(135deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .legal-content h3 { color: #e0e0e0; font-size: 1.05em; margin: 18px 0 8px; }
+        .legal-content p { color: #808098; font-size: 0.9em; margin-bottom: 10px; line-height: 1.7; }
+        .legal-content ul { color: #808098; font-size: 0.9em; padding-left: 20px; margin-bottom: 10px; }
+        .legal-content li { margin-bottom: 4px; }
+        .legal-close {
+            position: absolute; top: 16px; right: 20px;
+            background: none; border: none;
+            color: #808098; font-size: 1.8em;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .legal-close:hover { color: #fff; }
+
+        /* ===== STICKY CTA ===== */
+        .sticky-cta {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(5,5,11,0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 1px solid rgba(108,92,231,0.15);
+            padding: 12px 20px;
+            z-index: 500;
+            align-items: center; justify-content: space-between;
+        }
+        .sticky-cta .sticky-text { font-weight: 700; font-size: 0.9em; color: #fff; }
+        .sticky-cta .sticky-text small { font-weight: 400; color: #808098; font-size: 0.82em; display: block; }
+        .sticky-cta .btn-primary { padding: 11px 24px; font-size: 0.85em; white-space: nowrap; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2em; }
-            .hero .subtitle { font-size: 1.05em; }
-            .hero .price { font-size: 2.4em; }
-            .hero .price-box { padding: 20px 24px; }
+            .hero .subtitle { font-size: 1em; }
+            .hero .price { font-size: 2.2em; }
+            .hero .price-box { padding: 18px 22px; }
             .hero { padding: 70px 0 50px; }
             .section { padding: 60px 0; }
-            .section-title { font-size: 1.6em; }
+            .section-title { font-size: 1.5em; }
             .who-grid { grid-template-columns: 1fr; }
             .btn-group { flex-direction: column; align-items: stretch; }
-            .btn-primary, .btn-secondary { text-align: center; }
+            .btn-primary, .btn-secondary { justify-content: center; }
             .sticky-cta { display: flex; }
             body { padding-bottom: 70px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .legal-content { padding: 24px; }
         }
-        @media (min-width: 769px) {
-            .sticky-cta { display: none !important; }
-        }
+        @media (min-width: 769px) { .sticky-cta { display: none !important; } }
     </style>
 </head>
 <body>
 
+<!-- BG EFFECTS -->
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-orb o1"></div>
+<div class="bg-orb o2"></div>
+
 <!-- ============ HERO ============ -->
 <div class="hero">
     <div class="container">
-        <h1>AI Agents: Master Hermes Agent</h1>
+        <h1>AI Agents:<br>Master Hermes Agent</h1>
         <p class="subtitle">Build Your Own AI Assistant — No Coding Required</p>
         <p class="tagline">Create custom skills, teach your agent your workflows, connect it to Telegram, and automate everything. Your agent gets smarter every day.</p>
         <div class="price-box">
             <div class="price">$97 <span>/ lifetime access</span></div>
-            <p class="price-note">Includes all future updates. 30-day money-back guarantee.</p>
+            <p style="color:#606080;font-size:0.83em;margin-top:4px;">Includes all future updates. 30-day money-back guarantee.</p>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)">🎓 Enroll Now</a>
+            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>🎓 Enroll Now</span></a>
             <a href="#demo" class="btn-secondary">▶ Watch Demo</a>
         </div>
         <p class="meta">10 modules · 50+ lessons · exercises · quizzes · source code · 6 bonuses</p>
@@ -420,62 +465,60 @@
 
 <!-- ============ DEMO VIDEO ============ -->
 <div class="section" id="demo">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Watch Hermes Agent Build an Automation in 90 Seconds</h2>
         <p class="section-sub">See how Hermes can install tools, remember your workflows, connect to Telegram, and run tasks like a real AI assistant.</p>
-        <div class="demo-video-wrap">
-            <video controls poster="" style="width:100%;display:block;border-radius:18px;" preload="metadata">
+        <div style="max-width:720px;margin:0 auto;border-radius:18px;overflow:hidden;border:1px solid rgba(108,92,231,0.15);background:#000;">
+            <video controls poster="" style="width:100%;display:block;" preload="metadata">
                 <source src="assets/hermes_demo.mp4" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)">🎓 Enroll Now — $97</a>
-            <span style="align-self:center;color:#606080;font-size:0.88em;">or scroll down to learn more</span>
+            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>🎓 Enroll Now — $97</span></a>
+            <span style="align-self:center;color:#606080;font-size:0.85em;">or scroll down to learn more</span>
         </div>
     </div>
 </div>
 
-<!-- ============ WHAT YOU'LL LEARN (features) ============ -->
+<!-- ============ FEATURES ============ -->
 <div class="section section-dark">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">What You'll Learn</h2>
         <p class="section-sub">Everything you need to go from zero to a fully operational AI agent running on your own infrastructure.</p>
         <div class="grid-3">
-            <div class="card"><span class="icon">🤖</span><h3>Install &amp; Configure Hermes</h3><p>From zero to running agent in 5 minutes. Works on Linux, Mac, and Windows WSL.</p></div>
-            <div class="card"><span class="icon">🧠</span><h3>Create Custom Skills</h3><p>Save procedures your agent runs on command. Build an arsenal of 50+ skills — your agent gets smarter with every lesson.</p></div>
-            <div class="card"><span class="icon">🔌</span><h3>Connect Any Platform</h3><p>Telegram, Discord, WhatsApp, Email — the same agent works everywhere.</p></div>
-            <div class="card"><span class="icon">💰</span><h3>Monetize Your Agent</h3><p>Sell access, build custom skills for clients, launch a SaaS — 7 revenue models included.</p></div>
-            <div class="card"><span class="icon">🎯</span><h3>50+ Pre-Built Skills</h3><p>Deploy servers, audit code, scrape data, monitor servers — all from one command. Plus learn to create your own.</p></div>
-            <div class="card"><span class="icon">🖥️</span><h3>Deploy 24/7</h3><p>Set up a $5/mo VPS, run your agent round the clock, automate everything.</p></div>
+            <div class="card glass"><span class="icon">🤖</span><h3>Install &amp; Configure Hermes</h3><p>From zero to running agent in 5 minutes. Works on Linux, Mac, and Windows WSL.</p></div>
+            <div class="card glass"><span class="icon">🧠</span><h3>Create Custom Skills</h3><p>Save procedures your agent runs on command. Build an arsenal of 50+ skills — your agent gets smarter with every lesson.</p></div>
+            <div class="card glass"><span class="icon">🔌</span><h3>Connect Any Platform</h3><p>Telegram, Discord, WhatsApp, Email — the same agent works everywhere.</p></div>
+            <div class="card glass"><span class="icon">💰</span><h3>Monetize Your Agent</h3><p>Sell access, build custom skills for clients, launch a SaaS — 7 revenue models included.</p></div>
+            <div class="card glass"><span class="icon">🎯</span><h3>50+ Pre-Built Skills</h3><p>Deploy servers, audit code, scrape data, monitor servers — all from one command. Plus learn to create your own.</p></div>
+            <div class="card glass"><span class="icon">🖥️</span><h3>Deploy 24/7</h3><p>Set up a $5/mo VPS, run your agent round the clock, automate everything.</p></div>
         </div>
     </div>
 </div>
 
-<!-- ============ WHAT YOU WILL BUILD ============ -->
+<!-- ============ WHAT YOU BUILD ============ -->
 <div class="section">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">What You Will Build</h2>
         <p class="section-sub">By the end of this course, you'll have all of these running — your own AI infrastructure.</p>
         <div class="grid-3">
-            <div class="card"><span class="icon">✅</span><h3>Working Hermes Install</h3><p>A fully configured AI agent connected to your choice of LLM provider, ready for commands.</p></div>
-            <div class="card"><span class="icon">✅</span><h3>Custom Skills Created</h3><p>Your own library of reusable procedures — from server deploys to data scraping.</p></div>
-            <div class="card"><span class="icon">✅</span><h3>Telegram Bot Connected</h3><p>Your agent accessible from your phone via Telegram. Message it from anywhere.</p></div>
-            <div class="card"><span class="icon">✅</span><h3>VPS Deployment Live</h3><p>Your agent running 24/7 on a $5/mo server with systemd service management.</p></div>
-            <div class="card"><span class="icon">✅</span><h3>Automation Workflows</h3><p>Recurring tasks, cron jobs, webhook triggers — your agent working while you sleep.</p></div>
-            <div class="card"><span class="icon">✅</span><h3>Monetization Plan Ready</h3><p>A clear strategy to turn your agent into a revenue stream — pick from 7 models.</p></div>
+            <div class="card glass"><span class="icon">⚡</span><h3>Working Hermes Install</h3><p>A fully configured AI agent connected to your choice of LLM provider, ready for commands.</p></div>
+            <div class="card glass"><span class="icon">📦</span><h3>Custom Skills Created</h3><p>Your own library of reusable procedures — from server deploys to data scraping.</p></div>
+            <div class="card glass"><span class="icon">📱</span><h3>Telegram Bot Connected</h3><p>Your agent accessible from your phone via Telegram. Message it from anywhere.</p></div>
+            <div class="card glass"><span class="icon">🖥️</span><h3>VPS Deployment Live</h3><p>Your agent running 24/7 on a $5/mo server with systemd service management.</p></div>
+            <div class="card glass"><span class="icon">🔄</span><h3>Automation Workflows</h3><p>Recurring tasks, cron jobs, webhook triggers — your agent working while you sleep.</p></div>
+            <div class="card glass"><span class="icon">📈</span><h3>Monetization Plan Ready</h3><p>A clear strategy to turn your agent into a revenue stream — pick from 7 models.</p></div>
         </div>
     </div>
 </div>
 
-<!-- ============ WHO THIS COURSE IS FOR ============ -->
+<!-- ============ WHO THIS IS FOR ============ -->
 <div class="section section-dark">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Who This Course Is For</h2>
         <p class="section-sub">Designed for people who want to build real AI automations — no coding background required.</p>
         <div class="who-grid">
-            <div class="who-card for">
-                <h3>This course is for ✅</h3>
+            <div class="who-card for"><h3>This course is for ✅</h3>
                 <ul>
                     <li>AI beginners who want to build their first agent</li>
                     <li>Freelancers looking to automate repetitive work</li>
@@ -486,8 +529,7 @@
                     <li>Entrepreneurs who want a 24/7 AI worker</li>
                 </ul>
             </div>
-            <div class="who-card not">
-                <h3>This course is NOT for ✗</h3>
+            <div class="who-card not"><h3>This course is NOT for ✗</h3>
                 <ul>
                     <li>People expecting instant money without setup</li>
                     <li>People who won't follow step-by-step lessons</li>
@@ -499,42 +541,27 @@
     </div>
 </div>
 
-<!-- ============ HERMES AGENT IN ACTION (screenshots) ============ -->
+<!-- ============ SCREENSHOTS ============ -->
 <div class="section">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Hermes Agent in Action</h2>
         <p class="section-sub">See what you'll be building — real screenshots from the course.</p>
         <div class="grid-5">
-            <div class="screenshot-card">
-                <div class="img-placeholder">💻</div>
-                <div class="caption">Terminal setup — first run wizard</div>
-            </div>
-            <div class="screenshot-card">
-                <div class="img-placeholder">📱</div>
-                <div class="caption">Telegram automation — check server health</div>
-            </div>
-            <div class="screenshot-card">
-                <div class="img-placeholder">📂</div>
-                <div class="caption">Custom skill folder — 50+ reusable skills</div>
-            </div>
-            <div class="screenshot-card">
-                <div class="img-placeholder">🌐</div>
-                <div class="caption">VPS deployment — systemd service running</div>
-            </div>
-            <div class="screenshot-card">
-                <div class="img-placeholder">⚡</div>
-                <div class="caption">Agent command execution — deploy app</div>
-            </div>
+            <div class="screenshot-card"><div class="img-placeholder">💻</div><div class="caption">Terminal setup — first run wizard</div></div>
+            <div class="screenshot-card"><div class="img-placeholder">📱</div><div class="caption">Telegram automation — check server health</div></div>
+            <div class="screenshot-card"><div class="img-placeholder">📂</div><div class="caption">Custom skill folder — 50+ reusable skills</div></div>
+            <div class="screenshot-card"><div class="img-placeholder">🌐</div><div class="caption">VPS deployment — systemd service running</div></div>
+            <div class="screenshot-card"><div class="img-placeholder">⚡</div><div class="caption">Agent command execution — deploy app</div></div>
         </div>
-        <div style="text-align:center;margin-top:40px;">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)">Start Building My AI Agent Today</a>
+        <div style="text-align:center;margin-top:36px;">
+            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Start Building My AI Agent Today</span></a>
         </div>
     </div>
 </div>
 
 <!-- ============ CURRICULUM ============ -->
 <div class="section section-dark">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Course Curriculum</h2>
         <p class="section-sub">10 modules · 50+ lessons · Every module includes exercises, quizzes, and real projects.</p>
         <div class="module-list">
@@ -552,19 +579,19 @@
     </div>
 </div>
 
-<!-- ============ FREE PREVIEW LESSON ============ -->
-<div class="section" style="background:linear-gradient(135deg,#0c0c20,#14143a);text-align:center;">
-    <div class="container">
+<!-- ============ FREE PREVIEW ============ -->
+<div class="section" style="background:linear-gradient(135deg,rgba(10,10,26,0.8),rgba(20,20,50,0.8));text-align:center;">
+    <div class="container reveal">
         <span class="bonus-badge">🎬 Try Before You Buy</span>
         <h2 class="section-title">Preview the First Lesson Free</h2>
         <p class="section-sub">See the teaching style before you enroll. Learn how Hermes Agent works and what you will build inside the course.</p>
-        <a href="#" class="btn-primary" onclick="alert('Replace this with your free preview lesson link (YouTube or Loom)')">▶ Preview Free Lesson</a>
+        <a href="#" class="btn-primary" onclick="alert('Replace this with your free preview lesson link (YouTube or Loom)')"><span>▶ Preview Free Lesson</span></a>
     </div>
 </div>
 
 <!-- ============ BONUSES ============ -->
 <div class="section section-dark">
-    <div class="container">
+    <div class="container reveal">
         <div style="text-align:center;">
             <span class="bonus-badge">🎁 BONUSES INCLUDED</span>
             <h2 class="section-title">Get 6 Bonuses Worth $200+</h2>
@@ -583,30 +610,21 @@
 
 <!-- ============ TESTIMONIALS ============ -->
 <div class="section">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">What Students Say</h2>
         <p class="section-sub">Real people building real AI automations with Hermes Agent.</p>
         <div class="grid-3">
             <div class="testimonial">
                 <p class="quote">Before this course I didn't understand agents. Now I have Hermes running on a VPS with Telegram. I check my server health from my phone.</p>
-                <div class="author">
-                    <div class="avatar">CM</div>
-                    <div><div class="name">Carlos M.</div><div class="role">Freelance Developer</div></div>
-                </div>
+                <div class="author"><div class="avatar">CM</div><div><div class="name">Carlos M.</div><div class="role">Freelance Developer</div></div></div>
             </div>
             <div class="testimonial">
                 <p class="quote">This course made Hermes simple. I finally understood how to create skills and automate real tasks. The Telegram setup alone was worth the price.</p>
-                <div class="author">
-                    <div class="avatar">JR</div>
-                    <div><div class="name">Jessica R.</div><div class="role">Marketing Agency Owner</div></div>
-                </div>
+                <div class="author"><div class="avatar">JR</div><div><div class="name">Jessica R.</div><div class="role">Marketing Agency Owner</div></div></div>
             </div>
             <div class="testimonial">
                 <p class="quote">The VPS deployment module saved me hours. I went from zero to a 24/7 running agent in one evening. The monetization section is gold.</p>
-                <div class="author">
-                    <div class="avatar">DT</div>
-                    <div><div class="name">David T.</div><div class="role">SaaS Founder</div></div>
-                </div>
+                <div class="author"><div class="avatar">DT</div><div><div class="name">David T.</div><div class="role">SaaS Founder</div></div></div>
             </div>
         </div>
     </div>
@@ -614,53 +632,26 @@
 
 <!-- ============ FAQ ============ -->
 <div class="section section-dark">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-sub">Everything you need to know before enrolling.</p>
         <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Do I need coding experience? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">No. The course is designed for beginners. You'll learn everything step-by-step. Basic terminal familiarity helps but is not required — we cover the fundamentals.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Does it work on Windows? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">Yes. We include a dedicated Windows/WSL setup module and a troubleshooting guide. Hermes runs on Windows through WSL2 (Windows Subsystem for Linux), which is free and easy to install.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Do I need an OpenAI API key? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">No. Hermes works with 20+ providers. You can use OpenRouter (free tier available), Anthropic Claude, DeepSeek, Google Gemini, or even run local models. We show you all the options.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Can I use DeepSeek, Claude, or local models? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">Absolutely. The course covers setup for all major providers: OpenRouter, Anthropic, OpenAI, DeepSeek, Google Gemini, and local models via Ollama. You can switch between them anytime.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">How much does hosting cost? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">A VPS costs around $5/month (DigitalOcean, Hetzner, Vultr). API usage is typically $0-5/month depending on how much you use it. Total: roughly $5-10/month.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Can I use Hermes for trading, marketing, real estate, or business automation? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">Yes. The course includes advanced use cases for trading bots, content automation, customer support, research assistants, and more. You can adapt Hermes to almost any industry.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Is this beginner friendly? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">Yes. The first module starts with "what is an AI agent" and builds up from there. Every command is explained. If you can follow a recipe, you can complete this course.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">What happens after I pay? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">You get immediate lifetime access to all 10 modules, bonuses, and future updates. You'll receive a welcome email with login details and a recommended learning path.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-toggle">▼</span></div>
-                <div class="faq-answer">Yes. 30-day full money-back guarantee. No questions asked. If the course isn't right for you, email us and you'll get a full refund.</div>
-            </div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Do I need coding experience? <span class="faq-toggle">▼</span></div><div class="faq-answer">No. The course is designed for beginners. You'll learn everything step-by-step. Basic terminal familiarity helps but is not required — we cover the fundamentals.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Does it work on Windows? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. We include a dedicated Windows/WSL setup module and a troubleshooting guide. Hermes runs on Windows through WSL2 (Windows Subsystem for Linux), which is free and easy to install.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Do I need an OpenAI API key? <span class="faq-toggle">▼</span></div><div class="faq-answer">No. Hermes works with 20+ providers. You can use OpenRouter (free tier available), Anthropic Claude, DeepSeek, Google Gemini, or even run local models. We show you all the options.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I use DeepSeek, Claude, or local models? <span class="faq-toggle">▼</span></div><div class="faq-answer">Absolutely. The course covers setup for all major providers: OpenRouter, Anthropic, OpenAI, DeepSeek, Google Gemini, and local models via Ollama. You can switch between them anytime.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How much does hosting cost? <span class="faq-toggle">▼</span></div><div class="faq-answer">A VPS costs around $5/month (DigitalOcean, Hetzner, Vultr). API usage is typically $0-5/month depending on how much you use it. Total: roughly $5-10/month.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I use Hermes for trading, marketing, real estate, or business automation? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. The course includes advanced use cases for trading bots, content automation, customer support, research assistants, and more. You can adapt Hermes to almost any industry.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is this beginner friendly? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. The first module starts with "what is an AI agent" and builds up from there. Every command is explained. If you can follow a recipe, you can complete this course.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What happens after I pay? <span class="faq-toggle">▼</span></div><div class="faq-answer">You get immediate lifetime access to all 10 modules, bonuses, and future updates. You'll receive a welcome email with login details and a recommended learning path.</div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. 30-day full money-back guarantee. No questions asked. If the course isn't right for you, email us and you'll get a full refund.</div></div>
         </div>
     </div>
 </div>
 
-<!-- ============ USE HERMES SAFELY (trust) ============ -->
+<!-- ============ TRUST / SAFETY ============ -->
 <div class="section">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Use Hermes Agent Safely</h2>
         <p class="section-sub">Security best practices we teach inside the course.</p>
         <div class="trust-grid">
@@ -674,89 +665,196 @@
     </div>
 </div>
 
-<!-- ============ EMAIL CAPTURE / LEAD MAGNET ============ -->
+<!-- ============ EMAIL CAPTURE ============ -->
 <div class="section email-section">
-    <div class="container">
+    <div class="container reveal">
         <h2 class="section-title">Get 5 Free Hermes Agent Skills</h2>
         <p class="section-sub">Enter your email and get a starter pack of Hermes skills you can use right away — including deploy, audit, scrape, monitor, and backup skills.</p>
         <form class="email-form" onsubmit="captureEmail(event)">
             <input type="email" id="emailInput" placeholder="your@email.com" required>
-            <button type="submit" class="btn-primary">Send Me the Free Skills</button>
+            <button type="submit" class="btn-primary"><span>Send Me the Free Skills</span></button>
         </form>
-        <p style="color:#505070;font-size:0.82em;margin-top:12px;">No spam. Unsubscribe anytime.</p>
+        <p style="color:#505070;font-size:0.8em;margin-top:10px;">No spam. Unsubscribe anytime.</p>
     </div>
 </div>
 
 <!-- ============ FINAL CTA ============ -->
-<div class="cta-section">
-    <div class="container">
-        <h2>Ready to Build Your Own AI Agent?</h2>
-        <p>Get lifetime access to the Hermes Agent Course and start building real automations today. <br>10 modules · 6 bonuses · lifetime updates.</p>
-        <a href="#" class="btn-primary" onclick="handleBuy(event)">Get Lifetime Access for $97</a>
-        <p class="guarantee">🔒 30-day money-back guarantee. No questions asked.</p>
+<div class="section" style="text-align:center;position:relative;z-index:1;">
+    <div class="container reveal">
+        <h2 class="section-title">Ready to Build Your Own AI Agent?</h2>
+        <p style="color:#a0a0b0;margin-bottom:30px;font-size:1.05em;">Get lifetime access to the Hermes Agent Course and start building real automations today.<br>10 modules · 6 bonuses · lifetime updates.</p>
+        <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Get Lifetime Access for $97</span></a>
+        <p style="color:#606078;font-size:0.85em;margin-top:14px;">🔒 30-day money-back guarantee. No questions asked.</p>
     </div>
 </div>
 
 <!-- ============ FOOTER ============ -->
-<footer>
+<footer class="footer">
     <div class="container">
-        <p>© 2026 AI Agents Course. All rights reserved. | This site uses Stripe for payments.</p>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>AI Agents Course</h3>
+                <p>Master Hermes Agent — the open-source AI framework that runs in your terminal, connects to Telegram, and learns your workflows.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Course</h4>
+                <a href="#">Curriculum</a>
+                <a href="#" onclick="closeOverlay('pricing')">Pricing</a>
+                <a href="#demo">Demo Video</a>
+                <a href="#" onclick="closeOverlay('faq');scrollToFaq()">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#" onclick="openLegal('privacy')">Privacy Policy</a>
+                <a href="#" onclick="openLegal('terms')">Terms of Service</a>
+                <a href="#" onclick="openLegal('refund')">Refund Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <a href="mailto:hello@aiagentscourse.com">Email Us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 AI Agents Course. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#" onclick="openLegal('privacy')">Privacy</a>
+                <a href="#" onclick="openLegal('terms')">Terms</a>
+                <a href="#" onclick="openLegal('refund')">Refund Policy</a>
+            </div>
+        </div>
     </div>
 </footer>
 
 <!-- ============ STICKY MOBILE CTA ============ -->
-<div class="sticky-cta" id="stickyCta">
+<div class="sticky-cta">
     <div class="sticky-text">AI Agents: Master Hermes Agent <small>Lifetime access · $97</small></div>
-    <a href="#" class="btn-primary" onclick="handleBuy(event)">Enroll Now — $97</a>
+    <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Enroll Now — $97</span></a>
+</div>
+
+<!-- ============ LEGAL OVERLAYS ============ -->
+<div class="legal-overlay" id="legalOverlay">
+    <div class="legal-content">
+        <button class="legal-close" onclick="closeLegal()">✕</button>
+        <div id="legalPrivacy">
+            <h2>Privacy Policy</h2>
+            <p><b>Last updated:</b> May 2026</p>
+            <h3>Information We Collect</h3>
+            <p>We collect information you provide directly: name, email address, and payment information (processed securely by Stripe). We do not store credit card numbers.</p>
+            <h3>How We Use Your Information</h3>
+            <ul>
+                <li>To provide access to course materials</li>
+                <li>To send course updates and related information</li>
+                <li>To improve our course offerings</li>
+                <li>To respond to your inquiries</li>
+            </ul>
+            <h3>Data Security</h3>
+            <p>We implement industry-standard security measures. Your data is stored securely and never sold to third parties.</p>
+            <h3>Third-Party Services</h3>
+            <p>We use Stripe for payment processing. Stripe's privacy policy applies to payment data. Learn more at stripe.com/privacy.</p>
+            <h3>Contact</h3>
+            <p>Email us at hello@aiagentscourse.com for any privacy-related questions.</p>
+        </div>
+        <div id="legalTerms" style="display:none;">
+            <h2>Terms of Service</h2>
+            <p><b>Last updated:</b> May 2026</p>
+            <h3>1. Acceptance of Terms</h3>
+            <p>By purchasing and accessing the AI Agents Course, you agree to these Terms of Service.</p>
+            <h3>2. Course Access</h3>
+            <p>Upon purchase, you receive lifetime access to all current and future course materials. Access is non-transferable and for personal use only.</p>
+            <h3>3. License</h3>
+            <p>Course materials are for personal use. You may not distribute, resell, or publicly share course content without written permission.</p>
+            <h3>4. Refund Policy</h3>
+            <p>We offer a 30-day money-back guarantee. If you are not satisfied, contact us within 30 days of purchase for a full refund.</p>
+            <h3>5. Limitation of Liability</h3>
+            <p>The course is provided "as is." We make no guarantees about specific outcomes or earnings. Results vary based on individual effort and application.</p>
+            <h3>6. Modifications</h3>
+            <p>We reserve the right to update these terms. Continued access after changes constitutes acceptance of the new terms.</p>
+        </div>
+        <div id="legalRefund" style="display:none;">
+            <h2>Refund Policy</h2>
+            <p><b>Last updated:</b> May 2026</p>
+            <h3>30-Day Money-Back Guarantee</h3>
+            <p>We stand by the quality of the AI Agents Course. If you're not satisfied for any reason, you can request a full refund within 30 days of your purchase.</p>
+            <h3>How to Request a Refund</h3>
+            <p>Email us at <b>hello@aiagentscourse.com</b> with the subject line "Refund Request" and include your order number. We will process your refund within 5-7 business days.</p>
+            <h3>Conditions</h3>
+            <ul>
+                <li>Refunds are processed to the original payment method</li>
+                <li>Course access will be revoked upon refund</li>
+                <li>Refund requests after 30 days will be evaluated on a case-by-case basis</li>
+            </ul>
+            <h3>Contact</h3>
+            <p>For refund questions: hello@aiagentscourse.com</p>
+        </div>
+    </div>
 </div>
 
 <!-- ============ SCRIPTS ============ -->
 <script>
-    // Stripe Checkout Integration
+    // Stripe Checkout
     function handleBuy(event) {
         event.preventDefault();
         const STRIPE_PUB_KEY = 'pk_live_YOUR_KEY_HERE';
         const PRICE_ID = 'price_YOUR_PRICE_ID_HERE';
-        const SUCCESS_URL = 'https://yourdomain.com/thank-you';
-        const CANCEL_URL = 'https://yourdomain.com/';
-
-        if (typeof Stripe === 'undefined') {
-            alert('Stripe checkout not configured yet. Replace the keys in the script and try again.');
-            return;
-        }
+        const SUCCESS_URL = 'https://hermes-agent-course.vercel.app/thank-you';
+        const CANCEL_URL = 'https://hermes-agent-course.vercel.app/';
+        if (typeof Stripe === 'undefined') { alert('Stripe checkout not configured yet. Replace the keys and try again.'); return; }
         const stripe = Stripe(STRIPE_PUB_KEY);
-        stripe.redirectToCheckout({
-            lineItems: [{ price: PRICE_ID, quantity: 1 }],
-            mode: 'payment',
-            successUrl: SUCCESS_URL,
-            cancelUrl: CANCEL_URL,
-        }).then(function (result) {
-            if (result.error) alert('Payment failed: ' + result.error.message);
-        });
+        stripe.redirectToCheckout({ lineItems: [{ price: PRICE_ID, quantity: 1 }], mode: 'payment', successUrl: SUCCESS_URL, cancelUrl: CANCEL_URL })
+        .then(function(r) { if (r.error) alert('Payment failed: ' + r.error.message); });
     }
 
     // FAQ Toggle
-    function toggleFaq(el) {
-        const item = el.parentElement;
-        item.classList.toggle('open');
-    }
+    function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
 
-    // Email Capture (frontend-only — replace with your API endpoint)
+    // Email Capture
     function captureEmail(event) {
         event.preventDefault();
         const email = document.getElementById('emailInput').value;
         if (!email) return;
-        // --- REPLACE THIS with your email API endpoint ---
         console.log('Captured email:', email);
-        alert('✅ Check your inbox! If you don\'t see it in 5 minutes, check spam. (Replace this with your email API integration)');
+        alert('✅ Check your inbox! (Connect your email API - ConvertKit, Mailchimp, etc. - in the captureEmail function)');
         document.getElementById('emailInput').value = '';
     }
 
-    // Open first FAQ by default
-    document.addEventListener('DOMContentLoaded', function() {
-        const firstFaq = document.querySelector('.faq-item');
-        if (firstFaq) firstFaq.classList.add('open');
+    // Legal Overlays
+    function openLegal(page) {
+        document.getElementById('legalOverlay').classList.add('open');
+        document.getElementById('legalPrivacy').style.display = page === 'privacy' ? 'block' : 'none';
+        document.getElementById('legalTerms').style.display = page === 'terms' ? 'block' : 'none';
+        document.getElementById('legalRefund').style.display = page === 'refund' ? 'block' : 'none';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLegal() {
+        document.getElementById('legalOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('legalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeLegal();
     });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLegal();
+    });
+
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Open first FAQ
+    document.addEventListener('DOMContentLoaded', function() {
+        const first = document.querySelector('.faq-item');
+        if (first) first.classList.add('open');
+    });
+
+    function closeOverlay() {}
+    function scrollToFaq() {
+        const faq = document.querySelector('.faq-list');
+        if (faq) faq.scrollIntoView({ behavior: 'smooth' });
+    }
 </script>
 <script src="https://js.stripe.com/v3/"></script>
 </body>
