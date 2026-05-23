@@ -3,37 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Thank You — AI Agents Course</title>
+    <title>🎉 Purchase Confirmed — AI Agents: Master Hermes Agent</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: #07070d; color: #e0e0e0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .card { max-width: 600px; margin: 40px 20px; background: rgba(18,18,34,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(108,92,231,0.2); border-radius: 20px; padding: 50px; text-align: center; }
-        h1 { font-size: 2.4em; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .check { font-size: 4em; margin-bottom: 16px; }
-        p { color: #a0a0b0; font-size: 1.05em; line-height: 1.7; margin-bottom: 14px; }
-        .steps { text-align: left; margin: 24px 0; }
-        .steps li { color: #808098; font-size: 0.95em; padding: 8px 0; list-style: none; display: flex; align-items: center; gap: 10px; }
-        .steps li::before { content: "→"; color: #00cec9; font-weight: 700; }
-        .btn { display: inline-block; background: linear-gradient(90deg, #6c5ce7, #00cec9); color: #fff; padding: 16px 44px; border-radius: 50px; font-size: 1em; font-weight: 700; text-decoration: none; margin-top: 10px; }
-        .email { color: #6c5ce7; }
-        @media (max-width: 600px) { .card { padding: 30px 20px; } h1 { font-size: 1.6em; } }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #05050b;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== ANIMATED BG ===== */
+        .bg-grid {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; top: -20%; left: -10%;
+            width: 120%; height: 120%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.08) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+        .bg-orb {
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            pointer-events: none; z-index: 0;
+        }
+        .bg-orb.o1 { width: 400px; height: 400px; top: 5%; right: -5%; background: rgba(0,206,201,0.06); animation: float1 12s ease-in-out infinite alternate; }
+        .bg-orb.o2 { width: 350px; height: 350px; bottom: 10%; left: -5%; background: rgba(108,92,231,0.06); animation: float2 10s ease-in-out infinite alternate; }
+        @keyframes float1 { 0% { transform: translate(0,0); } 100% { transform: translate(-40px, 30px); } }
+        @keyframes float2 { 0% { transform: translate(0,0); } 100% { transform: translate(30px, -20px); } }
+
+        .container {
+            position: relative; z-index: 1;
+            max-width: 660px;
+            margin: 40px 20px;
+        }
+
+        /* ===== CONFIRMATION CARD ===== */
+        .card {
+            background: rgba(18,18,34,0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(108,92,231,0.15);
+            border-radius: 24px;
+            padding: 52px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #6c5ce7, #00cec9, transparent);
+        }
+
+        .check-icon {
+            font-size: 4.2em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #a78bfa, #00cec9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1.05em;
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0,206,201,0.1);
+            border: 1px solid rgba(0,206,201,0.15);
+            color: #00cec9;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            text-align: left;
+            margin: 28px 0 32px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(108,92,231,0.06);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78em;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-content h4 {
+            color: #e0e0e0;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .step-content p {
+            color: #707090;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        /* ===== RESOURCES ===== */
+        .resources {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .resource-item {
+            background: rgba(18,18,34,0.5);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+        .resource-item:hover {
+            border-color: rgba(108,92,231,0.3);
+            transform: translateY(-2px);
+        }
+        .resource-item .r-icon { font-size: 1.6em; margin-bottom: 6px; display: block; }
+        .resource-item h4 { color: #e0e0e0; font-size: 0.85em; font-weight: 600; margin-bottom: 2px; }
+        .resource-item p { color: #606080; font-size: 0.76em; }
+
+        /* ===== COMMUNITY ===== */
+        .community-box {
+            background: rgba(108,92,231,0.06);
+            border: 1px solid rgba(108,92,231,0.12);
+            border-radius: 14px;
+            padding: 22px;
+            margin: 24px 0;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            text-align: left;
+        }
+        .community-box .com-icon { font-size: 2.2em; flex-shrink: 0; }
+        .community-box h4 { color: #fff; font-size: 0.9em; font-weight: 600; margin-bottom: 2px; }
+        .community-box p { color: #707090; font-size: 0.82em; }
+
+        /* ===== BUTTON ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 16px 44px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.25s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #00cec9, #6c5ce7);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn:hover::before { opacity: 1; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(108,92,231,0.35); }
+        .btn span { position: relative; z-index: 1; }
+
+        .support {
+            color: #606080;
+            font-size: 0.85em;
+            margin-top: 18px;
+        }
+        .support a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .support a:hover { color: #00cec9; }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            text-align: center;
+            color: #404060;
+            font-size: 0.78em;
+            margin-top: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== CONFETTI ANIMATION ===== */
+        .confetti-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .card { padding: 32px 22px; border-radius: 18px; }
+            h1 { font-size: 1.6em; }
+            .check-icon { font-size: 3em; }
+            .resources { grid-template-columns: 1fr; }
+            .community-box { flex-direction: column; text-align: center; }
+            .step { gap: 12px; }
+        }
     </style>
 </head>
 <body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-orb o1"></div>
+<div class="bg-orb o2"></div>
+
+<div class="confetti-container" id="confetti"></div>
+
+<div class="container">
     <div class="card">
-        <div class="check">🎉</div>
-        <h1>Purchase Confirmed!</h1>
-        <p>Welcome to <strong>AI Agents: Master Hermes Agent</strong>.</p>
-        <p style="color:#606080;font-size:0.9em;">Check your email for login details. If you don't see it in 5 minutes, check spam.</p>
-        <ul class="steps">
-            <li>Check your email for course access link</li>
-            <li>Start with Module 1 — "What is Hermes Agent"</li>
-            <li>Join the community for support</li>
-            <li>Complete the first lesson and build your first skill</li>
-        </ul>
-        <p style="color:#606080;font-size:0.85em;">Questions? Email <span class="email">hello@aiagentscourse.com</span></p>
-        <a class="btn" href="https://hermes-agent-course.vercel.app/">Back to Course</a>
+        <span class="check-icon">🎉</span>
+        <span class="badge">✅ PURCHASE CONFIRMED</span>
+        <h1>Welcome to the Course!</h1>
+        <p class="subtitle">You now have lifetime access to <strong>AI Agents: Master Hermes Agent</strong> — including all 10 modules, bonuses, and future updates.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>📬 Check Your Email</h4>
+                    <p>We sent your course access link to the email you used at checkout. If you don't see it in 5 minutes, check your spam folder.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>📖 Start with Module 1</h4>
+                    <p>"What is Hermes Agent &amp; Why It Matters" — understand the architecture and your learning path. Takes 15 minutes.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>⚡ Build Your First Skill</h4>
+                    <p>By the end of Module 2, you'll have Hermes installed and running. By Module 5, you'll have created your first custom skill.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h4>📬 Get Weekly Skills</h4>
+                    <p>New Hermes skills, prompts, and templates delivered to your inbox every week so your agent keeps getting more powerful.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="resources">
+            <a href="https://hermes-agent.nousresearch.com" class="resource-item" target="_blank" rel="noopener">
+                <span class="r-icon">📄</span>
+                <h4>Hermes Docs</h4>
+                <p>Official documentation</p>
+            </a>
+            <a href="https://hermes-agent-course.vercel.app/" class="resource-item" target="_blank" rel="noopener">
+                <span class="r-icon">🎓</span>
+                <h4>Course Home</h4>
+                <p>Landing page &amp; info</p>
+            </a>
+            <a href="https://github.com/digimiami/hermes-agent-course" class="resource-item" target="_blank" rel="noopener">
+                <span class="r-icon">💻</span>
+                <h4>GitHub Repo</h4>
+                <p>Course code &amp; examples</p>
+            </a>
+            <div class="resource-item" style="cursor:default;">
+                <span class="r-icon">🛠️</span>
+                <h4>Skill Vault</h4>
+                <p>40+ ready-to-use skills</p>
+            </div>
+        </div>
+
+        <div class="community-box">
+            <div class="com-icon">💬</div>
+            <div>
+                <h4>Need Help? We're Here</h4>
+                <p>Email us at hermes-course@agentmail.to with any questions. We typically reply within 12 hours. Got a suggestion? We'd love to hear it.</p>
+            </div>
+        </div>
+
+        <a class="btn" href="https://hermes-agent-course.vercel.app/"><span>📚 Back to Course Home</span></a>
+        <p class="support">Questions? <a href="mailto:hermes-course@agentmail.to">hermes-course@agentmail.to</a></p>
     </div>
+
+    <div class="footer-note">
+        <p>© 2026 AI Agents Course. All rights reserved.</p>
+    </div>
+</div>
+
+<script>
+    // ===== CONFETTI =====
+    (function() {
+        var colors = ['#6c5ce7', '#00cec9', '#a78bfa', '#ff6b6b', '#fbbf24', '#34d399'];
+        var container = document.getElementById('confetti');
+        if (!container) return;
+
+        for (var i = 0; i < 80; i++) {
+            var piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + '%';
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.width = (Math.random() * 6 + 4) + 'px';
+            piece.style.height = (Math.random() * 6 + 4) + 'px';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            piece.style.animationDelay = (Math.random() * 2) + 's';
+            container.appendChild(piece);
+        }
+    })();
+</script>
+
 </body>
 </html>
