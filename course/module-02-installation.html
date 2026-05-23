@@ -92,6 +92,23 @@
         }
     </style>
 <script src="auth-check.js"></script>
+<script>
+// Click-to-copy for install command blocks
+document.addEventListener('click', function(e) {
+    var code = e.target.closest('code');
+    if (code && e.target.closest('.mod-res-card') && (code.textContent.includes('curl') || code.textContent.includes('iex'))) {
+        var text = code.textContent.trim();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                var orig = code.style.background;
+                code.style.background = 'rgba(0,206,201,0.15)';
+                code.style.borderColor = 'rgba(0,206,201,0.3)';
+                setTimeout(function() { code.style.background = ''; code.style.borderColor = ''; }, 800);
+            });
+        }
+    }
+});
+</script>
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -102,12 +119,46 @@
         <p class="meta">Module 2 of 10</p>
         <div class="video-section">
             <h3 style="color:#a78bfa;font-size:1.1em;margin-bottom:8px;">🎬 Full Walkthrough Video</h3>
-            <video style="width:100%;max-width:720px;border-radius:12px;box-shadow:0 4px 20px rgba(108,92,231,0.2);" controls preload="metadata">
-                <source src="videos/module-02-walkthrough.mp4" type="video/mp4">
-                Your browser doesn't support video playback.
-            </video>
-            <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
-                <a href="videos/module-02.mp4" style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,206,201,0.08);border:1px solid rgba(0,206,201,0.12);border-radius:8px;padding:8px 16px;color:#00cec9;font-size:0.82em;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,206,201,0.15)'" onmouseout="this.style.background='rgba(0,206,201,0.08)'">▶ Watch Module Intro (8 sec)</a>
+            <div class="video-player-wrap">
+                <video style="width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(108,92,231,0.2);display:block;" controls preload="metadata">
+                    <source src="videos/featured-install-tutorial.mp4" type="video/mp4">
+                    Your browser doesn't support video playback.
+                </video>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="videos/module-02-walkthrough.mp4" style="display:inline-flex;align-items:center;gap:6px;background:rgba(108,92,231,0.08);border:1px solid rgba(108,92,231,0.12);border-radius:8px;padding:7px 14px;color:#a78bfa;font-size:0.78em;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(108,92,231,0.15)'" onmouseout="this.style.background='rgba(108,92,231,0.08)'">▶ Our Course Walkthrough (4 min)</a>
+                <a href="videos/module-02.mp4" style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,206,201,0.08);border:1px solid rgba(0,206,201,0.12);border-radius:8px;padding:7px 14px;color:#00cec9;font-size:0.78em;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,206,201,0.15)'" onmouseout="this.style.background='rgba(0,206,201,0.08)'">▶ Module Intro (8 sec)</a>
+            </div>
+
+            <!-- Resource Links -->
+            <div class="mod-resources" style="margin-top:16px;">
+                <div class="mod-resources-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+                    <a href="https://venice.ai/chat?ref=HrYcEc" target="_blank" class="mod-res-card" style="display:flex;flex-direction:column;gap:6px;background:rgba(18,18,34,0.5);border:1px solid rgba(108,92,231,0.08);border-radius:10px;padding:14px 16px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(108,92,231,0.3)';this.style.background='rgba(20,20,40,0.6)'" onmouseout="this.style.borderColor='rgba(108,92,231,0.08)';this.style.background='rgba(18,18,34,0.5)'">
+                        <span style="font-size:0.95em;">🔑 Venice.ai</span>
+                        <span style="color:#a78bfa;font-size:0.78em;font-weight:600;">Get Private API Key →</span>
+                        <span style="color:#606080;font-size:0.72em;line-height:1.4;">No data stored. Stake DM token for $1/day API credits.</span>
+                    </a>
+                    <a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_2&period=12&referral_type=cart_link&REFERRALCODE=M0ODIGIMI9VI&referral_id=019e56ec-027c-732f-956c-94d0fbcc6402" target="_blank" class="mod-res-card" style="display:flex;flex-direction:column;gap:6px;background:rgba(18,18,34,0.5);border:1px solid rgba(108,92,231,0.08);border-radius:10px;padding:14px 16px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(108,92,231,0.3)';this.style.background='rgba(20,20,40,0.6)'" onmouseout="this.style.borderColor='rgba(108,92,231,0.08)';this.style.background='rgba(18,18,34,0.5)'">
+                        <span style="font-size:0.95em;">🖥️ Hostinger VPS</span>
+                        <span style="color:#a78bfa;font-size:0.78em;font-weight:600;">$12/mo VPS Deal →</span>
+                        <span style="color:#606080;font-size:0.72em;line-height:1.4;">Run Hermes 24/7. Referral code applied.</span>
+                    </a>
+                    <div class="mod-res-card" style="display:flex;flex-direction:column;gap:6px;background:rgba(18,18,34,0.5);border:1px solid rgba(108,92,231,0.08);border-radius:10px;padding:14px 16px;cursor:default;">
+                        <span style="font-size:0.95em;">🐧 Linux / macOS / WSL2</span>
+                        <code style="background:rgba(10,10,20,0.6);border:1px solid rgba(108,92,231,0.1);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.75em;color:#b0d0b0;overflow-x:auto;white-space:nowrap;">curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</code>
+                        <span style="color:#404060;font-size:0.7em;">← Click to copy</span>
+                    </div>
+                    <div class="mod-res-card" style="display:flex;flex-direction:column;gap:6px;background:rgba(18,18,34,0.5);border:1px solid rgba(108,92,231,0.08);border-radius:10px;padding:14px 16px;cursor:default;">
+                        <span style="font-size:0.95em;">🪟 Windows (PowerShell)</span>
+                        <code style="background:rgba(10,10,20,0.6);border:1px solid rgba(108,92,231,0.1);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.75em;color:#b0d0b0;overflow-x:auto;white-space:nowrap;">iex (irm https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1)</code>
+                        <span style="color:#404060;font-size:0.7em;">⚠️ Early Beta — details in the module</span>
+                    </div>
+                    <div class="mod-res-card" style="display:flex;flex-direction:column;gap:6px;background:rgba(18,18,34,0.5);border:1px solid rgba(108,92,231,0.08);border-radius:10px;padding:14px 16px;cursor:default;">
+                        <span style="font-size:0.95em;">📱 Android (Termux)</span>
+                        <code style="background:rgba(10,10,20,0.6);border:1px solid rgba(108,92,231,0.1);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.75em;color:#b0d0b0;overflow-x:auto;white-space:nowrap;">Same Linux one-liner — auto-detected</code>
+                        <span style="color:#404060;font-size:0.7em;">✅ Installer detects Termux automatically</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="nav-links">
