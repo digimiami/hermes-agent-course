@@ -470,7 +470,7 @@
             <p style="color:#606080;font-size:0.83em;margin-top:4px;">Includes all future updates. 30-day money-back guarantee.</p>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>🎓 Enroll Now</span></a>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🎓 Enroll Now</span></a>
             <a href="#demo" class="btn-secondary">▶ Watch Demo</a>
         </div>
         <p class="meta">10 modules · 50+ lessons · exercises · quizzes · source code · 6 bonuses</p>
@@ -488,7 +488,7 @@
             </video>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>🎓 Enroll Now — $97</span></a>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🎓 Enroll Now — $97</span></a>
             <span style="align-self:center;color:#606080;font-size:0.85em;">or scroll down to learn more</span>
         </div>
     </div>
@@ -569,7 +569,7 @@
             <div class="screenshot-card"><div class="img-placeholder">⚡</div><div class="caption">Agent command execution — deploy app</div></div>
         </div>
         <div style="text-align:center;margin-top:36px;">
-            <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Start Building My AI Agent Today</span></a>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>Start Building My AI Agent Today</span></a>
         </div>
     </div>
 </div>
@@ -698,7 +698,7 @@
     <div class="container reveal">
         <h2 class="section-title">Ready to Build Your Own AI Agent?</h2>
         <p style="color:#a0a0b0;margin-bottom:30px;font-size:1.05em;">Get lifetime access to the Hermes Agent Course and start building real automations today.<br>10 modules · 6 bonuses · lifetime updates.</p>
-        <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Get Lifetime Access for $97</span></a>
+        <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>Get Lifetime Access for $97</span></a>
         <p style="color:#606078;font-size:0.85em;margin-top:14px;">🔒 30-day money-back guarantee. No questions asked.</p>
     </div>
 </div>
@@ -743,7 +743,7 @@
 <!-- ============ STICKY MOBILE CTA ============ -->
 <div class="sticky-cta">
     <div class="sticky-text">AI Agents: Master Hermes Agent <small>Lifetime access · $97</small></div>
-    <a href="#" class="btn-primary" onclick="handleBuy(event)"><span>Enroll Now — $97</span></a>
+    <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>Enroll Now — $97</span></a>
 </div>
 
 <!-- ============ LEGAL OVERLAYS ============ -->
@@ -806,74 +806,97 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // Stripe Checkout — defined globally for onclick handlers
+    // ===== STRIPE CHECKOUT =====
     function handleBuy(event) {
         event.preventDefault();
         var STRIPE_PUB_KEY = 'pk_live_51RYRp4GaNMCjVFzmIbTSrzDGgDzohTnkZ0YMieEBuwXXgCF1OsShoenZOm3o4QI8DXmv0mGFGYx0nSG3AUoGySyr00RQsCEk1a';
         var PRICE_ID = 'price_1TaFEsGaNMCjVFzmW23o8E3Y';
         var SUCCESS_URL = 'https://hermes-agent-course.vercel.app/thank-you';
         var CANCEL_URL = 'https://hermes-agent-course.vercel.app/';
-        if (typeof Stripe === 'undefined') { alert('Stripe loading... please wait a moment and try again.'); return; }
+        if (typeof Stripe === 'undefined') {
+            alert('Stripe is still loading... please wait a moment and try again.');
+            return;
+        }
         var stripe = Stripe(STRIPE_PUB_KEY);
         stripe.redirectToCheckout({
             lineItems: [{ price: PRICE_ID, quantity: 1 }],
             mode: 'payment',
             successUrl: SUCCESS_URL,
             cancelUrl: CANCEL_URL,
-        }).then(function(r) { if (r.error) alert('Payment failed: ' + r.error.message); });
-    }
-
-    // FAQ Toggle
-    function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
-
-    // Email Capture
-    function captureEmail(event) {
-        event.preventDefault();
-        const email = document.getElementById('emailInput').value;
-        if (!email) return;
-        console.log('Captured email:', email);
-        alert('✅ Check your inbox! (Connect your email API - ConvertKit, Mailchimp, etc. - in the captureEmail function)');
-        document.getElementById('emailInput').value = '';
-    }
-
-    // Legal Overlays
-    function openLegal(page) {
-        document.getElementById('legalOverlay').classList.add('open');
-        document.getElementById('legalPrivacy').style.display = page === 'privacy' ? 'block' : 'none';
-        document.getElementById('legalTerms').style.display = page === 'terms' ? 'block' : 'none';
-        document.getElementById('legalRefund').style.display = page === 'refund' ? 'block' : 'none';
-        document.body.style.overflow = 'hidden';
-    }
-    function closeLegal() {
-        document.getElementById('legalOverlay').classList.remove('open');
-        document.body.style.overflow = '';
-    }
-    document.getElementById('legalOverlay').addEventListener('click', function(e) {
-        if (e.target === this) closeLegal();
-    });
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLegal();
-    });
-
-    // Scroll Reveal
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
+        }).then(function(r) {
+            if (r && r.error) {
+                alert('Payment error: ' + r.error.message);
+                console.error('Stripe error:', r.error);
+            }
+        }).catch(function(err) {
+            alert('Something went wrong. Please try again. Error: ' + err.message);
+            console.error('Stripe exception:', err);
         });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Open first FAQ
-    document.addEventListener('DOMContentLoaded', function() {
-        const first = document.querySelector('.faq-item');
-        if (first) first.classList.add('open');
-    });
-
-    function closeOverlay() {}
-    function scrollToFaq() {
-        const faq = document.querySelector('.faq-list');
-        if (faq) faq.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // ===== SETUP ON DOM READY =====
+    document.addEventListener('DOMContentLoaded', function() {
+        // Attach buy handlers to all buy buttons
+        document.querySelectorAll('.buy-btn').forEach(function(btn) {
+            btn.addEventListener('click', handleBuy);
+        });
+
+        // FAQ toggle
+        window.toggleFaq = function(el) {
+            el.parentElement.classList.toggle('open');
+        };
+
+        // Email capture
+        window.captureEmail = function(event) {
+            event.preventDefault();
+            var email = document.getElementById('emailInput');
+            if (!email || !email.value) return;
+            console.log('Captured email:', email.value);
+            alert('✅ Check your inbox! (Connect your email API - ConvertKit, Mailchimp, etc.)');
+            email.value = '';
+        };
+
+        // Legal overlays
+        window.openLegal = function(page) {
+            var overlay = document.getElementById('legalOverlay');
+            overlay.classList.add('open');
+            document.getElementById('legalPrivacy').style.display = page === 'privacy' ? 'block' : 'none';
+            document.getElementById('legalTerms').style.display = page === 'terms' ? 'block' : 'none';
+            document.getElementById('legalRefund').style.display = page === 'refund' ? 'block' : 'none';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLegal = function() {
+            document.getElementById('legalOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        document.getElementById('legalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeLegal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLegal();
+        });
+
+        // Scroll reveal
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+        // Open first FAQ
+        var firstFaq = document.querySelector('.faq-item');
+        if (firstFaq) firstFaq.classList.add('open');
+
+        window.closeOverlay = function() {};
+        window.scrollToFaq = function() {
+            var faq = document.querySelector('.faq-list');
+            if (faq) faq.scrollIntoView({ behavior: 'smooth' });
+        };
+    });
 </script>
 </body>
 </html>
