@@ -806,32 +806,10 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // ===== STRIPE CHECKOUT =====
+    // ===== STRIPE PAYMENT LINK =====
     function handleBuy(event) {
         event.preventDefault();
-        var STRIPE_PUB_KEY = 'pk_live_51RYRp4GaNMCjVFzmIbTSrzDGgDzohTnkZ0YMieEBuwXXgCF1OsShoenZOm3o4QI8DXmv0mGFGYx0nSG3AUoGySyr00RQsCEk1a';
-        var PRICE_ID = 'price_1TaFEsGaNMCjVFzmW23o8E3Y';
-        var SUCCESS_URL = 'https://hermes-agent-course.vercel.app/thank-you';
-        var CANCEL_URL = 'https://hermes-agent-course.vercel.app/';
-        if (typeof Stripe === 'undefined') {
-            alert('Stripe is still loading... please wait a moment and try again.');
-            return;
-        }
-        var stripe = Stripe(STRIPE_PUB_KEY);
-        stripe.redirectToCheckout({
-            lineItems: [{ price: PRICE_ID, quantity: 1 }],
-            mode: 'payment',
-            successUrl: SUCCESS_URL,
-            cancelUrl: CANCEL_URL,
-        }).then(function(r) {
-            if (r && r.error) {
-                alert('Payment error: ' + r.error.message);
-                console.error('Stripe error:', r.error);
-            }
-        }).catch(function(err) {
-            alert('Something went wrong. Please try again. Error: ' + err.message);
-            console.error('Stripe exception:', err);
-        });
+        window.location.href = 'https://buy.stripe.com/eVq5kD3NT2E24E61lp67S00';
     }
 
     // ===== SETUP ON DOM READY =====
