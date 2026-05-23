@@ -4,7 +4,7 @@
 
 const AGENTMAIL_API_KEY = process.env.AGENTMAIL_API_KEY;
 const INBOX_ID = "hermes-course@agentmail.to";
-const SITE_URL = "https://hermes-agent-course.vercel.app";
+const SITE_URL = "https://www.hermesagents.pro";
 
 module.exports = async (req, res) => {
   // CORS headers
