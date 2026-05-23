@@ -141,21 +141,21 @@ FOOTER_TEMPLATE = """
 def build_prev_link(num):
     if num <= 1:
         return '<span></span>'
-    prev_fn = MODULES[num-2][0].replace('.md', '.html')
+    prev_fn = MODULES[num-2][0].replace('.md', '')
     prev_title = MODULES[num-2][1][:25]
     return '<a href="' + prev_fn + '" class="nav-prev">' + prev_title + '</a>'
 
 def build_next_link(num):
     if num >= 10:
         return '<span></span>'
-    next_fn = MODULES[num][0].replace('.md', '.html')
+    next_fn = MODULES[num][0].replace('.md', '')
     next_title = MODULES[num][1][:25]
     return '<a href="' + next_fn + '" class="nav-next">Next: ' + next_title + '</a>'
 
 def build_prev_bottom(num):
     if num <= 1:
         return '<span></span>'
-    prev_fn = MODULES[num-2][0].replace('.md', '.html')
+    prev_fn = MODULES[num-2][0].replace('.md', '')
     style = 'padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:rgba(108,92,231,0.08);color:#a78bfa;border:1px solid rgba(108,92,231,0.1);'
     n = num - 1
     return '<a href="' + prev_fn + '" class="nav-prev" style="' + style + '">Module ' + str(n) + '</a>'
@@ -163,7 +163,7 @@ def build_prev_bottom(num):
 def build_next_bottom(num):
     if num >= 10:
         return '<span></span>'
-    next_fn = MODULES[num][0].replace('.md', '.html')
+    next_fn = MODULES[num][0].replace('.md', '')
     style = 'padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6c5ce7,#00cec9);color:#fff;'
     n = num + 1
     return '<a href="' + next_fn + '" class="nav-next" style="' + style + '">Module ' + str(n) + '</a>'
@@ -265,7 +265,7 @@ def build():
         footer = footer.replace('NEXT_BOTTOM_HERE', build_next_bottom(num))
         full_html += footer
 
-        out_fn = filename.replace('.md', '.html')
+        out_fn = filename.replace('.md', '')
         out_path = os.path.join(OUTPUT_DIR, out_fn)
         with open(out_path, 'w') as f:
             f.write(full_html)
