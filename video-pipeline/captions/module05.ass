@@ -1,0 +1,23 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans Bold,42,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,2,100,100,70,1
+Style: Title,DejaVu Sans Bold,36,&H00A78BFA,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,8,100,100,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:08.00,Cap,,0,0,0,,Module 5: Skills System
+Dialogue: 0,0:00:08.00,0:00:18.00,Cap,,0,0,0,,The killer feature of Hermes Agent
+Dialogue: 0,0:00:18.00,0:00:28.00,Cap,,0,0,0,,Most AI assistants are amnesiacs
+Dialogue: 0,0:00:28.00,0:00:40.00,Cap,,0,0,0,,Skills = permanent, reusable knowledge
+Dialogue: 0,0:00:40.00,0:00:52.00,Cap,,0,0,0,,Markdown files with structured frontmatter
+Dialogue: 0,0:00:52.00,0:01:05.00,Cap,,0,0,0,,Create once, use forever
+Dialogue: 0,0:01:05.00,0:01:18.00,Cap,,0,0,0,,Skill Hub ecosystem
+Dialogue: 0,0:01:18.00,0:01:30.00,Cap,,0,0,0,,Browse, install, publish skills
+Dialogue: 0,0:01:30.00,0:01:45.00,Cap,,0,0,0,,50+ skills = agent that knows your stack
+Dialogue: 0,0:01:45.00,0:02:10.00,Cap,,0,0,0,,The compound learning effect
+Dialogue: 0,0:02:10.00,0:02:40.00,Cap,,0,0,0,,Module 5 complete

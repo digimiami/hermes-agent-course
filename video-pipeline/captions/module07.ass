@@ -1,0 +1,23 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans Bold,42,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,2,100,100,70,1
+Style: Title,DejaVu Sans Bold,36,&H00A78BFA,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,8,100,100,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:08.00,Cap,,0,0,0,,Module 7: Multi-Platform Gateway
+Dialogue: 0,0:00:08.00,0:00:18.00,Cap,,0,0,0,,One agent, every platform
+Dialogue: 0,0:00:18.00,0:00:28.00,Cap,,0,0,0,,Telegram, Discord, Slack, WhatsApp, Signal
+Dialogue: 0,0:00:28.00,0:00:38.00,Cap,,0,0,0,,Same agent, different interfaces
+Dialogue: 0,0:00:38.00,0:00:50.00,Cap,,0,0,0,,Continue conversations across platforms
+Dialogue: 0,0:00:50.00,0:01:02.00,Cap,,0,0,0,,Setup: hermes gateway setup
+Dialogue: 0,0:01:02.00,0:01:15.00,Cap,,0,0,0,,Install as systemd service
+Dialogue: 0,0:01:15.00,0:01:28.00,Cap,,0,0,0,,Security: allowlists, pairing, tiers
+Dialogue: 0,0:01:28.00,0:01:40.00,Cap,,0,0,0,,Cron jobs deliver anywhere
+Dialogue: 0,0:01:40.00,0:02:10.00,Cap,,0,0,0,,One agent everywhere you need it
+Dialogue: 0,0:02:10.00,0:02:30.00,Cap,,0,0,0,,Module 7 complete

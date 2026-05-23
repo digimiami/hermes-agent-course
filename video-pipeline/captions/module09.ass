@@ -1,0 +1,23 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,DejaVu Sans Bold,42,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,2,100,100,70,1
+Style: Title,DejaVu Sans Bold,36,&H00A78BFA,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,8,100,100,70,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:08.00,Cap,,0,0,0,,Module 9: Monetization Strategies
+Dialogue: 0,0:00:08.00,0:00:18.00,Cap,,0,0,0,,7 ways to make money with Hermes
+Dialogue: 0,0:00:18.00,0:00:28.00,Cap,,0,0,0,,Agent as a Service: $20-50 per month
+Dialogue: 0,0:00:28.00,0:00:40.00,Cap,,0,0,0,,Local business automation: $500-5000
+Dialogue: 0,0:00:40.00,0:00:52.00,Cap,,0,0,0,,Custom skill development: $100-500
+Dialogue: 0,0:00:52.00,0:01:05.00,Cap,,0,0,0,,Affiliate marketing: passive income
+Dialogue: 0,0:01:05.00,0:01:18.00,Cap,,0,0,0,,Sell this course
+Dialogue: 0,0:01:18.00,0:01:30.00,Cap,,0,0,0,,White-label Hermes: $2K-5K setup
+Dialogue: 0,0:01:30.00,0:01:45.00,Cap,,0,0,0,,SaaS product: highest reward
+Dialogue: 0,0:01:45.00,0:02:10.00,Cap,,0,0,0,,MIT license = full freedom
+Dialogue: 0,0:02:10.00,0:02:40.00,Cap,,0,0,0,,Module 9 complete
