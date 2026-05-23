@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents: Master Hermes Agent — Build Your Own AI Assistant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #0a0a1f 0%, #1a1a3f 50%, #0a0a1f 100%); padding: 120px 0 80px; text-align: center; border-bottom: 1px solid #2a2a4f; }
+        .hero h1 { font-size: 3.2em; font-weight: 800; margin-bottom: 20px; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero .subtitle { font-size: 1.3em; color: #a0a0b0; margin-bottom: 15px; }
+        .hero .tagline { font-size: 1em; color: #707080; margin-bottom: 40px; }
+        .hero .price-box { display: inline-block; background: rgba(108,92,231,0.15); border: 1px solid #6c5ce7; border-radius: 16px; padding: 30px 50px; margin-bottom: 30px; }
+        .hero .price { font-size: 3em; font-weight: 800; color: #fff; }
+        .hero .price span { font-size: 0.35em; font-weight: 400; color: #9090a0; }
+        .hero .cta { display: inline-block; background: linear-gradient(90deg, #6c5ce7, #00cec9); color: #fff; padding: 18px 60px; border-radius: 50px; font-size: 1.2em; font-weight: 700; text-decoration: none; margin-top: 20px; transition: transform 0.2s, box-shadow 0.2s; }
+        .hero .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(108,92,231,0.4); }
+        
+        /* Features */
+        .features { padding: 80px 0; background: #0e0e18; }
+        .features h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: #14142a; border: 1px solid #2a2a4f; border-radius: 12px; padding: 30px; transition: border-color 0.2s, transform 0.2s; }
+        .card:hover { border-color: #6c5ce7; transform: translateY(-3px); }
+        .card .icon { font-size: 2em; margin-bottom: 15px; }
+        .card h3 { font-size: 1.2em; margin-bottom: 10px; color: #fff; }
+        .card p { color: #9090a0; font-size: 0.95em; }
+        
+        /* Modules */
+        .modules { padding: 80px 0; background: #0a0a0f; }
+        .modules h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
+        .module-list { max-width: 800px; margin: 0 auto; }
+        .module-item { display: flex; align-items: flex-start; gap: 20px; padding: 20px 0; border-bottom: 1px solid #1a1a2f; }
+        .module-item .num { background: linear-gradient(135deg, #6c5ce7, #00cec9); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+        .module-item h4 { color: #fff; margin-bottom: 5px; }
+        .module-item p { color: #707080; font-size: 0.9em; }
+        
+        /* Funnel */
+        .funnel { padding: 80px 0; background: #0e0e18; }
+        .funnel h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
+        .funnel-steps { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .funnel-step { background: #14142a; border: 1px solid #2a2a4f; border-radius: 12px; padding: 25px; text-align: center; flex: 1; min-width: 200px; max-width: 250px; }
+        .funnel-step .step-icon { font-size: 2.5em; margin-bottom: 10px; }
+        .funnel-step h4 { color: #fff; margin-bottom: 8px; }
+        .funnel-step p { color: #707080; font-size: 0.85em; }
+        .funnel-step .arrow { color: #6c5ce7; font-size: 1.5em; }
+        
+        .cta-section { text-align: center; padding: 80px 0; background: linear-gradient(135deg, #0a0a1f, #1a1a3f); }
+        .cta-section h2 { font-size: 2.5em; margin-bottom: 20px; color: #fff; }
+        .cta-section p { color: #a0a0b0; margin-bottom: 30px; font-size: 1.1em; }
+        .cta-section .cta { display: inline-block; background: linear-gradient(90deg, #6c5ce7, #00cec9); color: #fff; padding: 18px 60px; border-radius: 50px; font-size: 1.2em; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
+        .cta-section .cta:hover { transform: translateY(-2px); }
+        .cta-section .guarantee { margin-top: 15px; color: #606070; font-size: 0.9em; }
+        
+        footer { text-align: center; padding: 40px; color: #505060; font-size: 0.85em; border-top: 1px solid #1a1a2f; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .hero .price { font-size: 2.2em; }
+            .hero .price-box { padding: 20px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="container">
+        <h1>AI Agents: Master Hermes Agent</h1>
+        <p class="subtitle">Build Your Own AI Assistant — No Coding Required</p>
+        <p class="tagline">Run a personal AI agent on your computer, connect it to Telegram, automate your work, and build a business around it.</p>
+        <div class="price-box">
+            <div class="price">$97 <span>/ lifetime access</span></div>
+            <p style="color:#707080;margin-top:5px;font-size:0.9em;">Includes all future updates. 30-day money-back guarantee.</p>
+        </div>
+        <br>
+        <a href="#" class="cta" id="buyButton" onclick="handleBuy(event)">🎓 Enroll Now</a>
+        <p style="color:#505060;margin-top:15px;font-size:0.85em;">10 modules · 50+ lessons · exercises · quizzes · source code</p>
+    </div>
+</div>
+
+<div class="features">
+    <div class="container">
+        <h2>What You'll Learn</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="icon">🤖</div>
+                <h3>Install & Configure Hermes</h3>
+                <p>From zero to running agent in 5 minutes. Works on Linux, Mac, and Windows WSL.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🧠</div>
+                <h3>Train Your Agent</h3>
+                <p>Teach it your workflows, preferences, and saved procedures. It gets smarter every day.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔌</div>
+                <h3>Connect Any Platform</h3>
+                <p>Telegram, Discord, WhatsApp, Email — the same agent works everywhere.</p>
+            </div>
+            <div class="card">
+                <div class="icon">💰</div>
+                <h3>Monetize Your Agent</h3>
+                <p>Sell access, build custom skills for clients, launch a SaaS — 7 revenue models.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🎯</div>
+                <h3>Skills System</h3>
+                <p>The killer feature. Create reusable procedures your agent runs on command. Build an arsenal.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🖥️</div>
+                <h3>Deploy 24/7</h3>
+                <p>Set up a $5/mo VPS, run your agent round the clock, automate everything.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modules">
+    <div class="container">
+        <h2>Course Curriculum</h2>
+        <div class="module-list">
+            <div class="module-item"><div class="num">1</div><div><h4>What is Hermes Agent & Why It Matters</h4><p>Understand the architecture, ecosystem, and why this is different from ChatGPT.</p></div></div>
+            <div class="module-item"><div class="num">2</div><div><h4>Installation & First Run</h4><p>One-liner install, Docker, setup wizard, your first conversation.</p></div></div>
+            <div class="module-item"><div class="num">3</div><div><h4>Configuration Deep Dive</h4><p>Model providers, API keys, toolsets, profiles, memory, security.</p></div></div>
+            <div class="module-item"><div class="num">4</div><div><h4>Daily Usage & Power Features</h4><p>Slash commands, delegation, cron jobs, webhooks, sessions, checkpoints.</p></div></div>
+            <div class="module-item"><div class="num">5</div><div><h4>Skills System — The Killer Feature</h4><p>Create, manage, and publish skills. Build your agent's knowledge base.</p></div></div>
+            <div class="module-item"><div class="num">6</div><div><h4>Training Your Agent</h4><p>Memory, user profiles, corrections pipeline, teaching workflows.</p></div></div>
+            <div class="module-item"><div class="num">7</div><div><h4>Multi-Platform Gateway</h4><p>Telegram, Discord, WhatsApp bots. Run your agent everywhere.</p></div></div>
+            <div class="module-item"><div class="num">8</div><div><h4>VPS Deployment</h4><p>Set up a $5 VPS, secure it, run Hermes 24/7 as a systemd service.</p></div></div>
+            <div class="module-item"><div class="num">9</div><div><h4>Monetization Strategies</h4><p>Seven ways to make money — agent as a service, white-label, SaaS, skills marketplace.</p></div></div>
+            <div class="module-item"><div class="num">10</div><div><h4>Advanced Use Cases</h4><p>Trading bots, content automation, code review, customer support, data pipelines.</p></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="funnel">
+    <div class="container">
+        <h2>How to Launch & Promote</h2>
+        <p style="text-align:center;color:#707080;margin-bottom:50px;">The complete marketing system included with the course</p>
+        <div class="funnel-steps">
+            <div class="funnel-step">
+                <div class="step-icon">📹</div>
+                <h4>YouTube Shorts</h4>
+                <p>Daily 60s clips showing what Hermes can do. Hook → demo → CTA.</p>
+            </div>
+            <div class="funnel-step">
+                <div class="arrow">→</div>
+            </div>
+            <div class="funnel-step">
+                <div class="step-icon">🎁</div>
+                <h4>Free Mini-Course</h4>
+                <p>Email capture: "3 Ways AI Agents Save You 10 Hours/Week" PDF guide.</p>
+            </div>
+            <div class="funnel-step">
+                <div class="arrow">→</div>
+            </div>
+            <div class="funnel-step">
+                <div class="step-icon">📧</div>
+                <h4>Email Drip Sequence</h4>
+                <p>5 emails over 10 days: value → case study → social proof → offer.</p>
+            </div>
+            <div class="funnel-step">
+                <div class="arrow">→</div>
+            </div>
+            <div class="funnel-step">
+                <div class="step-icon">💵</div>
+                <h4>Launch Offer</h4>
+                <p>First 50 students at $47, then $97. Limited-time bonus: 1-on-1 setup call.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <h2>Ready to Build Your AI Agent Empire?</h2>
+        <p>10 modules · 50+ lessons · exercises · quizzes · full source code</p>
+        <p style="color:#00cec9;font-size:1em;">Plus: marketing funnel templates, email sequences, and launch checklist</p>
+        <a href="#" class="cta" onclick="handleBuy(event)">🎓 Enroll Now — $97</a>
+        <p class="guarantee">🔒 30-day money-back guarantee. No questions asked.</p>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 AI Agents Course. All rights reserved. | This site uses Stripe for payments.</p>
+    </div>
+</footer>
+
+<script>
+    // Stripe Checkout Integration
+    function handleBuy(event) {
+        event.preventDefault();
+        
+        // --- CONFIGURATION ---
+        // Replace with YOUR Stripe publishable key
+        const STRIPE_PUB_KEY = 'pk_live_YOUR_KEY_HERE';
+        // Replace with YOUR Stripe price ID
+        const PRICE_ID = 'price_YOUR_PRICE_ID_HERE';
+        // Replace with YOUR success/cancel URLs
+        const SUCCESS_URL = 'https://yourdomain.com/thank-you';
+        const CANCEL_URL = 'https://yourdomain.com/';
+        
+        // Load Stripe.js and redirect to checkout
+        const stripe = Stripe(STRIPE_PUB_KEY);
+        stripe.redirectToCheckout({
+            lineItems: [{ price: PRICE_ID, quantity: 1 }],
+            mode: 'payment',
+            successUrl: SUCCESS_URL,
+            cancelUrl: CANCEL_URL,
+        }).then(function (result) {
+            if (result.error) {
+                alert('Payment failed: ' + result.error.message);
+            }
+        });
+    }
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+</body>
+</html>
