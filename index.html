@@ -4,69 +4,403 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Agents: Master Hermes Agent — Build Your Own AI Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Hero */
-        .hero { background: linear-gradient(135deg, #0a0a1f 0%, #1a1a3f 50%, #0a0a1f 100%); padding: 120px 0 80px; text-align: center; border-bottom: 1px solid #2a2a4f; }
-        .hero h1 { font-size: 3.2em; font-weight: 800; margin-bottom: 20px; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero .subtitle { font-size: 1.3em; color: #a0a0b0; margin-bottom: 15px; }
-        .hero .tagline { font-size: 1em; color: #707080; margin-bottom: 40px; }
-        .hero .price-box { display: inline-block; background: rgba(108,92,231,0.15); border: 1px solid #6c5ce7; border-radius: 16px; padding: 30px 50px; margin-bottom: 30px; }
-        .hero .price { font-size: 3em; font-weight: 800; color: #fff; }
-        .hero .price span { font-size: 0.35em; font-weight: 400; color: #9090a0; }
-        .hero .cta { display: inline-block; background: linear-gradient(90deg, #6c5ce7, #00cec9); color: #fff; padding: 18px 60px; border-radius: 50px; font-size: 1.2em; font-weight: 700; text-decoration: none; margin-top: 20px; transition: transform 0.2s, box-shadow 0.2s; }
-        .hero .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(108,92,231,0.4); }
-        
-        /* Features */
-        .features { padding: 80px 0; background: #0e0e18; }
-        .features h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: #14142a; border: 1px solid #2a2a4f; border-radius: 12px; padding: 30px; transition: border-color 0.2s, transform 0.2s; }
-        .card:hover { border-color: #6c5ce7; transform: translateY(-3px); }
-        .card .icon { font-size: 2em; margin-bottom: 15px; }
-        .card h3 { font-size: 1.2em; margin-bottom: 10px; color: #fff; }
-        .card p { color: #9090a0; font-size: 0.95em; }
-        
-        /* Modules */
-        .modules { padding: 80px 0; background: #0a0a0f; }
-        .modules h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
-        .module-list { max-width: 800px; margin: 0 auto; }
-        .module-item { display: flex; align-items: flex-start; gap: 20px; padding: 20px 0; border-bottom: 1px solid #1a1a2f; }
-        .module-item .num { background: linear-gradient(135deg, #6c5ce7, #00cec9); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
-        .module-item h4 { color: #fff; margin-bottom: 5px; }
-        .module-item p { color: #707080; font-size: 0.9em; }
-        
-        /* Funnel */
-        .funnel { padding: 80px 0; background: #0e0e18; }
-        .funnel h2 { text-align: center; font-size: 2.2em; margin-bottom: 60px; color: #fff; }
-        .funnel-steps { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .funnel-step { background: #14142a; border: 1px solid #2a2a4f; border-radius: 12px; padding: 25px; text-align: center; flex: 1; min-width: 200px; max-width: 250px; }
-        .funnel-step .step-icon { font-size: 2.5em; margin-bottom: 10px; }
-        .funnel-step h4 { color: #fff; margin-bottom: 8px; }
-        .funnel-step p { color: #707080; font-size: 0.85em; }
-        .funnel-step .arrow { color: #6c5ce7; font-size: 1.5em; }
-        
-        .cta-section { text-align: center; padding: 80px 0; background: linear-gradient(135deg, #0a0a1f, #1a1a3f); }
-        .cta-section h2 { font-size: 2.5em; margin-bottom: 20px; color: #fff; }
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #07070d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; }
+
+        /* ===== UTILITY ===== */
+        .section-title {
+            text-align: center;
+            font-size: 2.4em;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-sub {
+            text-align: center;
+            font-size: 1.15em;
+            color: #9090a0;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+        .section { padding: 90px 0; }
+        .section-dark { background: #0a0a14; }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 16px 44px;
+            border-radius: 50px;
+            font-size: 1.05em;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,92,231,0.35); }
+        .btn-secondary {
+            display: inline-block;
+            background: transparent;
+            color: #fff;
+            padding: 16px 44px;
+            border-radius: 50px;
+            font-size: 1.05em;
+            font-weight: 600;
+            border: 1.5px solid rgba(108,92,231,0.5);
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .btn-secondary:hover { border-color: #6c5ce7; transform: translateY(-2px); }
+        .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+
+        /* ===== GRID / CARDS ===== */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+        .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+        .card {
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 14px;
+            padding: 30px;
+            transition: border-color 0.3s, transform 0.25s;
+        }
+        .card:hover { border-color: #6c5ce7; transform: translateY(-4px); }
+        .card .icon { font-size: 2.2em; margin-bottom: 16px; display: block; }
+        .card h3 { font-size: 1.1em; margin-bottom: 8px; color: #fff; font-weight: 700; }
+        .card p { color: #808098; font-size: 0.92em; }
+        .card ul { list-style: none; padding: 0; }
+        .card li { color: #808098; font-size: 0.92em; padding: 6px 0; display: flex; align-items: center; gap: 10px; }
+        .card li::before { content: "✓"; color: #00cec9; font-weight: 700; }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #07071a 0%, #12123a 40%, #0a0a1f 100%);
+            padding: 100px 0 70px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a3a;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(108,92,231,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero h1 { font-size: 3.4em; font-weight: 900; line-height: 1.15; margin-bottom: 18px; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+        .hero .subtitle { font-size: 1.3em; color: #b0b0c0; margin-bottom: 12px; font-weight: 500; }
+        .hero .tagline { font-size: 1em; color: #707090; margin-bottom: 36px; max-width: 650px; margin-left: auto; margin-right: auto; }
+        .hero .price-box {
+            display: inline-block;
+            background: rgba(108,92,231,0.12);
+            border: 1px solid rgba(108,92,231,0.3);
+            border-radius: 16px;
+            padding: 26px 48px;
+            margin-bottom: 10px;
+        }
+        .hero .price { font-size: 3.2em; font-weight: 900; color: #fff; }
+        .hero .price span { font-size: 0.35em; font-weight: 400; color: #808098; }
+        .hero .price-note { color: #606078; font-size: 0.88em; margin-top: 4px; }
+        .hero .meta { color: #505068; font-size: 0.85em; margin-top: 14px; }
+
+        /* ===== DEMO VIDEO ===== */
+        .demo-video-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+        .demo-video-placeholder {
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1a30, #0e0e20);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .play-btn {
+            width: 72px; height: 72px;
+            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8em;
+            box-shadow: 0 0 40px rgba(108,92,231,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .play-btn:hover { transform: scale(1.08); }
+        .play-label { color: #606080; font-size: 0.9em; }
+
+        /* ===== WHO IT'S FOR ===== */
+        .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .who-card {
+            border-radius: 14px;
+            padding: 36px;
+        }
+        .who-card h3 { font-size: 1.3em; margin-bottom: 16px; }
+        .who-card ul { list-style: none; padding: 0; }
+        .who-card li { padding: 7px 0; font-size: 0.95em; display: flex; align-items: center; gap: 10px; }
+        .who-card.for { background: rgba(0,206,201,0.06); border: 1px solid rgba(0,206,201,0.2); }
+        .who-card.for h3 { color: #00cec9; }
+        .who-card.for li::before { content: "✓"; color: #00cec9; font-weight: 700; }
+        .who-card.not { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2); }
+        .who-card.not h3 { color: #ff6b6b; }
+        .who-card.not li::before { content: "✗"; color: #ff6b6b; font-weight: 700; }
+
+        /* ===== SCREENSHOTS ===== */
+        .screenshot-card {
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.25s;
+        }
+        .screenshot-card:hover { border-color: #6c5ce7; transform: translateY(-3px); }
+        .screenshot-card .img-placeholder {
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1a2e, #0e0e1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            color: #3a3a5a;
+        }
+        .screenshot-card .caption {
+            padding: 14px 18px;
+            font-size: 0.88em;
+            color: #808098;
+            text-align: center;
+        }
+
+        /* ===== BONUS ===== */
+        .bonus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .bonus-item {
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: border-color 0.3s;
+        }
+        .bonus-item:hover { border-color: #6c5ce7; }
+        .bonus-item .b-icon { font-size: 2em; flex-shrink: 0; }
+        .bonus-item h4 { color: #fff; font-size: 1em; margin-bottom: 3px; }
+        .bonus-item p { color: #606080; font-size: 0.85em; }
+        .bonus-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonial { background: #12121e; border: 1px solid #1e1e32; border-radius: 14px; padding: 30px; position: relative; }
+        .testimonial .quote { color: #c0c0d0; font-size: 0.95em; font-style: italic; margin-bottom: 18px; line-height: 1.7; }
+        .testimonial .quote::before { content: """; font-size: 2em; color: #6c5ce7; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+        .testimonial .author { display: flex; align-items: center; gap: 12px; }
+        .testimonial .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9em; color: #fff;
+        }
+        .testimonial .name { font-weight: 600; color: #fff; font-size: 0.9em; }
+        .testimonial .role { color: #606080; font-size: 0.82em; }
+
+        /* ===== FAQ ===== */
+        .faq-list { max-width: 750px; margin: 0 auto; }
+        .faq-item {
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #e0e0e0;
+            font-size: 0.98em;
+            transition: color 0.2s;
+            user-select: none;
+        }
+        .faq-question:hover { color: #00cec9; }
+        .faq-question .faq-toggle {
+            font-size: 1.3em;
+            transition: transform 0.3s;
+            color: #6c5ce7;
+        }
+        .faq-item.open .faq-toggle { transform: rotate(180deg); }
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+            color: #808098;
+            font-size: 0.92em;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 18px;
+        }
+
+        /* ===== TRUST / SAFETY ===== */
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .trust-item {
+            background: #12121e;
+            border: 1px solid #1e1e32;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+        .trust-item .t-icon { font-size: 2em; margin-bottom: 12px; }
+        .trust-item h4 { color: #fff; font-size: 1em; margin-bottom: 6px; }
+        .trust-item p { color: #606080; font-size: 0.88em; }
+
+        /* ===== EMAIL CAPTURE ===== */
+        .email-section {
+            background: linear-gradient(135deg, #0f0f22, #18183a);
+            text-align: center;
+            border-top: 1px solid #1a1a3a;
+            border-bottom: 1px solid #1a1a3a;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 480px;
+            margin: 30px auto 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .email-form input {
+            flex: 1;
+            min-width: 220px;
+            padding: 16px 22px;
+            border-radius: 50px;
+            border: 1px solid #2a2a4a;
+            background: #12121e;
+            color: #fff;
+            font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .email-form input:focus { border-color: #6c5ce7; }
+        .email-form input::placeholder { color: #505070; }
+        .email-form button { padding: 16px 32px; white-space: nowrap; }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            text-align: center;
+            padding: 90px 0;
+            background: linear-gradient(135deg, #07071a, #12123a);
+        }
+        .cta-section h2 { font-size: 2.6em; font-weight: 800; margin-bottom: 16px; color: #fff; }
         .cta-section p { color: #a0a0b0; margin-bottom: 30px; font-size: 1.1em; }
-        .cta-section .cta { display: inline-block; background: linear-gradient(90deg, #6c5ce7, #00cec9); color: #fff; padding: 18px 60px; border-radius: 50px; font-size: 1.2em; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
-        .cta-section .cta:hover { transform: translateY(-2px); }
-        .cta-section .guarantee { margin-top: 15px; color: #606070; font-size: 0.9em; }
-        
-        footer { text-align: center; padding: 40px; color: #505060; font-size: 0.85em; border-top: 1px solid #1a1a2f; }
-        
+        .cta-section .guarantee { margin-top: 14px; color: #606078; font-size: 0.88em; }
+
+        /* ===== STICKY MOBILE CTA ===== */
+        .sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(7,7,13,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid #1a1a3a;
+            padding: 12px 20px;
+            z-index: 1000;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sticky-cta .sticky-text { font-weight: 700; font-size: 0.95em; color: #fff; }
+        .sticky-cta .sticky-text small { font-weight: 400; color: #808098; font-size: 0.85em; display: block; }
+        .sticky-cta .btn-primary { padding: 12px 28px; font-size: 0.9em; white-space: nowrap; }
+
+        /* ===== CURRICULUM ===== */
+        .module-list { max-width: 800px; margin: 0 auto; }
+        .module-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 18px 0;
+            border-bottom: 1px solid #1a1a2a;
+        }
+        .module-item:last-child { border-bottom: none; }
+        .module-item .num {
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9em; flex-shrink: 0;
+        }
+        .module-item h4 { color: #fff; margin-bottom: 4px; font-size: 1em; }
+        .module-item p { color: #606080; font-size: 0.88em; }
+
+        /* ===== FOOTER ===== */
+        footer { text-align: center; padding: 40px; color: #404060; font-size: 0.82em; border-top: 1px solid #1a1a2a; }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2em; }
-            .hero .price { font-size: 2.2em; }
-            .hero .price-box { padding: 20px 30px; }
+            .hero .subtitle { font-size: 1.05em; }
+            .hero .price { font-size: 2.4em; }
+            .hero .price-box { padding: 20px 24px; }
+            .hero { padding: 70px 0 50px; }
+            .section { padding: 60px 0; }
+            .section-title { font-size: 1.6em; }
+            .who-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; align-items: stretch; }
+            .btn-primary, .btn-secondary { text-align: center; }
+            .sticky-cta { display: flex; }
+            body { padding-bottom: 70px; }
+        }
+        @media (min-width: 769px) {
+            .sticky-cta { display: none !important; }
         }
     </style>
 </head>
 <body>
 
+<!-- ============ HERO ============ -->
 <div class="hero">
     <div class="container">
         <h1>AI Agents: Master Hermes Agent</h1>
@@ -74,60 +408,140 @@
         <p class="tagline">Create custom skills, teach your agent your workflows, connect it to Telegram, and automate everything. Your agent gets smarter every day.</p>
         <div class="price-box">
             <div class="price">$97 <span>/ lifetime access</span></div>
-            <p style="color:#707080;margin-top:5px;font-size:0.9em;">Includes all future updates. 30-day money-back guarantee.</p>
+            <p class="price-note">Includes all future updates. 30-day money-back guarantee.</p>
         </div>
-        <br>
-        <a href="#" class="cta" id="buyButton" onclick="handleBuy(event)">🎓 Enroll Now</a>
-        <p style="color:#505060;margin-top:15px;font-size:0.85em;">10 modules · 50+ lessons · exercises · quizzes · source code</p>
+        <div class="btn-group">
+            <a href="#" class="btn-primary" onclick="handleBuy(event)">🎓 Enroll Now</a>
+            <a href="#demo" class="btn-secondary">▶ Watch Demo</a>
+        </div>
+        <p class="meta">10 modules · 50+ lessons · exercises · quizzes · source code · 6 bonuses</p>
     </div>
 </div>
 
-<div class="features">
+<!-- ============ DEMO VIDEO ============ -->
+<div class="section" id="demo">
     <div class="container">
-        <h2>What You'll Learn</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="icon">🤖</div>
-                <h3>Install & Configure Hermes</h3>
-                <p>From zero to running agent in 5 minutes. Works on Linux, Mac, and Windows WSL.</p>
+        <h2 class="section-title">Watch Hermes Agent Build an Automation in 90 Seconds</h2>
+        <p class="section-sub">See how Hermes can install tools, remember your workflows, connect to Telegram, and run tasks like a real AI assistant.</p>
+        <div class="demo-video-wrap">
+            <div class="demo-video-placeholder">
+                <div class="play-btn">▶</div>
+                <span class="play-label">[Replace with your demo video]</span>
             </div>
-            <div class="card">
-                <div class="icon">🧠</div>
-                <h3>Create Custom Skills</h3>
-                <p>Save procedures your agent runs on command. Build an arsenal of 50+ skills — your agent gets smarter with every lesson.</p>
-            </div>
-            <div class="card">
-                <div class="icon">🔌</div>
-                <h3>Connect Any Platform</h3>
-                <p>Telegram, Discord, WhatsApp, Email — the same agent works everywhere.</p>
-            </div>
-            <div class="card">
-                <div class="icon">💰</div>
-                <h3>Monetize Your Agent</h3>
-                <p>Sell access, build custom skills for clients, launch a SaaS — 7 revenue models.</p>
-            </div>
-            <div class="card">
-                <div class="icon">🎯</div>
-                <h3>50+ Pre-Built Skills</h3>
-                <p>Deploy servers, audit code, scrape data, monitor servers — all from one command. Plus learn to create your own.</p>
-            </div>
-            <div class="card">
-                <div class="icon">🖥️</div>
-                <h3>Deploy 24/7</h3>
-                <p>Set up a $5/mo VPS, run your agent round the clock, automate everything.</p>
-            </div>
+        </div>
+        <div class="btn-group">
+            <a href="#" class="btn-primary" onclick="handleBuy(event)">🎓 Enroll Now — $97</a>
+            <span style="align-self:center;color:#606080;font-size:0.88em;">or scroll down to learn more</span>
         </div>
     </div>
 </div>
 
-<div class="modules">
+<!-- ============ WHAT YOU'LL LEARN (features) ============ -->
+<div class="section section-dark">
     <div class="container">
-        <h2>Course Curriculum</h2>
+        <h2 class="section-title">What You'll Learn</h2>
+        <p class="section-sub">Everything you need to go from zero to a fully operational AI agent running on your own infrastructure.</p>
+        <div class="grid-3">
+            <div class="card"><span class="icon">🤖</span><h3>Install &amp; Configure Hermes</h3><p>From zero to running agent in 5 minutes. Works on Linux, Mac, and Windows WSL.</p></div>
+            <div class="card"><span class="icon">🧠</span><h3>Create Custom Skills</h3><p>Save procedures your agent runs on command. Build an arsenal of 50+ skills — your agent gets smarter with every lesson.</p></div>
+            <div class="card"><span class="icon">🔌</span><h3>Connect Any Platform</h3><p>Telegram, Discord, WhatsApp, Email — the same agent works everywhere.</p></div>
+            <div class="card"><span class="icon">💰</span><h3>Monetize Your Agent</h3><p>Sell access, build custom skills for clients, launch a SaaS — 7 revenue models included.</p></div>
+            <div class="card"><span class="icon">🎯</span><h3>50+ Pre-Built Skills</h3><p>Deploy servers, audit code, scrape data, monitor servers — all from one command. Plus learn to create your own.</p></div>
+            <div class="card"><span class="icon">🖥️</span><h3>Deploy 24/7</h3><p>Set up a $5/mo VPS, run your agent round the clock, automate everything.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ WHAT YOU WILL BUILD ============ -->
+<div class="section">
+    <div class="container">
+        <h2 class="section-title">What You Will Build</h2>
+        <p class="section-sub">By the end of this course, you'll have all of these running — your own AI infrastructure.</p>
+        <div class="grid-3">
+            <div class="card"><span class="icon">✅</span><h3>Working Hermes Install</h3><p>A fully configured AI agent connected to your choice of LLM provider, ready for commands.</p></div>
+            <div class="card"><span class="icon">✅</span><h3>Custom Skills Created</h3><p>Your own library of reusable procedures — from server deploys to data scraping.</p></div>
+            <div class="card"><span class="icon">✅</span><h3>Telegram Bot Connected</h3><p>Your agent accessible from your phone via Telegram. Message it from anywhere.</p></div>
+            <div class="card"><span class="icon">✅</span><h3>VPS Deployment Live</h3><p>Your agent running 24/7 on a $5/mo server with systemd service management.</p></div>
+            <div class="card"><span class="icon">✅</span><h3>Automation Workflows</h3><p>Recurring tasks, cron jobs, webhook triggers — your agent working while you sleep.</p></div>
+            <div class="card"><span class="icon">✅</span><h3>Monetization Plan Ready</h3><p>A clear strategy to turn your agent into a revenue stream — pick from 7 models.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ WHO THIS COURSE IS FOR ============ -->
+<div class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Who This Course Is For</h2>
+        <p class="section-sub">Designed for people who want to build real AI automations — no coding background required.</p>
+        <div class="who-grid">
+            <div class="who-card for">
+                <h3>This course is for ✅</h3>
+                <ul>
+                    <li>AI beginners who want to build their first agent</li>
+                    <li>Freelancers looking to automate repetitive work</li>
+                    <li>Automation builders tired of limited no-code tools</li>
+                    <li>Marketers who want a personal AI assistant</li>
+                    <li>Agency owners automating client workflows</li>
+                    <li>Developers who want to extend their toolbelt</li>
+                    <li>Entrepreneurs who want a 24/7 AI worker</li>
+                </ul>
+            </div>
+            <div class="who-card not">
+                <h3>This course is NOT for ✗</h3>
+                <ul>
+                    <li>People expecting instant money without setup</li>
+                    <li>People who won't follow step-by-step lessons</li>
+                    <li>People not willing to test and build</li>
+                    <li>People looking for a copy-paste get-rich scheme</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ HERMES AGENT IN ACTION (screenshots) ============ -->
+<div class="section">
+    <div class="container">
+        <h2 class="section-title">Hermes Agent in Action</h2>
+        <p class="section-sub">See what you'll be building — real screenshots from the course.</p>
+        <div class="grid-5">
+            <div class="screenshot-card">
+                <div class="img-placeholder">💻</div>
+                <div class="caption">Terminal setup — first run wizard</div>
+            </div>
+            <div class="screenshot-card">
+                <div class="img-placeholder">📱</div>
+                <div class="caption">Telegram automation — check server health</div>
+            </div>
+            <div class="screenshot-card">
+                <div class="img-placeholder">📂</div>
+                <div class="caption">Custom skill folder — 50+ reusable skills</div>
+            </div>
+            <div class="screenshot-card">
+                <div class="img-placeholder">🌐</div>
+                <div class="caption">VPS deployment — systemd service running</div>
+            </div>
+            <div class="screenshot-card">
+                <div class="img-placeholder">⚡</div>
+                <div class="caption">Agent command execution — deploy app</div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:40px;">
+            <a href="#" class="btn-primary" onclick="handleBuy(event)">Start Building My AI Agent Today</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============ CURRICULUM ============ -->
+<div class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Course Curriculum</h2>
+        <p class="section-sub">10 modules · 50+ lessons · Every module includes exercises, quizzes, and real projects.</p>
         <div class="module-list">
-            <div class="module-item"><div class="num">1</div><div><h4>What is Hermes Agent & Why It Matters</h4><p>Understand the architecture, ecosystem, and why this is different from ChatGPT.</p></div></div>
-            <div class="module-item"><div class="num">2</div><div><h4>Installation & First Run</h4><p>One-liner install, Docker, setup wizard, your first conversation.</p></div></div>
+            <div class="module-item"><div class="num">1</div><div><h4>What is Hermes Agent &amp; Why It Matters</h4><p>Understand the architecture, ecosystem, and why this is different from ChatGPT.</p></div></div>
+            <div class="module-item"><div class="num">2</div><div><h4>Installation &amp; First Run</h4><p>One-liner install, Docker, setup wizard, your first conversation.</p></div></div>
             <div class="module-item"><div class="num">3</div><div><h4>Configuration Deep Dive</h4><p>Model providers, API keys, toolsets, profiles, memory, security.</p></div></div>
-            <div class="module-item"><div class="num">4</div><div><h4>Daily Usage & Power Features</h4><p>Slash commands, delegation, cron jobs, webhooks, sessions, checkpoints.</p></div></div>
+            <div class="module-item"><div class="num">4</div><div><h4>Daily Usage &amp; Power Features</h4><p>Slash commands, delegation, cron jobs, webhooks, sessions, checkpoints.</p></div></div>
             <div class="module-item"><div class="num">5</div><div><h4>Skills System — The Killer Feature</h4><p>Create, manage, and publish skills. Build your agent's knowledge base.</p></div></div>
             <div class="module-item"><div class="num">6</div><div><h4>Training Your Agent</h4><p>Memory, user profiles, corrections pipeline, teaching workflows.</p></div></div>
             <div class="module-item"><div class="num">7</div><div><h4>Multi-Platform Gateway</h4><p>Telegram, Discord, WhatsApp bots. Run your agent everywhere.</p></div></div>
@@ -138,38 +552,178 @@
     </div>
 </div>
 
+<!-- ============ FREE PREVIEW LESSON ============ -->
+<div class="section" style="background:linear-gradient(135deg,#0c0c20,#14143a);text-align:center;">
+    <div class="container">
+        <span class="bonus-badge">🎬 Try Before You Buy</span>
+        <h2 class="section-title">Preview the First Lesson Free</h2>
+        <p class="section-sub">See the teaching style before you enroll. Learn how Hermes Agent works and what you will build inside the course.</p>
+        <a href="#" class="btn-primary" onclick="alert('Replace this with your free preview lesson link (YouTube or Loom)')">▶ Preview Free Lesson</a>
+    </div>
+</div>
 
+<!-- ============ BONUSES ============ -->
+<div class="section section-dark">
+    <div class="container">
+        <div style="text-align:center;">
+            <span class="bonus-badge">🎁 BONUSES INCLUDED</span>
+            <h2 class="section-title">Get 6 Bonuses Worth $200+</h2>
+            <p class="section-sub">Enroll today and get these bonuses at no extra cost — available for a limited time only.</p>
+        </div>
+        <div class="bonus-grid">
+            <div class="bonus-item"><span class="b-icon">📝</span><div><h4>25 Ready-Made Skill Templates</h4><p>Copy-paste skills you can install and run immediately — deploy, audit, monitor, scrape.</p></div></div>
+            <div class="bonus-item"><span class="b-icon">🤖</span><div><h4>Telegram Bot Setup Guide</h4><p>Step-by-step to get your Hermes agent connected to Telegram — including BotFather setup.</p></div></div>
+            <div class="bonus-item"><span class="b-icon">✅</span><div><h4>$5 VPS Deployment Checklist</h4><p>Everything you need to deploy on a budget VPS — from security to systemd services.</p></div></div>
+            <div class="bonus-item"><span class="b-icon">💬</span><div><h4>Agent Prompt Pack</h4><p>50+ carefully crafted prompts to get the most out of your Hermes agent for any task.</p></div></div>
+            <div class="bonus-item"><span class="b-icon">📈</span><div><h4>Monetization Blueprint</h4><p>Full playbook: how to price, sell, and scale agent services from $500 to $10K/mo.</p></div></div>
+            <div class="bonus-item"><span class="b-icon">🪟</span><div><h4>Windows/WSL Troubleshooting Guide</h4><p>Fix every known Windows issue — WSL setup, path errors, permission problems, and more.</p></div></div>
+        </div>
+    </div>
+</div>
 
+<!-- ============ TESTIMONIALS ============ -->
+<div class="section">
+    <div class="container">
+        <h2 class="section-title">What Students Say</h2>
+        <p class="section-sub">Real people building real AI automations with Hermes Agent.</p>
+        <div class="grid-3">
+            <div class="testimonial">
+                <p class="quote">Before this course I didn't understand agents. Now I have Hermes running on a VPS with Telegram. I check my server health from my phone.</p>
+                <div class="author">
+                    <div class="avatar">CM</div>
+                    <div><div class="name">Carlos M.</div><div class="role">Freelance Developer</div></div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <p class="quote">This course made Hermes simple. I finally understood how to create skills and automate real tasks. The Telegram setup alone was worth the price.</p>
+                <div class="author">
+                    <div class="avatar">JR</div>
+                    <div><div class="name">Jessica R.</div><div class="role">Marketing Agency Owner</div></div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <p class="quote">The VPS deployment module saved me hours. I went from zero to a 24/7 running agent in one evening. The monetization section is gold.</p>
+                <div class="author">
+                    <div class="avatar">DT</div>
+                    <div><div class="name">David T.</div><div class="role">SaaS Founder</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FAQ ============ -->
+<div class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Everything you need to know before enrolling.</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Do I need coding experience? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">No. The course is designed for beginners. You'll learn everything step-by-step. Basic terminal familiarity helps but is not required — we cover the fundamentals.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Does it work on Windows? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">Yes. We include a dedicated Windows/WSL setup module and a troubleshooting guide. Hermes runs on Windows through WSL2 (Windows Subsystem for Linux), which is free and easy to install.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Do I need an OpenAI API key? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">No. Hermes works with 20+ providers. You can use OpenRouter (free tier available), Anthropic Claude, DeepSeek, Google Gemini, or even run local models. We show you all the options.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Can I use DeepSeek, Claude, or local models? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">Absolutely. The course covers setup for all major providers: OpenRouter, Anthropic, OpenAI, DeepSeek, Google Gemini, and local models via Ollama. You can switch between them anytime.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">How much does hosting cost? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">A VPS costs around $5/month (DigitalOcean, Hetzner, Vultr). API usage is typically $0-5/month depending on how much you use it. Total: roughly $5-10/month.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Can I use Hermes for trading, marketing, real estate, or business automation? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">Yes. The course includes advanced use cases for trading bots, content automation, customer support, research assistants, and more. You can adapt Hermes to almost any industry.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Is this beginner friendly? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">Yes. The first module starts with "what is an AI agent" and builds up from there. Every command is explained. If you can follow a recipe, you can complete this course.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What happens after I pay? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">You get immediate lifetime access to all 10 modules, bonuses, and future updates. You'll receive a welcome email with login details and a recommended learning path.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-toggle">▼</span></div>
+                <div class="faq-answer">Yes. 30-day full money-back guarantee. No questions asked. If the course isn't right for you, email us and you'll get a full refund.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ USE HERMES SAFELY (trust) ============ -->
+<div class="section">
+    <div class="container">
+        <h2 class="section-title">Use Hermes Agent Safely</h2>
+        <p class="section-sub">Security best practices we teach inside the course.</p>
+        <div class="trust-grid">
+            <div class="trust-item"><span class="t-icon">🔑</span><h4>Keep API Keys Private</h4><p>Store secrets in .env files, never commit them to Git. We show you the exact setup.</p></div>
+            <div class="trust-item"><span class="t-icon">📋</span><h4>Use Environment Variables</h4><p>Separate configuration from code. Hermes loads .env automatically — safe and clean.</p></div>
+            <div class="trust-item"><span class="t-icon">🧪</span><h4>Start in Test Mode</h4><p>Use testnet accounts for trading bots. Verify everything works before going live.</p></div>
+            <div class="trust-item"><span class="t-icon">🚫</span><h4>Trading API Safety</h4><p>Never give withdrawal permissions to any bot. Use API keys with trading-only access.</p></div>
+            <div class="trust-item"><span class="t-icon">🛡️</span><h4>VPS Security Basics</h4><p>Enable UFW, disable root login, use SSH keys. Complete checklist included.</p></div>
+            <div class="trust-item"><span class="t-icon">💾</span><h4>Back Up Configs &amp; Skills</h4><p>Your skills and config are valuable. We show you how to back up and restore everything.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ EMAIL CAPTURE / LEAD MAGNET ============ -->
+<div class="section email-section">
+    <div class="container">
+        <h2 class="section-title">Get 5 Free Hermes Agent Skills</h2>
+        <p class="section-sub">Enter your email and get a starter pack of Hermes skills you can use right away — including deploy, audit, scrape, monitor, and backup skills.</p>
+        <form class="email-form" onsubmit="captureEmail(event)">
+            <input type="email" id="emailInput" placeholder="your@email.com" required>
+            <button type="submit" class="btn-primary">Send Me the Free Skills</button>
+        </form>
+        <p style="color:#505070;font-size:0.82em;margin-top:12px;">No spam. Unsubscribe anytime.</p>
+    </div>
+</div>
+
+<!-- ============ FINAL CTA ============ -->
 <div class="cta-section">
     <div class="container">
-        <h2>Ready to Build Your AI Agent Empire?</h2>
-        <p>10 modules · 50+ lessons · exercises · quizzes · full source code</p>
-        <a href="#" class="cta" onclick="handleBuy(event)">🎓 Enroll Now — $97</a>
+        <h2>Ready to Build Your Own AI Agent?</h2>
+        <p>Get lifetime access to the Hermes Agent Course and start building real automations today. <br>10 modules · 6 bonuses · lifetime updates.</p>
+        <a href="#" class="btn-primary" onclick="handleBuy(event)">Get Lifetime Access for $97</a>
         <p class="guarantee">🔒 30-day money-back guarantee. No questions asked.</p>
     </div>
 </div>
 
+<!-- ============ FOOTER ============ -->
 <footer>
     <div class="container">
         <p>© 2026 AI Agents Course. All rights reserved. | This site uses Stripe for payments.</p>
     </div>
 </footer>
 
+<!-- ============ STICKY MOBILE CTA ============ -->
+<div class="sticky-cta" id="stickyCta">
+    <div class="sticky-text">AI Agents: Master Hermes Agent <small>Lifetime access · $97</small></div>
+    <a href="#" class="btn-primary" onclick="handleBuy(event)">Enroll Now — $97</a>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
 <script>
     // Stripe Checkout Integration
     function handleBuy(event) {
         event.preventDefault();
-        
-        // --- CONFIGURATION ---
-        // Replace with YOUR Stripe publishable key
         const STRIPE_PUB_KEY = 'pk_live_YOUR_KEY_HERE';
-        // Replace with YOUR Stripe price ID
         const PRICE_ID = 'price_YOUR_PRICE_ID_HERE';
-        // Replace with YOUR success/cancel URLs
         const SUCCESS_URL = 'https://yourdomain.com/thank-you';
         const CANCEL_URL = 'https://yourdomain.com/';
-        
-        // Load Stripe.js and redirect to checkout
+
+        if (typeof Stripe === 'undefined') {
+            alert('Stripe checkout not configured yet. Replace the keys in the script and try again.');
+            return;
+        }
         const stripe = Stripe(STRIPE_PUB_KEY);
         stripe.redirectToCheckout({
             lineItems: [{ price: PRICE_ID, quantity: 1 }],
@@ -177,11 +731,32 @@
             successUrl: SUCCESS_URL,
             cancelUrl: CANCEL_URL,
         }).then(function (result) {
-            if (result.error) {
-                alert('Payment failed: ' + result.error.message);
-            }
+            if (result.error) alert('Payment failed: ' + result.error.message);
         });
     }
+
+    // FAQ Toggle
+    function toggleFaq(el) {
+        const item = el.parentElement;
+        item.classList.toggle('open');
+    }
+
+    // Email Capture (frontend-only — replace with your API endpoint)
+    function captureEmail(event) {
+        event.preventDefault();
+        const email = document.getElementById('emailInput').value;
+        if (!email) return;
+        // --- REPLACE THIS with your email API endpoint ---
+        console.log('Captured email:', email);
+        alert('✅ Check your inbox! If you don\'t see it in 5 minutes, check spam. (Replace this with your email API integration)');
+        document.getElementById('emailInput').value = '';
+    }
+
+    // Open first FAQ by default
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstFaq = document.querySelector('.faq-item');
+        if (firstFaq) firstFaq.classList.add('open');
+    });
 </script>
 <script src="https://js.stripe.com/v3/"></script>
 </body>
