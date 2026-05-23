@@ -185,6 +185,43 @@
             padding: 20px 0 40px;
         }
 
+        /* Featured Video Section */
+        .featured-video {
+            border-top: 1px solid rgba(108,92,231,0.08);
+            padding: 40px 0 20px;
+            margin-bottom: 10px;
+        }
+        .featured-video h3 {
+            text-align: center;
+            color: #c0c0d0;
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .video-wrapper {
+            max-width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(108,92,231,0.12);
+            background: #000;
+            box-shadow: 0 4px 30px rgba(108,92,231,0.08);
+        }
+        .video-player {
+            width: 100%;
+            display: block;
+            border-radius: 13px;
+        }
+        .video-desc {
+            text-align: center;
+            color: #606080;
+            font-size: 0.82em;
+            margin-top: 14px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
         @media (max-width: 600px) {
             .dash-header h1 { font-size: 1.5em; }
             .module-card { padding: 16px 18px; gap: 14px; }
@@ -300,6 +337,18 @@
             </div>
             <span class="arrow">→</span>
         </a>
+    </div>
+
+    <!-- Featured Video -->
+    <div class="featured-video">
+        <h3>🎬 Featured: Installation &amp; Computer Setup</h3>
+        <div class="video-wrapper">
+            <video controls poster="" preload="metadata" class="video-player">
+                <source src="videos/featured-install-tutorial.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <p class="video-desc">Full walkthrough from the Venice Hermes Agent tutorial — install, setup wizard, provider config, model selection, and computer management setup.</p>
     </div>
 
     <div class="resources">
