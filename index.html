@@ -449,6 +449,303 @@
             .legal-content { padding: 24px; }
         }
         @media (min-width: 769px) { .sticky-cta { display: none !important; } }
+
+        /* ===== EMOTIONAL HERO (replaces original hero styling) ===== */
+        .hero-em {
+            padding: 110px 0 60px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-em .badge {
+            display: inline-block;
+            background: rgba(108,92,231,0.12);
+            border: 1px solid rgba(108,92,231,0.2);
+            color: #a78bfa;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .hero-em h1 {
+            font-size: 3.6em;
+            font-weight: 900;
+            line-height: 1.12;
+            margin-bottom: 14px;
+        }
+        .hero-em h1 .gradient {
+            background: linear-gradient(135deg, #a78bfa, #00cec9, #6c5ce7);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradShift 6s ease-in-out infinite alternate;
+        }
+        .hero-em .sub-em {
+            font-size: 1.2em;
+            color: #c0c0d8;
+            font-weight: 500;
+            max-width: 680px;
+            margin: 0 auto;
+            margin-bottom: 28px;
+        }
+        .hero-em .tag-em {
+            font-size: 0.92em;
+            color: #7878a0;
+            max-width: 540px;
+            margin: 0 auto 36px;
+        }
+        .hero-em .social-proof {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .hero-em .social-proof span {
+            color: #606080;
+            font-size: 0.82em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hero-em .social-proof .stat {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1em;
+        }
+
+        /* ===== CAPABILITY CARDS (What Hermes Can Do) ===== */
+        .cap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+        .cap-item {
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: border-color 0.3s, transform 0.3s;
+            cursor: default;
+        }
+        .cap-item:hover {
+            border-color: rgba(108,92,231,0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(108,92,231,0.08);
+        }
+        .cap-icon { font-size: 1.6em; flex-shrink: 0; }
+        .cap-item h4 { color: #fff; font-size: 0.88em; font-weight: 600; }
+
+        /* ===== SKILL BUILDER CARDS ===== */
+        .skill-builder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+        .skill-builder-item {
+            background: rgba(18,18,34,0.5);
+            border: 1px solid rgba(0,206,201,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .skill-builder-item:hover {
+            border-color: rgba(0,206,201,0.3);
+            transform: translateY(-3px);
+        }
+        .skill-builder-item .sb-icon { font-size: 2em; margin-bottom: 10px; }
+        .skill-builder-item h4 { color: #fff; font-size: 0.88em; font-weight: 600; margin-bottom: 4px; }
+        .skill-builder-item p { color: #606080; font-size: 0.78em; }
+
+        /* ===== USE CASE CARDS ===== */
+        .usecase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .usecase-item {
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 14px;
+            padding: 24px;
+            transition: border-color 0.3s, transform 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .usecase-item:hover {
+            border-color: rgba(108,92,231,0.3);
+            transform: translateY(-3px);
+            background: rgba(24,24,44,0.7);
+        }
+        .usecase-item .uc-icon { font-size: 2em; margin-bottom: 12px; }
+        .usecase-item h4 { color: #fff; font-size: 0.95em; font-weight: 700; margin-bottom: 6px; }
+        .usecase-item p { color: #606080; font-size: 0.82em; line-height: 1.6; }
+
+        /* ===== WHY BUY ===== */
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .why-item {
+            background: rgba(18,18,34,0.5);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .why-item .wy-icon { font-size: 1.8em; margin-bottom: 10px; }
+        .why-item h4 { color: #fff; font-size: 0.88em; font-weight: 600; margin-bottom: 3px; }
+        .why-item p { color: #606080; font-size: 0.78em; }
+
+        /* ===== VALUE STACK ===== */
+        .value-stack {
+            background: rgba(18,18,34,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(108,92,231,0.12);
+            border-radius: 18px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .value-stack::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 19px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9, #6c5ce7);
+            background-size: 200% 200%;
+            z-index: -1;
+            animation: borderGlow 4s ease-in-out infinite alternate;
+            opacity: 0.3;
+        }
+        .value-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(108,92,231,0.06);
+        }
+        .value-item:last-child { border-bottom: none; }
+        .value-item .v-icon { font-size: 1.2em; flex-shrink: 0; }
+        .value-item .v-label { flex: 1; color: #c0c0d0; font-size: 0.9em; }
+        .value-item .v-price { color: #00cec9; font-weight: 700; font-size: 0.88em; }
+        .value-total {
+            text-align: center;
+            padding: 18px 0 12px;
+            border-top: 2px dashed rgba(108,92,231,0.15);
+            margin-top: 12px;
+        }
+        .value-total .original { color: #606080; font-size: 0.9em; text-decoration: line-through; }
+        .value-total .today { color: #fff; font-size: 2em; font-weight: 900; }
+        .value-total .today small { font-size: 0.4em; font-weight: 400; color: #808098; }
+        .value-total .save { color: #6ee7b7; font-size: 0.85em; font-weight: 600; margin-top: 4px; }
+
+        /* ===== SKILL VAULT ===== */
+        .vault-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+        .vault-item {
+            background: rgba(18,18,34,0.5);
+            border: 1px solid rgba(108,92,231,0.08);
+            border-radius: 12px;
+            padding: 18px 14px;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .vault-item:hover { border-color: rgba(108,92,231,0.3); transform: translateY(-2px); }
+        .vault-item .va-icon { font-size: 1.6em; margin-bottom: 8px; }
+        .vault-item h4 { color: #fff; font-size: 0.82em; font-weight: 600; }
+        .vault-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ===== WEEKLY SKILLS ===== */
+        .weekly-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .weekly-item {
+            background: rgba(18,18,34,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0,206,201,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .weekly-item:hover { border-color: rgba(0,206,201,0.25); }
+        .weekly-item .wk-icon { font-size: 1.6em; margin-bottom: 8px; }
+        .weekly-item h4 { color: #fff; font-size: 0.85em; font-weight: 600; }
+        .weekly-item p { color: #606080; font-size: 0.76em; margin-top: 4px; }
+
+        /* ===== CTA VARIATIONS ===== */
+        .btn-cta-lg {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 18px 48px;
+            border-radius: 50px;
+            font-size: 1.12em;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-cta-lg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #00cec9, #6c5ce7);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-cta-lg:hover::before { opacity: 1; }
+        .btn-cta-lg:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(108,92,231,0.4); }
+        .btn-cta-lg span { position: relative; z-index: 1; }
+
+        .btn-cta-glow {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, #00cec9, #6c5ce7);
+            color: #fff;
+            padding: 18px 48px;
+            border-radius: 50px;
+            font-size: 1.12em;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            animation: glowPulse 2s ease-in-out infinite alternate;
+            transition: transform 0.25s;
+        }
+        .btn-cta-glow:hover { transform: translateY(-3px) scale(1.02); }
+
+        .badge-glow {
+            display: inline-block;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(108,92,231,0.15);
+        }
+
+        /* ===== RESPONSIVE ADDITIONS ===== */
+        @media (max-width: 768px) {
+            .hero-em h1 { font-size: 2em; }
+            .hero-em .sub-em { font-size: 1em; }
+            .hero-em .social-proof { flex-direction: column; gap: 10px; }
+            .cap-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+            .skill-builder-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            .usecase-grid { grid-template-columns: 1fr 1fr; }
+            .why-grid { grid-template-columns: 1fr 1fr; }
+            .value-stack { padding: 24px; }
+            .vault-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+            .weekly-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -459,21 +756,28 @@
 <div class="bg-orb o1"></div>
 <div class="bg-orb o2"></div>
 
-<!-- ============ HERO ============ -->
-<div class="hero">
+<!-- ============ EMOTIONAL HERO ============ -->
+<div class="hero-em">
     <div class="container">
-        <h1>AI Agents:<br>Master Hermes Agent</h1>
-        <p class="subtitle">Build Your Own AI Assistant — Run It Locally or on a VPS</p>
-        <p class="tagline">Install on your own computer with one command. Create custom skills, connect Telegram, automate everything. No coding required. Your agent gets smarter every day.</p>
-        <div class="price-box">
+        <span class="badge">🔥 New — AI Agent Course</span>
+        <h1>
+            <span class="gradient">Stop Just Chatting With AI.<br>Start Building AI Agents That Work For You.</span>
+        </h1>
+        <p class="sub-em">Hermes Agent helps you move from simple prompts to real automations, tools, and workflows you can use for business, productivity, and income.</p>
+        <div class="price-box" style="margin-bottom:28px;">
             <div class="price">$97 <span>/ lifetime access</span></div>
             <p style="color:#606080;font-size:0.83em;margin-top:4px;">Includes all future updates. 30-day money-back guarantee.</p>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🎓 Enroll Now</span></a>
-            <a href="#demo" class="btn-secondary">▶ Watch Demo</a>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🚀 Start Building My AI Agent Today</span></a>
+            <a href="#demo" class="btn-secondary">▶ Watch 90-Second Demo</a>
         </div>
-        <p class="meta">10 modules · 50+ lessons · exercises · quizzes · source code · 6 bonuses</p>
+        <div class="social-proof">
+            <span>📦 <span class="stat">10</span> modules</span>
+            <span>🎓 <span class="stat">50+</span> lessons</span>
+            <span>⚡ <span class="stat">25+</span> skill templates</span>
+            <span>🎁 <span class="stat">6</span> bonuses included</span>
+        </div>
     </div>
 </div>
 
@@ -488,8 +792,33 @@
             </video>
         </div>
         <div class="btn-group">
-            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🎓 Enroll Now — $97</span></a>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🔥 Get Lifetime Access for $97</span></a>
             <span style="align-self:center;color:#606080;font-size:0.85em;">or scroll down to learn more</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============ WHAT HERMES CAN DO FOR YOU ============ -->
+<div class="section section-dark">
+    <div class="container reveal">
+        <h2 class="section-title">What Hermes Agent Can Do For You</h2>
+        <p class="section-sub">One tool. Infinite possibilities. Here's what you'll be able to build with Hermes — right from your terminal or phone.</p>
+        <div class="cap-grid">
+            <div class="cap-item"><span class="cap-icon">⚡</span><h4>Build custom AI automations</h4></div>
+            <div class="cap-item"><span class="cap-icon">🧩</span><h4>Create and run agent skills</h4></div>
+            <div class="cap-item"><span class="cap-icon">📱</span><h4>Connect to Telegram</h4></div>
+            <div class="cap-item"><span class="cap-icon">💼</span><h4>Help with business workflows</h4></div>
+            <div class="cap-item"><span class="cap-icon">🔍</span><h4>Research and summarize information</h4></div>
+            <div class="cap-item"><span class="cap-icon">📣</span><h4>Generate marketing content</h4></div>
+            <div class="cap-item"><span class="cap-icon">📂</span><h4>Manage files and prompts</h4></div>
+            <div class="cap-item"><span class="cap-icon">💻</span><h4>Help with coding tasks</h4></div>
+            <div class="cap-item"><span class="cap-icon">🔗</span><h4>Connect APIs and tools</h4></div>
+            <div class="cap-item"><span class="cap-icon">🖥️</span><h4>Deploy on VPS</h4></div>
+            <div class="cap-item"><span class="cap-icon">🤵</span><h4>Run personal assistant workflows</h4></div>
+            <div class="cap-item"><span class="cap-icon">🔄</span><h4>Automate repetitive tasks</h4></div>
+        </div>
+        <div style="text-align:center;margin-top:28px;">
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🔓 Unlock the Hermes Skill Vault</span></a>
         </div>
     </div>
 </div>
@@ -527,7 +856,29 @@
     </div>
 </div>
 
-<!-- ============ WHO THIS IS FOR ============ -->
+<!-- ============ SKILLS YOU WILL LEARN TO BUILD ============ -->
+<div class="section section-dark">
+    <div class="container reveal">
+        <span class="badge-glow" style="display:block;text-align:center;">🎯 Real Skills You'll Build</span>
+        <h2 class="section-title">Skills You Will Learn to Build</h2>
+        <p class="section-sub">Every module teaches you to build real, working Hermes skills. Here are examples of what you'll create — ready-to-use automations you can deploy immediately.</p>
+        <div class="skill-builder-grid">
+            <div class="skill-builder-item"><span class="sb-icon">📲</span><h4>Telegram Notification Skill</h4><p>Send alerts, status updates, and reports directly to your phone via Telegram.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">📧</span><h4>Email Automation Skill</h4><p>Auto-reply, filter, sort, and send emails based on custom rules and triggers.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">🧾</span><h4>Invoice &amp; Helper Skill</h4><p>Generate invoices, track payments, and automate billing reminders.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">🌐</span><h4>Website Research Skill</h4><p>Scrape, analyze, and summarize any web page or competitor site.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">🎬</span><h4>YouTube Content Helper Skill</h4><p>Generate scripts, titles, descriptions, and tags for your videos.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">📈</span><h4>Trading Alert Assistant Skill</h4><p>Monitor markets and send real-time price alerts to your phone.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">🏠</span><h4>Real Estate Lead Helper Skill</h4><p>Scrape listings, qualify leads, and send automated follow-up emails.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">📱</span><h4>Social Media Content Skill</h4><p>Draft, schedule, and post content across Twitter, LinkedIn, and more.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">📋</span><h4>Daily Task Assistant Skill</h4><p>Manage to-do lists, reminders, and daily digests automatically.</p></div>
+            <div class="skill-builder-item"><span class="sb-icon">🗂️</span><h4>File Organizer Skill</h4><p>Sort, rename, archive, and clean up files based on rules you define.</p></div>
+        </div>
+        <div style="text-align:center;margin-top:28px;">
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🎓 Get Lifetime Access + Weekly Skills</span></a>
+        </div>
+    </div>
+</div>
 <div class="section section-dark">
     <div class="container reveal">
         <h2 class="section-title">Who This Course Is For</h2>
@@ -552,6 +903,27 @@
                     <li>People looking for a copy-paste get-rich scheme</li>
                 </ul>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ REAL-LIFE USE CASES ============ -->
+<div class="section">
+    <div class="container reveal">
+        <h2 class="section-title">Real-Life Use Cases</h2>
+        <p class="section-sub">See how people just like you are using Hermes Agent to transform their work and business.</p>
+        <div class="usecase-grid">
+            <div class="usecase-item"><span class="uc-icon">💼</span><h4>Freelancer Automation</h4><p>Automate proposals, invoices, follow-ups, and project management. Save 10+ hours a week on admin work.</p></div>
+            <div class="usecase-item"><span class="uc-icon">📢</span><h4>AI Marketing Assistant</h4><p>Generate campaigns, analyze competitors, write copy, schedule posts, and track performance automatically.</p></div>
+            <div class="usecase-item"><span class="uc-icon">🏠</span><h4>Real Estate Assistant</h4><p>Scrape new listings, qualify leads, send automated tours, and manage client communications across channels.</p></div>
+            <div class="usecase-item"><span class="uc-icon">📊</span><h4>Trading Alerts Assistant</h4><p>Monitor crypto and stock markets 24/7. Get Telegram alerts when your price targets or technical conditions are met.</p></div>
+            <div class="usecase-item"><span class="uc-icon">🧠</span><h4>Personal Productivity Assistant</h4><p>Manage your calendar, emails, tasks, notes, and research — all from one AI-powered command center.</p></div>
+            <div class="usecase-item"><span class="uc-icon">🏢</span><h4>Business Operations Assistant</h4><p>Handle reporting, inventory checks, customer data processing, and compliance monitoring on autopilot.</p></div>
+            <div class="usecase-item"><span class="uc-icon">🎥</span><h4>Content Creation Assistant</h4><p>Write scripts, edit drafts, generate thumbnails, schedule posts, and repurpose content across platforms.</p></div>
+            <div class="usecase-item"><span class="uc-icon">🎧</span><h4>Customer Support Helper</h4><p>Auto-respond to common inquiries, escalate complex issues, and maintain a knowledge base — all via your agent.</p></div>
+        </div>
+        <div style="text-align:center;margin-top:32px;">
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🚀 Start Building My AI Agent Today</span></a>
         </div>
     </div>
 </div>
@@ -623,7 +995,85 @@
     </div>
 </div>
 
-<!-- ============ TESTIMONIALS ============ -->
+<!-- ============ WHY BUY TODAY ============ -->
+<div class="section">
+    <div class="container reveal">
+        <span class="badge-glow" style="display:block;text-align:center;">🎯 Why Students Join</span>
+        <h2 class="section-title">Why Buy Today</h2>
+        <p class="section-sub">Here's what you get when you enroll — and why now is the best time to start.</p>
+        <div class="why-grid">
+            <div class="why-item"><span class="wy-icon">♾️</span><h4>Lifetime Access</h4><p>Pay once, own forever. No subscriptions, no recurring fees.</p></div>
+            <div class="why-item"><span class="wy-icon">📦</span><h4>Future Updates Included</h4><p>Every new module, skill, and template added — at no extra cost.</p></div>
+            <div class="why-item"><span class="wy-icon">📬</span><h4>Weekly Skill Drops</h4><p>New skills, prompts, and templates delivered to your inbox every week.</p></div>
+            <div class="why-item"><span class="wy-icon">🌈</span><h4>Beginner-Friendly Lessons</h4><p>Step-by-step. Every command explained. No prior coding needed.</p></div>
+            <div class="why-item"><span class="wy-icon">🤖</span><h4>Build Your Own AI Assistant</h4><p>A personal agent trained on your workflows, connected to your tools.</p></div>
+            <div class="why-item"><span class="wy-icon">⏰</span><h4>Save Time With Automation</h4><p>10+ hours saved per week as your agent handles repetitive tasks.</p></div>
+            <div class="why-item"><span class="wy-icon">📈</span><h4>Learn a High-Income AI Skill</h4><p>AI agent builders are in demand. Turn this skill into a $5K-$10K/mo income stream.</p></div>
+            <div class="why-item"><span class="wy-icon">🎯</span><h4>No Coding Expert Needed</h4><p>Start building without being a developer. The course teaches everything.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ VALUE STACK ============ -->
+<div class="section section-dark">
+    <div class="container reveal">
+        <span class="badge-glow" style="display:block;text-align:center;">💰 $500+ Value — Yours Today</span>
+        <h2 class="section-title">What You Get</h2>
+        <p class="section-sub">Everything included in your enrollment — a complete AI agent toolkit.</p>
+        <div class="value-stack">
+            <div class="value-item"><span class="v-icon">🎓</span><span class="v-label">Hermes Agent Course (10 modules, 50+ lessons)</span><span class="v-price">$197</span></div>
+            <div class="value-item"><span class="v-icon">📝</span><span class="v-label">25 Ready-Made Skill Templates</span><span class="v-price">$97</span></div>
+            <div class="value-item"><span class="v-icon">🤖</span><span class="v-label">Telegram Bot Setup Guide</span><span class="v-price">$29</span></div>
+            <div class="value-item"><span class="v-icon">🖥️</span><span class="v-label">VPS Deployment Checklist</span><span class="v-price">$19</span></div>
+            <div class="value-item"><span class="v-icon">🪟</span><span class="v-label">Windows/WSL Troubleshooting Guide</span><span class="v-price">$19</span></div>
+            <div class="value-item"><span class="v-icon">💬</span><span class="v-label">Agent Prompt Pack (50+ prompts)</span><span class="v-price">$39</span></div>
+            <div class="value-item"><span class="v-icon">📈</span><span class="v-label">Monetization Blueprint</span><span class="v-price">$79</span></div>
+            <div class="value-item"><span class="v-icon">📬</span><span class="v-label">Weekly Skill Emails (ongoing)</span><span class="v-price">$49/yr</span></div>
+            <div class="value-total">
+                <div class="original">Total Value: $500+</div>
+                <div class="today">$97 <small>lifetime access</small></div>
+                <div class="save">🎉 You save 80%+</div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:28px;">
+            <a href="#" class="btn-cta-glow buy-btn" onclick="handleBuy(event)"><span>🔥 Enroll Now for $97</span></a>
+            <p style="color:#505068;font-size:0.82em;margin-top:12px;">🔒 30-day money-back guarantee. No questions asked.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ============ HERMES SKILL VAULT ============ -->
+<div class="section">
+    <div class="container reveal">
+        <div style="text-align:center;">
+            <span class="bonus-badge">📚 THE HERMES SKILL VAULT</span>
+            <h2 class="section-title">A Growing Library of Ready-to-Use Skills</h2>
+            <p class="section-sub">When you join, you get access to an ever-expanding collection of Hermes skills, prompts, templates, and setup guides — curated and updated regularly so your agent keeps getting more powerful.</p>
+        </div>
+        <div class="vault-grid">
+            <div class="vault-item"><span class="va-icon">📦</span><h4>Deploy Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🔍</span><h4>Audit Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🕸️</span><h4>Scrape Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">📊</span><h4>Monitor Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">💾</span><h4>Backup Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">📧</span><h4>Email Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">📱</span><h4>Telegram Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🌐</span><h4>Research Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">📣</span><h4>Marketing Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">💼</span><h4>Business Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">💻</span><h4>Coding Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🔗</span><h4>API Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">📈</span><h4>Trading Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🏠</span><h4>Real Estate Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🎬</span><h4>Content Skills</h4></div>
+            <div class="vault-item"><span class="va-icon">🔄</span><h4>Automation Skills</h4></div>
+        </div>
+        <div style="text-align:center;margin-top:28px;">
+            <p style="color:#707090;font-size:0.85em;margin-bottom:16px;">New skills added every month. Your vault grows as the course grows.</p>
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>🔓 Unlock the Hermes Skill Vault</span></a>
+        </div>
+    </div>
+</div>
 <div class="section">
     <div class="container reveal">
         <h2 class="section-title">What Students Say</h2>
@@ -660,6 +1110,25 @@
             <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is this beginner friendly? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. The first module starts with "what is an AI agent" and builds up from there. Every command is explained. If you can follow a recipe, you can complete this course.</div></div>
             <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What happens after I pay? <span class="faq-toggle">▼</span></div><div class="faq-answer">You get immediate lifetime access to all 10 modules, bonuses, and future updates. You'll receive a welcome email with login details and a recommended learning path.</div></div>
             <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is there a money-back guarantee? <span class="faq-toggle">▼</span></div><div class="faq-answer">Yes. 30-day full money-back guarantee. No questions asked. If the course isn't right for you, email us and you'll get a full refund.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FREE WEEKLY SKILLS ============ -->
+<div class="section email-section">
+    <div class="container reveal">
+        <span class="bonus-badge">📬 FREE WEEKLY SKILLS</span>
+        <h2 class="section-title">Get New Hermes Skills Every Week</h2>
+        <p class="section-sub">As a student, you'll receive new ready-to-use Hermes skill ideas, prompts, and automation templates by email so your agent keeps getting more powerful — automatically.</p>
+        <div class="weekly-grid" style="margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;">
+            <div class="weekly-item"><span class="wk-icon">📝</span><h4>Weekly Skill Templates</h4><p>New ready-to-install skills delivered to your inbox every week.</p></div>
+            <div class="weekly-item"><span class="wk-icon">💬</span><h4>New Prompt Packs</h4><p>Curated prompts that teach your agent powerful new behaviors.</p></div>
+            <div class="weekly-item"><span class="wk-icon">⚡</span><h4>Automation Ideas</h4><p>Practical automations you can set up in minutes — tested and working.</p></div>
+            <div class="weekly-item"><span class="wk-icon">🔧</span><h4>Tool Setup Guides</h4><p>Step-by-step guides for integrating new tools with Hermes.</p></div>
+            <div class="weekly-item"><span class="wk-icon">🌈</span><h4>Beginner Tutorials</h4><p>Gentle hands-on tutorials that grow your skills week by week.</p></div>
+        </div>
+        <div style="text-align:center;margin-top:32px;">
+            <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>📬 Enroll Now and Get Weekly Skills</span></a>
         </div>
     </div>
 </div>
@@ -712,8 +1181,9 @@
 <div class="section" style="text-align:center;position:relative;z-index:1;">
     <div class="container reveal">
         <h2 class="section-title">Ready to Build Your Own AI Agent?</h2>
-        <p style="color:#a0a0b0;margin-bottom:30px;font-size:1.05em;">Get lifetime access to the Hermes Agent Course and start building real automations today.<br>10 modules · 6 bonuses · lifetime updates.</p>
-        <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>Get Lifetime Access for $97</span></a>
+        <p style="color:#a0a0b0;margin-bottom:12px;font-size:1.05em;">Get lifetime access to the Hermes Agent Course with 10 modules, 6 bonuses, weekly skill drops, and all future updates.</p>
+        <p style="color:#707090;font-size:0.9em;margin-bottom:24px;">No coding required · 30-day money-back guarantee · Start building in 5 minutes</p>
+        <a href="#" class="btn-cta-lg buy-btn" onclick="handleBuy(event)"><span>🔥 Get Lifetime Access + Weekly Skills for $97</span></a>
         <p style="color:#606078;font-size:0.85em;margin-top:14px;">🔒 30-day money-back guarantee. No questions asked.</p>
     </div>
 </div>
@@ -732,6 +1202,7 @@
                 <a href="#" onclick="closeOverlay('pricing')">Pricing</a>
                 <a href="#demo">Demo Video</a>
                 <a href="#" onclick="closeOverlay('faq');scrollToFaq()">FAQ</a>
+                <a href="#">Skill Vault</a>
             </div>
             <div class="footer-col">
                 <h4>Legal</h4>
@@ -757,7 +1228,7 @@
 
 <!-- ============ STICKY MOBILE CTA ============ -->
 <div class="sticky-cta">
-    <div class="sticky-text">AI Agents: Master Hermes Agent <small>Lifetime access · $97</small></div>
+    <div class="sticky-text">AI Agents: Master Hermes Agent <small>Lifetime · $97 · No-code</small></div>
     <a href="#" class="btn-primary buy-btn" onclick="handleBuy(event)"><span>Enroll Now — $97</span></a>
 </div>
 
