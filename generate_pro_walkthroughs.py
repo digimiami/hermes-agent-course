@@ -545,6 +545,7 @@ def generate_module_video(module_num, filename, title, slides):
         "-b:a", "192k",
         "-pix_fmt", "yuv420p",
         "-r", str(FPS),
+        "-movflags", "+faststart",
         output_path
     ])
     
